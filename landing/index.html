@@ -28,8 +28,8 @@
         </span>
       </div>
       <p class="top-notice__text">
-        <span data-i18n="en">No public release or repository is published yet. Upstream restrictions prohibit testing online systems (including owned or authorized targets).</span>
-        <span data-i18n="ko" lang="ko">아직 공개 배포판이나 저장소가 게시되지 않았습니다. 상위 프로젝트 제한에 따라 소유·허가된 대상을 포함한 온라인 시스템의 실제 테스트는 금지됩니다.</span>
+        <span data-i18n="en">The CLI repository is private, with draft PR #1 targeting dev. No public release exists; unresolved Flash verification, final-head CI and human review keep publication on hold. Upstream restrictions prohibit testing online systems (including owned or authorized targets).</span>
+        <span data-i18n="ko" lang="ko">CLI 저장소는 비공개이며 초안 PR #1은 dev를 대상으로 합니다. 공개 배포판은 없으며 미해결 Flash 검증·최종 커밋 기준 CI·사람의 검토가 남아 있어 게시를 보류합니다. 상위 프로젝트 제한에 따라 소유·허가된 대상을 포함한 온라인 시스템의 실제 테스트는 금지됩니다.</span>
       </p>
     </div>
   </aside>
@@ -160,16 +160,16 @@
               <span data-i18n="ko" lang="ko">프리뷰 상태: v0.1.0 후보 (미배포)</span>
             </a>
             <a class="btn btn--secondary" href="#provenance">
-              <span data-i18n="en">Planned Repo &amp; Permitted Use</span>
-              <span data-i18n="ko" lang="ko">예정 저장소 및 허용 사용 범위</span>
+              <span data-i18n="en">Private Repo &amp; Permitted Use</span>
+              <span data-i18n="ko" lang="ko">비공개 저장소 및 허용 사용 범위</span>
             </a>
           </div>
           <p class="hero__disclaimer">
             <span data-i18n="en">
-              <strong>No public binary download exists yet.</strong> Planned repository target: <code>github.com/cskwork/scopeweaver-cli</code> (not yet created).
+              <strong>No public binary download exists yet.</strong> Private repository: <a href="https://github.com/cskwork/scopeweaver-cli" rel="noopener noreferrer">cskwork/scopeweaver-cli</a>. <a href="https://github.com/cskwork/scopeweaver-cli/pull/1" rel="noopener noreferrer">Draft PR #1</a> targets dev; repository access is required.
             </span>
             <span data-i18n="ko" lang="ko">
-              <strong>아직 공개 다운로드 배포판이 없습니다.</strong> 예정 저장소 경로: <code>github.com/cskwork/scopeweaver-cli</code> (미생성).
+              <strong>아직 공개 다운로드 배포판이 없습니다.</strong> 비공개 저장소: <a href="https://github.com/cskwork/scopeweaver-cli" rel="noopener noreferrer">cskwork/scopeweaver-cli</a>. <a href="https://github.com/cskwork/scopeweaver-cli/pull/1" rel="noopener noreferrer">초안 PR #1</a>은 dev를 대상으로 하며 저장소 접근 권한이 필요합니다.
             </span>
           </p>
         </div>
@@ -610,8 +610,8 @@ scopeweaver-cli logs watch --json</code></pre>
                 <span data-i18n="ko" lang="ko"><strong>모델 가중치·API 키 미포함:</strong> AI 실행에는 모델 제공자 또는 로컬 추론 서비스 설정이 필요합니다. 패키지에는 모델 가중치, 유료 구독, API 키가 포함되지 않습니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>Built-in Subscription AI:</strong> The planner, workers, and chat use <code>codex-cli</code> profiles through official Codex CLI <code>0.162.1</code>. Windows R3 ChatGPT OAuth and R4 GLM-5.3-Flash/low passed live built-in workflows. Flagship GLM-5.3 timed out at final planning and is not accepted end to end. Codex and provider account access are additional requirements.</span>
-                <span data-i18n="ko" lang="ko"><strong>내장 구독형 AI:</strong> 플래너·워커·채팅은 공식 Codex CLI <code>0.162.1</code>의 <code>codex-cli</code> 프로필을 사용합니다. Windows R3 ChatGPT OAuth와 R4 GLM-5.3-Flash/low의 내장 흐름이 통과했습니다. 대표 모델 GLM-5.3은 최종 플래너에서 시간 초과해 전체 흐름 통과로 인정하지 않습니다. Codex와 제공자 계정 접근 권한이 별도로 필요합니다.</span>
+                <span data-i18n="en"><strong>Built-in Subscription AI:</strong> The planner, workers, and chat use <code>codex-cli</code> profiles through official Codex CLI <code>0.162.1</code>. Rebuilt Windows R7 ChatGPT OAuth and flagship GLM-5.3/low passed live built-in workflows. R7 Flash rechecks remain unaccepted; final clean-head CI is pending. Codex and provider account access are additional requirements.</span>
+                <span data-i18n="ko" lang="ko"><strong>내장 구독형 AI:</strong> 플래너·워커·채팅은 공식 Codex CLI <code>0.162.1</code>의 <code>codex-cli</code> 프로필을 사용합니다. 다시 빌드한 Windows R7 ChatGPT OAuth와 대표 모델 GLM-5.3/low의 내장 흐름이 통과했습니다. R7 Flash 재검증은 통과로 인정하지 않으며 최종 커밋 기준 CI는 대기 중입니다. Codex와 제공자 계정 접근 권한이 별도로 필요합니다.</span>
               </li>
               <li>
                 <span data-i18n="en"><strong>External Tool Binaries:</strong> Custom commands, Python tools, browser automation tools, ScopeSentry, notifications, and external MCP servers require the executables or services selected by those integrations.</span>
@@ -651,20 +651,20 @@ scopeweaver-cli logs watch --json</code></pre>
             </h3>
             <ul class="ver-list">
               <li>
-                <span data-i18n="en"><strong>Windows amd64 &amp; Ubuntu WSL2 Packaged E2E:</strong> R3 core E2E passed 62 installed CLI calls on Windows in 34.39 seconds and 62 on Linux in 10.579 seconds. Linux first-use download/start took 6.679 seconds on WSL2 native ext4. No native macOS runtime E2E is recorded.</span>
-                <span data-i18n="ko" lang="ko"><strong>Windows amd64 및 Ubuntu WSL2 패키지 E2E:</strong> R3 코어 E2E는 Windows에서 설치형 CLI 62회가 34.39초, Linux에서 62회가 10.579초에 통과했습니다. WSL2 네이티브 ext4의 첫 다운로드·시작은 6.679초였습니다. 실제 macOS 런타임 E2E 기록은 없습니다.</span>
+                <span data-i18n="en"><strong>Windows amd64 &amp; Ubuntu WSL2 Packaged E2E:</strong> Clean R5 core passed 62 installed calls on Windows in 60.46 seconds and 62 on WSL2 native ext4 in 10.008 seconds. Linux cold download/start took 6.466 seconds; the manifest stayed unchanged and no owned processes remained. This is functional evidence, not a benchmark.</span>
+                <span data-i18n="ko" lang="ko"><strong>Windows amd64 및 Ubuntu WSL2 패키지 E2E:</strong> 변경 없는 소스로 만든 R5 코어는 Windows에서 설치형 호출 62회가 60.46초, WSL2 네이티브 ext4에서 62회가 10.008초에 통과했습니다. Linux 첫 다운로드·시작은 6.466초였으며 매니페스트 불변·잔여 프로세스 0개를 확인했습니다. 성능 비교가 아닌 기능 검증입니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>Live OAuth &amp; Flash Workflows:</strong> Windows R3 ChatGPT OAuth passed 125 installed calls in 161.24 seconds. R4 GLM-5.3-Flash/low passed 127 in 153.87 seconds. Both exercised chat tools, queue/resume, planner/worker, one owned loopback GET, a synthetic finding and report.</span>
-                <span data-i18n="ko" lang="ko"><strong>OAuth 및 Flash 실사용 흐름:</strong> Windows R3 ChatGPT OAuth는 설치형 호출 125회가 161.24초, R4 GLM-5.3-Flash/low는 127회가 153.87초에 통과했습니다. 두 흐름 모두 채팅 도구, 대기열·재개, 플래너·워커, 소유 루프백 GET 1회, 합성 발견 사항과 보고서를 확인했습니다.</span>
+                <span data-i18n="en"><strong>Live OAuth &amp; GLM Workflows:</strong> The rebuilt Windows R7 working-source package passed ChatGPT OAuth with 131 installed calls in 163.68 seconds and flagship GLM-5.3/low with 119 in 138.50 seconds. Earlier clean R5 GLM-5.3-Flash/low passed 123 in 172.47 seconds. Each covered chat tools, queue/resume, planner/worker, goal completion, one owned loopback GET, a synthetic finding and report.</span>
+                <span data-i18n="ko" lang="ko"><strong>OAuth 및 GLM 실사용 흐름:</strong> Windows R7 작업 소스로 다시 빌드한 패키지의 ChatGPT OAuth는 설치형 호출 131회가 163.68초, 대표 모델 GLM-5.3/low는 119회가 138.50초에 통과했습니다. 이전에 변경 없는 소스로 만든 R5 GLM-5.3-Flash/low는 123회가 172.47초에 통과했습니다. 각 흐름은 채팅 도구, 대기열·재개, 플래너·워커, 목표 완료, 소유 루프백 GET 1회, 합성 발견 사항과 보고서를 확인했습니다.</span>
               </li>
               <li>
                 <span data-i18n="en"><strong>Lifecycle &amp; Context Compaction:</strong> R3 lifecycle checked active chat/task and side-question drain, restart, steering, edits, retry and branches with 130 calls plus 3 preflights. R4 compaction passed 33 calls and 2 new completions with persisted summaries and per-call paid records. Aggregate usage did not increase.</span>
                 <span data-i18n="ko" lang="ko"><strong>수명주기 및 문맥 압축:</strong> R3 수명주기는 호출 130회와 사전 점검 3회로 실행 중 채팅·작업 및 보조 질문의 종료 대기, 재시작, 진행 방향 지시, 편집·재시도·분기를 확인했습니다. R4 압축은 33회와 새 요청 2회로 통과했으며 요약·요청별 유료 기록을 보존했습니다. 집계 사용량은 늘지 않았습니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>Earlier Focused &amp; Core Engine Suites:</strong> Focused CLI/runtime/packaging/selfupdate suites passed 62 tests/subtests (0 failures, 10 Unix-specific updater skips on Windows). Original DB suite: 336 passed; Agent suite: 534 passed; fresh-DB <code>llmrec</code> suite: 23/23 passed; <code>evidence</code> suite: 17/17 passed.</span>
-                <span data-i18n="ko" lang="ko"><strong>이전 집중 테스트 및 코어 스위트:</strong> CLI·런타임·패키징·업데이터 집중 테스트 62개 통과(실패 0, Windows에서 Unix 전용 업데이터 10개 건너뜀). DB 스위트 336개, 에이전트 스위트 534개, 신규 DB <code>llmrec</code> 23개 및 <code>evidence</code> 17개 전체 통과.</span>
+                <span data-i18n="en"><strong>Owned Integration &amp; Recovery Fixtures:</strong> Eight R4 protocol contracts passed without live vendors. R5 blocked recovery used 64 calls; R6 notification test-clone checks used 29. A real blocked intent reopened and completed; a failed finding notification retried the same ID successfully. Local notification opt-in is explicit, blocked by default; no external sends.</span>
+                <span data-i18n="ko" lang="ko"><strong>소유 연동·복구 테스트:</strong> R4 프로토콜 명령 8개는 실제 공급사 접속 없이 통과했습니다. R5 차단 복구는 64회, R6 알림 테스트 복사본은 29회 호출입니다. 실제 차단 인텐트를 다시 열어 완료했고, 발견 사항 알림은 실패한 같은 ID의 재시도가 성공했습니다. 로컬 알림은 명시적으로 허용해야 하며 기본은 차단이고 외부 전송은 없습니다.</span>
               </li>
             </ul>
           </div>
@@ -678,20 +678,20 @@ scopeweaver-cli logs watch --json</code></pre>
             </h3>
             <ul class="ver-list">
               <li>
-                <span data-i18n="en"><strong>Not an All-Features-Pass Result:</strong> The 2026-10-17T06:45:31Z catalog union snapshot invokes 284 of 297 named operations: 283 positive, 1 error-only, 13 untested. It combines earlier candidates and verifies at least one behavior per positive operation, not every option/state or the final public package.</span>
-                <span data-i18n="ko" lang="ko"><strong>전체 기능 통과가 아님:</strong> 2026-10-17T06:45:31Z 누적 스냅샷은 297개 명령 중 284개를 호출했습니다. 성공 동작 283개, 오류 경로만 1개, 미검증 13개입니다. 이전 후보들을 합친 기록으로, 성공은 하나 이상의 동작 확인이며 모든 옵션·상태나 최종 공개 패키지 통과를 뜻하지 않습니다.</span>
+                <span data-i18n="en"><strong>Not an All-Features-Pass Result:</strong> The 2026-10-17T07:21:13Z historical R2–R6 catalog union records 297 invoked and positive of 297 operations, 0 error-only and 0 untested. It proves at least one contract per command, not every option/state, live vendor or final artifact. Call totals are not unique coverage.</span>
+                <span data-i18n="ko" lang="ko"><strong>전체 기능 통과가 아님:</strong> 2026-10-17T07:21:13Z의 과거 R2–R6 누적 기록은 297개 중 호출·성공 동작 297개, 오류 경로만 0개, 미검증 0개입니다. 명령별 하나 이상의 계약 확인이며 모든 옵션·상태, 실제 공급사나 최종 산출물의 검증은 아닙니다. 호출 횟수가 고유 명령 수는 아닙니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>Subscription AI Evidence:</strong> The replacement Coding Plan key works for the accepted R4 Flash workflow. Flagship GLM-5.3 reached worker evidence and a finding but its final planner call exceeded the seven-minute E2E budget. Its full workflow is not accepted. Earlier quota errors are historical; their cause remains unconfirmed.</span>
-                <span data-i18n="ko" lang="ko"><strong>구독형 AI 검증:</strong> 교체한 Coding Plan 키로 R4 Flash 흐름이 통과했습니다. 대표 모델 GLM-5.3은 워커 근거·발견 사항까지 완료했지만 최종 플래너 호출이 E2E 제한 시간 7분을 넘겼습니다. 전체 흐름 통과로 인정하지 않습니다. 이전 할당량 오류는 과거 기록이며 원인은 확인되지 않았습니다.</span>
+                <span data-i18n="en"><strong>Subscription AI Evidence:</strong> R7 flagship GLM-5.3/low passed with zero argument-format correction attempts. The R7 Flash/low recheck produced two same-marker findings and failed the exact-one-finding assertion. Flash/high saved one finding but did not finish final planning within the seven-minute task budget. Deterministic tests verify correction recovery; this live pass does not demonstrate it. Earlier planner timeout, format rejection and quota errors remain historical; their causes are unconfirmed. R7 includes working-source changes after 80f9016 and awaits final clean-head CI.</span>
+                <span data-i18n="ko" lang="ko"><strong>구독형 AI 검증:</strong> R7 대표 모델 GLM-5.3/low는 인자 형식 교정 시도 0회로 통과했습니다. R7 Flash/low 재검증은 같은 표식의 발견 사항을 2개 생성해 정확히 1개여야 하는 조건을 통과하지 못했습니다. Flash/high는 발견 사항 1개를 저장했지만 작업 제한 시간 7분 안에 최종 계획을 마치지 못했습니다. 교정 복구 경로는 결정적 테스트로 확인했으며 이번 실사용 통과가 해당 경로를 입증하지는 않습니다. 이전 플래너 시간 초과·형식 거부·할당량 오류는 과거 기록이며 원인은 확인되지 않았습니다. R7은 80f9016 이후 작업 소스 변경을 포함하며 최종 커밋 기준 CI를 기다립니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>OS Host Baselines &amp; Server Symlink Privilege:</strong> Tested on current host + Ubuntu WSL2, not a clean Windows/Linux VM or native macOS runtime E2E (macOS arm64 was checked for archive extraction and cross-compile only). Hosted CI has not run. The Windows server suite reports 492 passed, <strong>1 failed</strong> (Windows symlink privilege), and 4 skipped.</span>
-                <span data-i18n="ko" lang="ko"><strong>클린 VM·macOS E2E 미실행 및 심볼릭 링크 권한:</strong> 클린 Windows/Linux VM이나 실제 macOS 런타임 E2E는 아직 실행되지 않았으며(macOS arm64는 교차 컴파일·압축 해제만 확인), 호스팅 CI도 실행 전입니다. Windows 서버 스위트는 492개 통과, <strong>1개 실패</strong>(Windows 심볼릭 링크 생성 권한 부족), 4개 건너뜀 상태입니다.</span>
+                <span data-i18n="en"><strong>Windows Paths &amp; Hosted CI:</strong> Windows Unicode folders/homes need usable verified ASCII 8.3 aliases; otherwise use ASCII paths, which need no 8.3 support. Hosted run 39012848998 at 80f9016 passed Windows, Ubuntu and macOS installed E2E. Later source and final-head status follow the latest PR checks.</span>
+                <span data-i18n="ko" lang="ko"><strong>Windows 경로 및 호스팅 CI:</strong> Windows 유니코드 폴더·홈에는 검증 가능한 ASCII 8.3 별칭이 필요합니다. 없으면 ASCII 경로를 사용하며 여기에 8.3 지원은 필요하지 않습니다. 80f9016의 호스팅 실행39012848998은 Windows·Ubuntu·macOS 설치형 E2E를 통과했습니다. 이후 소스와 최종 HEAD의 상태는 최신 PR 검증을 기준으로 합니다.</span>
               </li>
               <li>
-                <span data-i18n="en"><strong>First-Use Runtime Setup:</strong> The public package uses approved first-use pinned downloads with no separate application/database installer. The newest final-flush write-error/localization fix is source-tested and newer than tested R4, so a rebuilt candidate is required. External integrations, online updater release-cycle evidence, hosted CI and human review remain open. No public release exists.</span>
-                <span data-i18n="ko" lang="ko"><strong>첫 실행 시 런타임 준비:</strong> 공개 패키지는 승인된 첫 실행 다운로드 방식이며 별도 앱·DB 설치 프로그램은 필요하지 않습니다. 최신 최종 출력 오류·다국어 수정은 소스 검증만 완료했고 R4보다 나중에 반영돼 후보 재빌드가 필요합니다. 외부 연동, 온라인 업데이트 릴리스 주기, 호스팅 CI와 사람의 검토는 남아 있으며 공개 릴리스는 없습니다.</span>
+                <span data-i18n="en"><strong>First-Use Runtime Setup:</strong> Approved first-use pinned downloads need no separate app/database installer. All three updater commands passed against an owned nonforwarding HTTPS fixture, including real apply/restart and rollback, not a live GitHub release. The repository is private with draft PR1 to dev. Human review, final-head checks and unresolved Flash verification still block publication. No public tag, merge or release exists.</span>
+                <span data-i18n="ko" lang="ko"><strong>첫 실행 시 런타임 준비:</strong> 승인된 첫 실행 다운로드 방식이며 별도 앱·DB 설치 프로그램은 필요하지 않습니다. 업데이터 3개 명령은 외부 전달 없는 소유 HTTPS 서버에서 실제 적용·재시작·롤백을 통과했으며 실제 GitHub 릴리스 검증은 아닙니다. 저장소는 비공개이고 초안 PR1은 dev를 대상으로 합니다. 미해결 Flash 검증·최종 HEAD 검증·사람의 검토가 남아 있어 게시를 보류하며 공개 태그·병합·릴리스는 없습니다.</span>
               </li>
             </ul>
           </div>
@@ -760,10 +760,10 @@ go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v</code></pre>
             </h3>
             <p class="prov-card__body">
               <span data-i18n="en">
-                Derived from <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> at commit <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>, which itself is derived from ARTEX. The original source tree and tests are retained for traceability. Command discovery, structured JSON output, and real-application verification follow <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>.
+                Derived from <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> at commit <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>, which itself is derived from ARTEX. The original source tree and tests are retained for traceability. Command discovery, structured JSON output, and real-application verification follow <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>. Shared engine fixes await merge in <a href="https://github.com/cskwork/scopeweaver/pull/38" rel="noopener noreferrer">upstream PR #38</a>; the private CLI draft PR is separate.
               </span>
               <span data-i18n="ko" lang="ko">
-                ARTEX에서 파생된 <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> 커밋 <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>를 기반으로 하며, 추적성을 위해 원본 소스와 테스트를 보존합니다. 명령 탐색·구조화 출력·실제 앱 검증 방식은 <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>을 참고했습니다.
+                ARTEX에서 파생된 <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> 커밋 <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>를 기반으로 하며, 추적성을 위해 원본 소스와 테스트를 보존합니다. 명령 탐색·구조화 출력·실제 앱 검증 방식은 <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>을 참고했습니다. 공통 엔진 수정은 <a href="https://github.com/cskwork/scopeweaver/pull/38" rel="noopener noreferrer">상위 PR #38</a>에서 병합을 기다리며 비공개 CLI 초안 PR과는 별개입니다.
               </span>
             </p>
           </div>
@@ -791,10 +791,10 @@ go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v</code></pre>
             <ul class="prov-links">
               <li>
                 <span class="link-tag link-tag--preview">
-                  <span data-i18n="en">PLANNED / UNPUBLISHED</span>
-                  <span data-i18n="ko" lang="ko">예정 경로 / 미게시</span>
+                  <span data-i18n="en">PRIVATE / UNRELEASED</span>
+                  <span data-i18n="ko" lang="ko">비공개 / 미배포</span>
                 </span>
-                <span class="prov-link-Disabled">https://github.com/cskwork/scopeweaver-cli</span>
+                <a href="https://github.com/cskwork/scopeweaver-cli" rel="noopener noreferrer">https://github.com/cskwork/scopeweaver-cli</a>
               </li>
               <li>
                 <span class="link-tag">UPSTREAM</span>

@@ -1,0 +1,90 @@
+{
+  "candidate": "R7",
+  "source_revision": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "source_dirty": true,
+  "windows_sha256": "97c39bb222d3b0bdb8f1cf3e75b185fa0d94c948cde48d956a2c4579f51b2e62",
+  "runtime_mode": "download",
+  "test_setup": "separate clone with previously checksum-verified runtime; public candidate remains runtime-free",
+  "runs": {
+    "glm-5.3": {
+      "passed": true,
+      "elapsed_seconds": 138.5,
+      "cli_invocations": 119,
+      "correction_attempts": 0,
+      "log_sha256": "97ac370008fddf2064e3debba86b64dc4c3fc79fa320ffefe7e7b161d2102179",
+      "proof_markers": [
+        "codex_e2e_test.go:29: Verified real Z.AI GLM Coding Plan chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume",
+        "codex_e2e_test.go:29: Verified 19 additional positive CLI operations plus explicit unsupported Codex model discovery; queued edits, real finding reads and byte-exact loopback evidence, without extra inference. Discard remains untested: it requires an unknown run, not an ordinary queued input.",
+        "codex_e2e_test.go:29: Verified 119 installed CLI invocations; real Z.AI GLM Coding Plan planner/worker through Codex transport, owned loopback HTTP evidence (1 GETs), persisted usage and report. Disposable home: C:\\Users\\a\\AppData\\Local\\Temp\\TestPortableCLIGLMEndToEnd1421744295\\001\\codex portable state \ud55c\uae00"
+      ],
+      "failure": null
+    },
+    "glm-5.3-flash": {
+      "passed": false,
+      "elapsed_seconds": 136.98,
+      "cli_invocations": null,
+      "correction_attempts": 0,
+      "log_sha256": "33e45c6b670328ea2ea5d20de4922eac96587bd18afc58561c7cee35dd0bf498",
+      "proof_markers": [
+        "codex_e2e_test.go:33: Verified real Z.AI GLM Flash Coding Plan chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume"
+      ],
+      "failure": "expected exactly one real synthetic finding; initial diagnostic did not capture actual count/name"
+    },
+    "glm-5.3-flash-low-diagnostic": {
+      "passed": false,
+      "elapsed_seconds": 286.06,
+      "correction_attempts": 0,
+      "finding_count": 2,
+      "finding_ids": [
+        1,
+        2
+      ],
+      "report_finding_intent_ids": [
+        3,
+        6
+      ],
+      "same_expected_name_and_owned_marker": true,
+      "failure": "exactly-one-finding contract violated by two distinct report_finding calls",
+      "cause_boundary": "The first low failure did not capture actual rows. This diagnostic run proves two findings from separate intents; why the planner created the second intent is unknown.",
+      "observer_cli_reads_outside_test": 2,
+      "log_sha256": "eb6a0c309cc8ad0b106df56150073654607b8ea8b1bd0437b5a102f0e41354c2"
+    },
+    "oauth": {
+      "passed": true,
+      "model": "gpt-6.1-sol",
+      "reasoning_effort": "low",
+      "cli_invocations": 131,
+      "elapsed_seconds": 163.68,
+      "log_sha256": "3a9fbe0439870697d19972959ae6a2901e0de5788c3e4309252685d8be607602",
+      "proof_markers": [
+        "codex_e2e_test.go:25: Verified real ChatGPT OAuth chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume",
+        "codex_e2e_test.go:25: Verified 19 additional positive CLI operations plus explicit unsupported Codex model discovery; queued edits, real finding reads and byte-exact loopback evidence, without extra inference. Discard remains untested: it requires an unknown run, not an ordinary queued input.",
+        "codex_e2e_test.go:25: Verified 131 installed CLI invocations; real ChatGPT OAuth planner/worker through Codex transport, owned loopback HTTP evidence (1 GETs), persisted usage and report. Disposable home: C:\\Users\\a\\AppData\\Local\\Temp\\TestPortableCLICodexEndToEnd2467465406\\001\\codex portable state \ud55c\uae00"
+      ]
+    },
+    "glm-5.3-flash-high": {
+      "passed": false,
+      "reasoning_effort": "high",
+      "elapsed_seconds": 482.38,
+      "task_budget_seconds": 420,
+      "correction_attempts": 0,
+      "observed": [
+        "real chat Read, branch history, queue/resume passed",
+        "one worker WebFetch and successful report_finding, node4/finding1",
+        "planner read list_findings and node_detail after that finding",
+        "harness paused task while final planner model output was pending at seven-minute task budget"
+      ],
+      "failure": "planner/worker task did not finish within budget",
+      "observer_cli_reads_outside_test": 2,
+      "log_sha256": "ab4f5a9cf9829bc41e616b43590fbd28d9bfee1792a68e5bd0fd86c38f53cda3",
+      "cause_boundary": "Underlying cause of slow final model completion is unknown; this is not an argument-format repair failure."
+    }
+  },
+  "limitations": [
+    "Working-source candidate includes later attachment and GLM provider changes; final clean native CI is separate.",
+    "Zero correction attempts in a live pass does not prove live recovery; deterministic subprocess tests prove the correction branch.",
+    "Parallel timings are functional evidence, not performance benchmarks.",
+    "Flash low produced two findings from distinct report_finding calls; high exceeded the unchanged task budget. No semantic deduplication, title normalization, timeout relaxation or failed-check exclusion was used."
+  ],
+  "release_gate": "HELD: Flash full-workflow acceptance unresolved; user authorized publication only after checks pass. Final exact-head native CI and human review are also required."
+}

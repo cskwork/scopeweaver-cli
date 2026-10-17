@@ -1,0 +1,74 @@
+{
+  "source_revision": "ad814451c9a69aa9ffd9c61c84b484a9f7165475",
+  "source_dirty": false,
+  "artifact_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+  "archive_sha256": "89cacec8e0df8dcff17e443cc69999839b88d884d2815cfc035f8a2e81ddf9d0",
+  "runtime_mode": "download",
+  "execution_package_path": "/tmp/scopeweaver-r5-linux-20261017-_8z73sfn/scopeweaver-cli-linux-amd64",
+  "native_filesystem_execution": true,
+  "environment": "Existing Ubuntu WSL2, non-root uid 1000",
+  "windows_crosscompiled": true,
+  "cgo_enabled": false,
+  "no_native_linux_go": true,
+  "steps": [
+    {
+      "step": "native-portable-tests",
+      "exit_code": 0,
+      "duration_seconds": 0.368
+    },
+    {
+      "step": "native-runtimebundle-tests",
+      "exit_code": 0,
+      "duration_seconds": 0.081
+    },
+    {
+      "step": "cold-health",
+      "exit_code": 0,
+      "duration_seconds": 6.466,
+      "stdout": "{\"ok\":true,\"service\":\"artex\",\"version\":\"0.1.0\"}\n",
+      "stderr": ""
+    },
+    {
+      "step": "cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.68
+    },
+    {
+      "step": "portable-cli-e2e",
+      "exit_code": 0,
+      "duration_seconds": 10.008,
+      "installed_invocations": 62,
+      "passed": true
+    },
+    {
+      "step": "final-cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.063
+    }
+  ],
+  "limitations": [
+    "Windows cross-build executed in existing WSL2, not a clean Linux VM",
+    "No native macOS execution or full Linux engine/database suite",
+    "No model inference, external test targets or notification sends",
+    "Only the archived cross-built CLI and three copied test binaries have executable modes restored; downloaded runtime permissions come from extraction",
+    "Native ext4 is required because WSL drvfs rejects atomic no-replace publication; unchanged filesystem limitation was verified in the preceding run"
+  ],
+  "downloaded_runtime_present": true,
+  "postgres_version": "postgres (PostgreSQL) 17.11",
+  "passed": true,
+  "owned_processes_after": 0,
+  "owned_process_details": [],
+  "runtime_staging_after": [],
+  "test_binaries_sha256": {
+    "cli-e2e.test": "d41884811e62c5a3d8126325e3ba108530ab73f3bbc3a461a048371b6aebb37c",
+    "portable.test": "155fe35254abafc0c7a771c1b26807c59cbd0b5bbebc9003b2d728bb8493c58f",
+    "runtimebundle.test": "425093e956019d97ee3a86c09f58bd7c7c02f2baa16dfec1d8e9a968bad2072c"
+  },
+  "manifest_files_still_match": true,
+  "owned_process_check": "All /proc/<pid>/exe paths beneath the extracted package, including PostgreSQL subprocesses.",
+  "prior_attempt": {
+    "receipt": "dist/r5-linux-verification-20261017/r5-linux-receipt.json",
+    "status": "HARNESS_FAILURE",
+    "cause": "Windows-created test archive did not carry CLI execute mode. Retry restores the cross-built CLI mode in new native scratch; unchanged bytes, downloaded runtime permissions not altered."
+  }
+}

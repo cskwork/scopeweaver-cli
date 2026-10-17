@@ -1,0 +1,70 @@
+{
+  "task": "Windows Unicode PostgreSQL command paths",
+  "record_type": "tool-derived summary, not a raw execution log",
+  "raw_logs_retained": false,
+  "source_frozen": true,
+  "checks": [
+    {
+      "phase": "initial regression compile",
+      "command": "go test ./internal/portable -run '^TestPostgresWindows' -count=1",
+      "exit_code": 1,
+      "observed_result": "New regression tests initially could not compile because newPostgresCommand, postgresPath, and requirePostgresASCIIPath did not exist. This compile failure is not the behavioral red evidence."
+    },
+    {
+      "phase": "behavioral red before normalization",
+      "command": "go test ./internal/portable -run '^TestPostgresWindows' -count=1",
+      "exit_code": 1,
+      "observed_result": "Against a command helper preserving existing behavior, TestPostgresWindowsUnicodeCommand failed because the executable path still contained Korean Unicode; TestPostgresWindowsRejectsUnicodeWithoutShortNames failed because no actionable unsupported-path error existed.",
+      "observed_package_duration_seconds": 2.391
+    },
+    {
+      "phase": "targeted green",
+      "command": "go test ./internal/portable -run '^TestPostgresWindows' -count=1 -v",
+      "exit_code": 0,
+      "observed_result": "TestPostgresWindowsUnicodeCommand, TestPostgresWindowsASCIIWithoutShortNames, and TestPostgresWindowsRejectsUnicodeWithoutShortNames all passed.",
+      "observed_package_duration_seconds": 2.162
+    },
+    {
+      "phase": "portable suite",
+      "command": "go test ./internal/portable -count=1",
+      "exit_code": 0,
+      "observed_result": "Portable package tests passed.",
+      "observed_package_duration_seconds": 3.76
+    },
+    {
+      "phase": "vet",
+      "command": "go vet ./internal/portable",
+      "exit_code": 0,
+      "observed_result": "Completed with no diagnostics."
+    }
+  ],
+  "primary_sources": [
+    {
+      "url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/src/port/path.c",
+      "evidence": "make_absolute_path calls getcwd when resolving relative paths; relative-only arguments cannot prevent narrow Windows current-directory conversion."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-getshortpathnamew",
+      "evidence": "GetShortPathNameW can succeed while returning the unchanged long path when no short name exists. The implementation therefore validates ASCII output rather than trusting API success."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamea",
+      "evidence": "GetModuleFileName returns the path format used when loading the executable, including short-path form."
+    }
+  ],
+  "hosted_ci_reported_by_coordinator": {
+    "independently_verified_by_this_worker": false,
+    "before_run": "39011629129",
+    "before_windows_job": "117335195001",
+    "before_observed_by_coordinator": "TestPortableCLIEndToEnd failed on English Windows because initdb could not open a narrowed Korean Unicode password-file path.",
+    "after_run": "39012848998",
+    "after_head_prefix": "80f9016",
+    "after_reported_by_coordinator": "All three target jobs, including English Windows, succeeded."
+  },
+  "limitations": [
+    "Local host uses Korean Windows; this worker did not change the system locale or emulate English ACP.",
+    "This worker did not run the installed real PostgreSQL lifecycle; integrated installed E2E and hosted CI were owned by the coordinator.",
+    "Unicode paths require an existing usable ASCII 8.3 alias; no system setting is changed. ASCII paths do not require 8.3 support.",
+    "The raw tool output was observed but not redirected to files. This receipt summarizes those observations and does not reconstruct raw logs."
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "seconds": 127.82,
+  "calls": 64,
+  "positive_contracts": {
+    "tasks intents rerun-blocked": {
+      "lines": [
+        60
+      ],
+      "detail": "Actual owned HTTP400 provider failure produced blocked intent; only fixture repaired; rerun-blocked reopened1; same intent ID persisted done plus exact record_fact marker and worker terminal result. Synthetic OpenAI-compatible provider, zero live inference."
+    }
+  },
+  "gaps": {},
+  "assertions": [
+    {
+      "assertion": "R5 input hash pinned",
+      "passed": true
+    },
+    {
+      "assertion": "genuine engine worker error persisted blocked",
+      "passed": false
+    },
+    {
+      "assertion": "genuine engine worker error persisted blocked",
+      "passed": true
+    },
+    {
+      "assertion": "actual failed HTTP provider request observed",
+      "passed": true
+    },
+    {
+      "assertion": "bulk rerun reopened actual nonzero blocked row",
+      "passed": true
+    },
+    {
+      "assertion": "same intent ID reached done after rerun",
+      "passed": true
+    },
+    {
+      "assertion": "recovered worker actual fact persisted",
+      "passed": true
+    },
+    {
+      "assertion": "actual worker completed result readback",
+      "passed": true
+    },
+    {
+      "assertion": "same worker session executed after repair",
+      "passed": true
+    }
+  ],
+  "binary_sha256": "4a1704cdd12c908afe2d2390c88a8041c49b1cc816a9a1d60f3f82346215a0a5",
+  "fixture_closed": true,
+  "live_inference_calls": 0,
+  "synthetic_provider": true,
+  "manual_db_state_injection": false,
+  "owned_processes_remaining": 0,
+  "binary_hash_unchanged": true,
+  "evidence_lines": {
+    "blocked_graph": 58,
+    "blocked_error_activity": 59,
+    "nonzero_bulk_rerun": 60,
+    "recovered_graph_with_fact": 62,
+    "terminal_result_activity": 63,
+    "runtime_stop": 64
+  },
+  "limitations": [
+    "Owned OpenAI-compatible synthetic provider controls expected error/success responses; no actual model intelligence or live OAuth inference tested.",
+    "Initial harness used kind instead of actual graph type; timed-out oracle failure retained in exception.json and phase1-summary.json. Corrected oracle passed against the same actual blocked intent.",
+    "Existing retry policy command disabled retry amplification only inside disposable home before task creation; unchanged through failure/recovery.",
+    "Runtime restarted once to correct harness; same task/intent/profile/endpoint preserved. Only fixture HTTP response mode changed before rerun."
+  ]
+}
