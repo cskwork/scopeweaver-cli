@@ -15,6 +15,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-go@v5
         with:
           go-version-file: go.mod
@@ -25,15 +27,57 @@ jobs:
           go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider
       - name: Build native portable folder
         run: go run ./packaging
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Archive the runtime-free candidate
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, zipfile
+          goos = subprocess.check_output(["go", "env", "GOOS"], text=True).strip()
+          arch = subprocess.check_output(["go", "env", "GOARCH"], text=True).strip()
+          root = pathlib.Path("dist") / f"scopeweaver-cli-{goos}-{arch}"
+          manifest = json.loads((root / "MANIFEST.json").read_text(encoding="utf-8"))
+          assert manifest["runtime_mode"] == "download" and not (root / "runtime").exists()
+          binary = root / ("scopeweaver-cli.exe" if goos == "windows" else "scopeweaver-cli")
+          version = json.loads(subprocess.check_output([str(binary), "--json", "version"], text=True))["version"]
+          name = f"scopeweaver-cli-{version}-{goos}-{arch}"
+          output = pathlib.Path("dist/release-archives")
+          output.mkdir()
+          archive = output / f"{name}.zip"
+          files = sorted(manifest["files_sha256"])
+          for entry in files:
+              assert hashlib.sha256((root / entry).read_bytes()).hexdigest() == manifest["files_sha256"][entry]
+          with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as z:
+              for entry in files + ["MANIFEST.json"]:
+                  z.write(root / entry, f"{name}/{entry}")
+          install = pathlib.Path("dist/archive-test")
+          with zipfile.ZipFile(archive) as z:
+              assert z.testzip() is None
+              z.extractall(install)
+              if goos != "windows":
+                  for entry in z.infolist():
+                      (install / entry.filename).chmod((entry.external_attr >> 16) & 0o777)
+          installed_binary = (install / name / binary.name).resolve()
+          with open(os.environ["GITHUB_ENV"], "a", encoding="utf-8") as env:
+              env.write(f"SCOPEWEAVER_CLI_E2E_BINARY={installed_binary}\n")
+          digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+          (output / f"{name}.sha256").write_text(f"{digest}  {archive.name}\n", encoding="ascii")
+          print(f"{digest}  {archive.name}")
+          PY
       - name: Installed portable workflows
         shell: bash
         run: |
-          target="$(go env GOOS)-$(go env GOARCH)"
-          executable=scopeweaver-cli
-          if [ "$(go env GOOS)" = windows ]; then executable=scopeweaver-cli.exe; fi
-          export SCOPEWEAVER_CLI_E2E_BINARY="$PWD/dist/scopeweaver-cli-$target/$executable"
           bootstrap_home="$RUNNER_TEMP/scopeweaver-cli-bootstrap"
           trap '"$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" runtime stop --yes --json' EXIT
           "$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" health --json
           "$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" runtime stop --yes --json
           go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v
+      - name: Retain the verified runtime-free candidate
+        uses: actions/upload-artifact@v7
+        with:
+          name: portable-${{ matrix.os }}
+          path: dist/release-archives/
+          retention-days: 14
+          if-no-files-found: error
