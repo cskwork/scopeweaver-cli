@@ -21,7 +21,13 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+      - name: Landing integrity and regression checks
+        shell: bash
+        run: |
+          node tools/validate-landing.mjs
+          node --test tools/validate-landing.test.mjs
       - name: Focused tests and static checks
+        shell: bash
         run: |
           go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1
           go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider

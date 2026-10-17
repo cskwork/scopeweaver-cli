@@ -1,5 +1,5 @@
 # Release Rules
-<!-- last-analyzed: 2026-10-17T13:39:54.413623+00:00 -->
+<!-- last-analyzed: 2026-10-18 -->
 
 ## Version Sources
 - cmd/scopeweaver-cli/main.go: var version = "0.1.0" (linker override).
@@ -37,14 +37,15 @@ The historical297-operation ledger proves one positive contract per name, not ev
 Final ZIP check: exact three targets, one clean source revision, SHA/CRC, exact manifest allowlist/every payload hash, Unix executable mode, no runtime/private-state paths.
 
 ## Current Release Gates
-- R22 frozen36 source SHAe1d76986da63cd9b05beb8a88978d7875f0e529be685e817435e33b2b9c3ff48 source-reviewPASS; prior28 accepted CLI files unchanged.
-- Focused186/0/19 test/subtest events, focused/fullclean vet0 and packaging0. Platform/opt-in skips remain explicit.
-- R22 binary970d7037b4567912fb09254821d110ce16c08a39b4772dec6e531eda1235d4c9 matrix IN PROGRESS: GLM-low165.04s/core31.28s/Flash-low157.8s/OAuth153.42s PASS; Flash-high FAILED470.50s before goalproof at unchanged420s taskbudget. R22 acceptance FAIL4/5; bounded R23 planner-context investigation underway.
-- R19/R20 failures and rejected incompleteR21 preserved. R22 requests nested arguments only forZAI; OAuth prior format unchanged. Local strict validation remains authoritative; no guarantee of ZAI schema enforcement.
-- Original PR40 atffe260435fed6576394d613991aaf6e8010d3f48 has all7 checksPASS (39036051785/39036051720), UI14steps and65frontendtests; OPEN/UNMERGED. Evidence .sdlc/archive/261017-glm-agent-contracts in originalworktree.
-- Original PR38 merged2026-10-17T08:06UTC. Prior cache's unmerged claim was stale.
-- Held landingSHA6617524d1c180f033aa23102450bba3f781f645550227ba4aa4dac80c2b21bb9 passed six viewport/language cases,107pairedspans, controls/assets/nooverflow/noerrors; ownedserver/browser stopped. Final text requires finalQA.
-- CLI commit/push, final nativeCI/artifacts, maintainerreview, integration/promotion and postmergeE2E remain open. No public tag/release.
+- R24 acceptance PASS 5/5 on the frozen dirty Windows source snapshot based on650dc82910e5e36668161a5276455506f64713fe. Four production hashes and binary8f91bbb7d1ce764f890e699c2fa32400405e5a81c4cbf03bc22c6bff0da83a77 are in docs/evidence/standalone-cli/candidate-r24-verification.json.
+- Core62calls/19.14s; GLM-low106/82.63; Flash-low117/114.84; OAuth-low115/108.12; Flash-high182/317.83. All native exits0, unchanged420-second task and600-second shared completion budgets, three ZAI correction counts0; OAuth correction N/A.
+- Runtime-free public manifest181payload files; local test clone1482runtime files copied andSHA-verified. Publish only runtime-free archives with first-use pinned downloads.
+- Focused186/0/19, focused/fullclean vet0 and packaging0. CLI agent607/0/0, original598/0/0, exact formatted new actual-planner tests31/0/0. Native Linux focused race49/0/0 and fullagent race607/0/0; native exits0, no race report,1175snapshot hashes unchanged, ownedcluster stopped/noPID. Controlled regression-provider usage synthetic; actual usage comes from real installed CLI workflows.
+- Locale1986production keys x3languages complete. Landing validator33/0; negative-fixture testevents19/0/0. Legacy single-page validator fixed and.nojekyll present. Final text-only landing update retains107EN/107KO elements and design assets; fresh browser QA passed EN/KO at320/390/1440, controls and assets/links with no overflow or console/page errors.
+- Earlier checkpoint650dc82 passed all3nativeOS CI/jobs and archive checks; historical pass does not certify R24/finalcleanhead. New final CLI head native CI/archives are PENDING.
+- Original PR40 shared correction committed and pushed at247219ee623757a313796557a22ee64bb1b4905e; new-head7CI checks/humanreview PENDING. Earlierffe260435fed6576394d613991aaf6e8010d3f48 green checks are historical only. Original PR40 remains PR-only/unmerged here. Original PR38 merged2026-10-17T08:06UTC.
+- R22 and older failed outcomes/receipts remain historical in paired verification docs; no earlier pass certifies a later artifact. Windows inherited symlink-privilege failure reproduces unchanged650dc82 and is not weakened.
+- Finalcleanhead native CI/archives, maintainerhumanreview, CLI integration/promotion, postmergeE2E and manualpublicrelease remain open. Publicvisibility at release already authorized; do not ask again. No public tag/release claimed.
 
 ## First-Time Setup Gaps
-Manual publication is intentional. No tags until firstv0.1.0 release. dist and .omc are ignored. No release workflow scaffolding needed.
+Manual publication is intentional. No tags until firstv0.1.0 release. dist is ignored; .omc/RELEASE_RULE.md is tracked. No release workflow scaffolding needed.

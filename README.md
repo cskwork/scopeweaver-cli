@@ -2,7 +2,7 @@
 
 A standalone, agent-native command line edition of ScopeWeaver. Unpack the portable folder and run the CLI. It includes the Go engine, built-in skills and dependency notices. The first operational command downloads checksum-pinned PostgreSQL and, on Windows, app-local Visual C++ runtime files into that folder. No separate ScopeWeaver installation, database installation, Docker, Node.js or Go runtime is required.
 
-**Release held (2026-10-17).** R22 passed portable core, GLM-5.3/low, GLM-5.3-Flash/low and ChatGPT OAuth/low. Flash/high still exceeded the unchanged 420-second task budget: four of five workflows passed. All four AI runs executed tools with zero argument-format corrections. The remaining fix, full acceptance, native release-package checks and final human review are pending. No public release exists. [Dated verification record](docs/CLI-VERIFICATION.md).
+Windows verification dated **2026-10-18** passed all five packaged workflows: portable core, GLM-5.3/low, GLM-5.3-Flash/low and high, and ChatGPT OAuth/low. See the [dated verification record](docs/CLI-VERIFICATION.md) for exact results, limits and publication checks.
 
 [한국어](README.ko.md) · [Architecture and compatibility](docs/cli.md) · [AI providers](docs/ai-providers.md) · [Verification](docs/CLI-VERIFICATION.md)
 
@@ -68,7 +68,7 @@ Graph information is available as structured nodes/edges. Browser presentation, 
 
 Built-in AI supports standard API/local providers and `codex-cli`, which routes chat, planner and worker completions through the official Codex app-server. A keyless profile uses the ChatGPT account signed in with `codex login`. A Z.AI profile uses `glm-5.3`, `https://api.z.ai/api/v1` and a matching Coding Plan credential. Official Codex is an additional dependency, resolved from PATH or `SCOPEWEAVER_CODEX_PATH`; version 0.162.1 is the verified version.
 
-The package contains no model weights, subscriptions or credentials. Historical R18 Windows workflows passed for ChatGPT OAuth, GLM-5.3/low and GLM-5.3-Flash/low and high. See [AI provider setup](docs/ai-providers.md) and the [dated verification record](docs/CLI-VERIFICATION.md) for commands, exact results and limits. Publication still requires native package checks and maintainer human review.
+The package contains no model weights, subscriptions or credentials. The 2026-10-18 Windows candidate passed real ChatGPT OAuth/low, GLM-5.3/low and GLM-5.3-Flash/low and high workflows. See [AI provider setup](docs/ai-providers.md) and the [dated verification record](docs/CLI-VERIFICATION.md) for commands, exact results and limits.
 
 Custom commands, Python tools, browser tools and external MCP/services require the executables or services selected by that integration. `doctor` reports the portable core separately from these optional requirements.
 
@@ -104,4 +104,4 @@ Derived from [cskwork/scopeweaver](https://github.com/cskwork/scopeweaver) at `2
 
 [AGPL-3.0](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.txt) and the upstream usage restrictions remain in effect. Use only for source research and technical validation in locally isolated environments. The upstream authors prohibit real testing of online systems, including owned or authorized targets. See [preserved upstream provenance and restrictions](docs/PROVENANCE.md).
 
-Third-party runtime licenses are in `licenses/` and source metadata is in `POSTGRES-SOURCES.json`. Downloaded runtimes remain within the portable folder. Packaging is not publication. The CLI repository is private with [PR #1](https://github.com/cskwork/scopeweaver-cli/pull/1) targeting dev; no public CLI tag or release has been created.
+Third-party runtime licenses are in `licenses/` and source metadata is in `POSTGRES-SOURCES.json`. Downloaded runtimes remain within the portable folder. Find available packages and checksums on [GitHub Releases](https://github.com/cskwork/scopeweaver-cli/releases). The [verification record](docs/CLI-VERIFICATION.md) identifies tested candidates and publication checks.

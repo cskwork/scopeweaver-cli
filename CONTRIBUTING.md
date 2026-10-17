@@ -12,6 +12,8 @@ Keep English/Korean README and docs paired. Interface summaries support en/ko/zh
 
 Run:
 
+    node tools/validate-landing.mjs
+    node --test tools/validate-landing.test.mjs
     go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1
     go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider
     go run ./packaging -target windows-amd64

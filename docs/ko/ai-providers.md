@@ -2,7 +2,7 @@
 
 [English](../ai-providers.md) · [CLI 구조](cli.md) · [검증](CLI-VERIFICATION.md)
 
-**공개 보류(2026-10-17).** R22의 포터블 코어, GLM-5.3/low, GLM-5.3-Flash/low, ChatGPT OAuth/low는 통과했습니다. Flash/high는 기존 작업 제한 420초를 초과해 전체 5개 중 4개 흐름이 통과했습니다. AI 실행 4개 모두 실제 도구를 실행했으며 인자 형식 보정은 0회였습니다. 남은 수정, 전체 통과, 네이티브 배포 패키지 검사와 최종 사람 검토가 필요합니다. 공개 배포판은 없습니다. [날짜별 검증 기록](CLI-VERIFICATION.md)을 확인하세요.
+**2026-10-18 Windows 검증**에서 포터블 코어, GLM-5.3/low, GLM-5.3-Flash/low·high, ChatGPT OAuth/low의 패키지 흐름 5개가 모두 통과했습니다. 정확한 결과·한계·공개 전 검사는 [날짜별 검증 기록](CLI-VERIFICATION.md)을 확인하세요.
 
 내장 채팅·플래너·워커 에이전트는 LLM 프로필 형식으로 `codex-cli`를 사용할 수 있습니다. 어댑터는 텍스트와 도구 설명을 표준 입출력으로 공식 Codex app-server에 보냅니다. 엔진의 에이전트 실행 계층인 Norma가 요청된 ScopeWeaver 도구를 실행하고 그 결과를 다음 모델 요청에 전달합니다. Codex에 도구 실행을 맡기지 않습니다.
 
@@ -72,15 +72,11 @@ scopeweaver-cli llm test --provider codex-cli --model glm-5.3 --base-url https:/
 
 `2`를 저장 응답의 프로필 ID로 바꾸세요. `/responses`로 끝나는 주소는 같은 루트 주소로 정규화합니다. Flash를 사용하려면 같은 프로필의 모델을 `glm-5.3-flash`로 바꾸고 `llm test`에도 같은 모델을 지정하세요. 다른 주소나 Z.AI 모델은 거부합니다. 두 모델의 추론 강도는 `low`, `high`, `max`를 지원하며 사고 비활성화 요청은 `low`로 처리합니다.
 
-[Z.AI 공식 Codex 안내](https://docs.z.ai/devpack/tool/codex)를 따르고 [API 키 관리 안내](https://docs.z.ai/devpack/notice/api-key-management)에서 키 유형을 확인하세요. Standard·Coding Plan·Compatible 키는 사용 규칙이 다르며 Standard 키는 Coding Plan 할당량을 사용하지 않습니다. 변경 없는 소스로 만든 Windows R5 GLM-5.3-Flash/low는 실제 CLI 호출 123회를 172.47초에 통과했으며 채팅·도구 결과, 대기열·재개, 플래너·워커, 소유한 루프백 GET 1회, 발견 사항·목표 완료·보고서를 확인했습니다. 이전 GLM-5.3 흐름은 워커 근거 수집·발견 사항 등록까지 완료한 뒤 최종 플래너에서 시간 초과했습니다. 이후 R5/low 실행은 2026-10-17 07:29:59 UTC에 도구 실행 전에 `codex: tool arguments must be a JSON object string`으로 실패했습니다(입력 17,933 / 출력 25토큰). 원시 인자 값은 수집하지 않았으므로 형식과 근본 원인은 알 수 없습니다.
-
-과거 R18 Windows 후보에서 ChatGPT OAuth(119회 / 122.46초), GLM-5.3/low(113회 / 105.82초), Flash/low(107회 / 87.12초), Flash/high(183회 / 319.35초)가 통과했습니다. 실제 내장 채팅·플래너·워커, 각각 1개의 인텐트·소유 GET·발견 사항, 사용량과 보고서를 확인했고 작업 제한은 420초를 유지했습니다. 대표 모델 흐름에서 보정 시도는 3회, Flash는 0회이며 개별 추론 단계는 알 수 없습니다. [R18 기록](../evidence/standalone-cli/candidate-r18-verification.json). 네이티브 배포 패키지 검사와 사람 검토는 PR #1의 별도 조건입니다.
-
-과거 R7: 이후 다시 만든 Windows R7 GLM-5.3/low 흐름은 **설치형 CLI 호출 119회를 138.50초에 통과**했습니다. 실제 채팅 Read, 대기열, 플래너·워커, 목표 완료, 소유 GET 1회, 발견 사항·보고서와 사용량 저장을 확인했고 정리도 성공했습니다. **형식 보정 시도는 0회**이므로 해당 실행의 현재 흐름을 검증한 것이며 새 보정 분기의 실제 복구 성공까지 입증하지는 않습니다. [R7 기록](../evidence/standalone-cli/candidate-r7-verification.json). R7 당시 Flash의 전체 흐름 검증은 **미해결**이었습니다. 첫 low 실행은 136.98초에 발견 사항이 정확히 1개인지 확인하는 검증에서 실패했고 실제 개수는 수집하지 않았습니다. low 진단은 286.06초에 같은 소유 마커·이름을 대상으로 별도 `report_finding` 호출 2개(인텐트 ID 3/6, 발견 사항 ID 1/2)를 확인하며 실패했습니다. high 추론도 482.38초에 실패했습니다. 워커의 조회 1회와 발견 사항 1개를 기록했지만 최종 플래너가 작업 제한 7분 안에 끝나지 않았습니다. 세 실행 모두 보정 시도는 0회입니다. 모델·제공자의 근본 원인은 알 수 없으며 과거 R5 Flash 통과가 R7 통과를 뜻하지는 않습니다. **R7 당시 사용자의 전체 통과 조건을 충족하지 못해 공개 릴리스를 보류**했으며 최종 HEAD CI와 사람 검토도 남아 있었습니다. 이 날짜별 결과로 이전 실패의 원인까지 단정할 수는 없습니다. 전체 워크플로 검증은 날짜별 검증 기록을 참조하세요.
+[Z.AI 공식 Codex 안내](https://docs.z.ai/devpack/tool/codex)와 [API 키 관리 안내](https://docs.z.ai/devpack/notice/api-key-management)를 확인하세요. Standard·Coding Plan·Compatible 키의 사용 규칙은 서로 다르며 Standard 키는 Coding Plan 할당량을 사용하지 않습니다. 2026-10-18 Windows 검증에서 GLM-5.3/low는 CLI 호출 106회·82.63초, Flash/low는 117회·114.84초, Flash/high는 182회·317.83초로 통과했습니다. 세 Z.AI 실행의 인자 형식 보정은 모두 0회였습니다. 작업 제한 420초와 모델 요청의 공유 제한 600초를 유지했습니다. [R24 기록](../evidence/standalone-cli/candidate-r24-verification.json)과 과거 실패·남은 조건을 보존한 [날짜별 검증 기록](CLI-VERIFICATION.md)을 확인하세요.
 
 ## 동작과 호환성 한계
 
-- Z.AI에는 도구 인자를 중첩 JSON 객체로 요청하고 OAuth의 기존 문자열 스키마는 유지합니다. 디코더는 유효한 객체와 기존 객체 문자열을 강제 변환 없이 허용하며 중복 키와 잘못된 응답은 실행 전에 거부합니다. R22 실제 실행에서 요청 스키마는 수락됐지만 제공자의 엄격한 스키마 강제나 원시 전송 형식까지 입증하지는 않았습니다. [R22 기록](../evidence/standalone-cli/candidate-r22-verification.json).
+- Z.AI에는 도구 인자를 중첩 JSON 객체로 요청하고 OAuth의 기존 문자열 스키마는 유지합니다. 디코더는 유효한 객체와 기존 객체 문자열을 강제 변환 없이 허용하며 중복 키와 잘못된 응답은 실행 전에 거부합니다. R24 실제 실행에서 요청 스키마는 수락됐지만 제공자의 엄격한 스키마 강제나 원시 전송 형식까지 입증하지는 않았습니다. [R24 기록](../evidence/standalone-cli/candidate-r24-verification.json).
 - 모델 요청마다 소유한 app-server 프로세스와 새 임시 스레드를 만듭니다. 현재 Norma 대화 전체의 역할, 도구 ID·결과와 사용 가능한 도구 스키마를 매번 JSON으로 변환합니다. 대화 기록·분기·재시작 후 보존은 ScopeWeaver 엔진이 담당하며 Codex 스레드를 그대로 재생하는 방식은 아닙니다.
 - 스트리밍은 완료된 구조화 응답의 검증이 끝날 때까지 버퍼링합니다. 이후 텍스트·도구 이벤트를 기존 에이전트 스트림으로 전달합니다. 완료 전 실시간 토큰 델타는 없으며 불완전하거나 잘못된 도구 요청은 Norma에 전달하지 않습니다.
 - Z.AI의 인자 객체 검증 오류에만 고정된 형식 수정 지침으로 새 호출을 한 번 더 허용합니다. 첫 응답 전체를 도구 실행 전에 거부하며 엄격한 디코딩은 유지합니다. 두 시도는 총 10분 제한을 공유하고 취소·`local_llm_only`를 다시 확인하며 입력·출력·캐시 읽기·쓰기 사용량을 한 번 합산합니다. OAuth·네트워크·할당량·프로토콜·알 수 없는 도구·중복 키 오류에는 이 보정을 적용하지 않습니다. [소스 테스트·vet](../evidence/standalone-cli/glm-format-repair.json)와 [독립 검토](../evidence/standalone-cli/glm-format-repair-review.md)는 통과했습니다. 이후 R11 Flash/low 통과 흐름에서 보정 시도 1회, R18 GLM-5.3/low 통과 흐름에서 3회를 기록했으며 개별 추론 단계는 확인하지 못했습니다. 모든 보정 사례의 검증은 아닙니다.
@@ -94,8 +90,10 @@ scopeweaver-cli llm test --provider codex-cli --model glm-5.3 --base-url https:/
 
 ## 검증 범위
 
-Windows R7 OAuth는 **설치형 CLI 호출 131회를 163.68초에 통과**했습니다. 실제 채팅 Read, 대기열·기록, 플래너·워커, 목표 완료, 소유 GET 1회, 발견 사항·보고서와 사용량 저장을 확인했고 정리도 성공했습니다. [R7 기록](../evidence/standalone-cli/candidate-r7-verification.json). 이전에 변경 없는 소스로 만든 Windows R5 OAuth는 설치형 CLI 호출 137회를 205.12초에 통과했습니다. 별도 수명주기 검증은 호출 130회와 사전 점검 3회로 실행 중 채팅·작업 및 보조 질문의 종료 대기·재시작, 진행 방향 지시, 편집·재시도·분기를 확인했습니다. 보조 질문 취소가 보조 추론 완료를 증명하지는 않습니다. Windows R5 Flash는 위 내장 흐름을 통과했습니다. 특정 후보의 결과이며 모든 모델·플랫폼이나 최종 패키지의 통과를 뜻하지 않습니다. [날짜별 기록과 남은 조건](CLI-VERIFICATION.md).
+2026-10-18 Windows R24에서 ChatGPT OAuth/low는 설치형 CLI 호출 115회·108.12초로 통과했습니다. 코어는 62회·19.14초였으며 Z.AI 3개 구성도 위와 같이 통과했습니다. 실제 AI 흐름은 채팅·도구, 대기열·재개, 플래너·워커, 인텐트·소유 루프백 GET·발견 사항 각각 1개, 실제 사용량·보고서·정리를 확인합니다. OAuth에는 Z.AI 형식 보정을 적용하지 않으며 기존 엄격한 형식을 유지합니다. 이 결과는 해당 Windows 후보의 기능 검증이며 성능 비교나 모든 모델·플랫폼·최종 배포 산출물의 검증은 아닙니다. [날짜별 기록과 공개 전 검사](CLI-VERIFICATION.md).
 
-R4 OAuth 문맥 압축은 CLI 호출 33회와 새 모델 요청 2회로 통과했습니다. 요청별 유료 기록과 요약은 재시작 후 유지됐지만 기존 대화·대시보드 집계 사용량은 늘지 않았습니다. 압축 비용이 해당 집계에 포함됐다고 확인한 것은 아닙니다. 소스 `80f9016`은 R5보다 나중에 반영됐으며 호스팅 실행39012848998에서 Windows·Ubuntu·macOS 3개 작업이 모두 통과했습니다. 이후 소스·최종 릴리스 상태는 최신 PR 검증과 사람의 검토를 기준으로 하며 이 날짜별 통과가 모든 옵션·상태나 이후 산출물을 검증하지는 않습니다. 저장소는 비공개이며 초안 PR #1은 `dev`를 대상으로 합니다. 공개 CLI 릴리스는 없습니다.
+플래너는 현재 작업의 finding/done 트리거 근거를 첫 실제 모델 요청 전에 제한적으로 읽습니다. 기존 개요 스냅샷에서 최대 4회 읽고, 최종 해석된 `node_detail`의 읽기 권한과 래퍼·기본값·계량·결과 제한을 따릅니다. 첨부 전체는 UTF-8 32,768바이트 이하이며 넘치는 노드는 통째로 제외합니다. 관련 작업을 확장 조회하거나 근거만으로 목표를 자동 증명하지 않습니다. 실제 `prove_goal`과 정상 근거·사용량·완료 증명은 계속 필요합니다. 실제 `Planner.Plan`의 스트리밍·비스트리밍, 권한·제한·격리·삭제·첫 요청·명시적 읽기·다중 목표 회귀를 확인했습니다. 통제된 회귀 제공자의 사용량은 합성 값이며 실제 구독 사용량은 설치형 CLI 흐름에서 확인합니다.
+
+과거 R4 OAuth 압축은 호출 33회·새 요청 2회로 통과했고 요청별 유료 기록·요약은 재시작 후 유지됐지만 기존 대화·대시보드 집계는 늘지 않았습니다. 압축 비용이 해당 합계에 포함됐다고 주장하지 않습니다. 과거 수명주기·연동·업데이트 기록과 한계는 [검증 기록](CLI-VERIFICATION.md)에 보존합니다.
 
 소스 저장소의 구현 근거: `codexprovider/provider.go`, `codexprovider/protocol.go`, `codexprovider/isolation.go`, `agent/provider.go`, `internal/cli/operations.json`. 공식 [app-server 문서](https://learn.chatgpt.com/docs/app-server)는 버전별 프로토콜을 설명합니다. 이 어댑터의 검증 기준은 0.162.1입니다.

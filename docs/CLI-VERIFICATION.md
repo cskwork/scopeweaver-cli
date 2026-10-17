@@ -2,9 +2,37 @@
 
 [한국어](ko/CLI-VERIFICATION.md)
 
-Recorded 2026-10-17 on Windows amd64. Initial fork provenance is ScopeWeaver commit 2df0b307dcb817a459abebd3a4c240a2019598db; later candidates include subsequent shared fixes. This pin is provenance, not byte identity of the current engine. Tests use disposable local state and PostgreSQL17.11. Live OAuth tests consume the configured subscription; only synthetic files and an owned loopback HTTP fixture were used. No online target testing or external notification sends occurred.
+Dated Windows amd64 verification records; the current candidate is R24, recorded 2026-10-18. Initial fork provenance is ScopeWeaver commit 2df0b307dcb817a459abebd3a4c240a2019598db; later candidates include subsequent shared fixes. This pin is provenance, not byte identity of the current engine. Tests use disposable local state and PostgreSQL17.11. Live OAuth tests consume the configured subscription; only synthetic files and an owned loopback HTTP fixture were used. No online target testing or external notification sends occurred.
 
-## Current candidate evidence (2026-10-17)
+## Current candidate evidence (2026-10-18)
+
+**R24 passes all five unchanged Windows workflows. Publication remains pending final clean-head native packages, required maintainer review and integration/promotion checks.** [R24 receipt](evidence/standalone-cli/candidate-r24-verification.json); [latest CLI checks](https://github.com/cskwork/scopeweaver-cli/pull/1/checks).
+
+| R24 workflow | Installed CLI calls | Seconds | Result |
+|---|---:|---:|---|
+| Portable core | 62 | 19.14 | PASS |
+| GLM-5.3 / low | 106 | 82.63 | PASS |
+| GLM-5.3-Flash / low | 117 | 114.84 | PASS |
+| ChatGPT OAuth / low | 115 | 108.12 | PASS |
+| GLM-5.3-Flash / high | 182 | 317.83 | PASS |
+
+Every workflow exited natively with 0. The task budget remains 420 seconds, shared completion budget 600 seconds and product efforts unchanged. The three Z.AI runs recorded zero format-correction attempts; the OAuth route retains its existing strict format, so Z.AI corrections are not applicable. Real AI workflows require chat/tools, queue/resume, planner/worker, exactly one intent, owned loopback GET and finding, authentic usage, report and cleanup. Timings are functional receipts, not latency benchmarks or evidence of a provider-latency root cause.
+
+The Windows executable SHA-256 is `8f91bbb7d1ce764f890e699c2fa32400405e5a81c4cbf03bc22c6bff0da83a77`. Its runtime-free public payload has 181 manifest files. The local test clone used 1,482 pinned runtime files copied and SHA-verified. Public packages instead use approved checksum-pinned first-use downloads; there is no separate ScopeWeaver/database installation. Optional AI still requires official Codex 0.162.1 and the corresponding account login or key. This receipt identifies a dirty source snapshot based on `650dc82910e5e36668161a5276455506f64713fe`, with four frozen production hashes; it does not certify a later clean commit or native archive.
+
+The planner now supplies bounded current-task finding/done trigger evidence to the first real `Planner.Plan` request, using the final resolved `node_detail` capability. One existing overview snapshot permits at most four reads and a whole attachment of 32,768 UTF-8 bytes; oversized nodes are omitted whole. Final schema, read-only status, explicit permissions, wrappers, defaults, metering and result restrictions are honored or cause a safe skip. There is no raw helper fallback, invented model tool identity, related-task expansion or automatic proof. Real `prove_goal`, authentic receipts, usage and terminal proof remain required.
+
+Actual planner regressions cover streaming and synchronous first requests, permissions, bounds, whole-node omission, isolation, deletion, cold hidden evidence, explicit reads, no automatic proof and multiple goals. The CLI fresh-database agent suite passed **607/0/0** (pass/fail/skip); the original repository suite passed **598/0/0** before import-format-only normalization, with the exact formatted 31 new test events separately passing **31/0/0**. Controlled regression-provider usage is synthetic; actual paid/subscription usage evidence comes from the installed CLI matrix. Native Linux race verification passed the focused **49/0/0** and full agent **607/0/0** suites, with native exit 0 and no race report. All 1,175 source snapshot hashes matched before/after, and the owned database cluster was stopped without remaining owned processes.
+
+Focused six-package checks passed **186/0/19**; platform/opt-in skips remain explicit. Focused vet, full clean-source vet and packaging exited 0. Strict locale completeness covers **1,986 production keys × 3 shipped languages**. Landing static validation passed **33 checks, 0 errors**, and its negative-fixture regression suite passed **19/0/0**. The inherited validator has been corrected for the single-page bilingual layout; `landing/.nojekyll` is present. These static results do not replace fresh browser QA of the final text.
+
+The earlier clean checkpoint `650dc82` passed three native OS jobs and archive checks; those results are historical and do not certify the R24 changes or a later final head. The shared planner changes and three test files have been applied and locally verified in original [PR #40](https://github.com/cskwork/scopeweaver/pull/40); its new commit/push/checks and human review are tracked separately. The earlier `ffe2604` green run remains historical. Final CLI clean-head Windows amd64, Linux amd64 and macOS arm64 checks, exact archive verification, maintainer review, integration, promotion and post-merge E2E remain publication gates. Public visibility at release is authorized; this record does not claim publication. The inherited Windows server symlink-privilege failure reproduces on unchanged `650dc82` and remains explicit.
+
+## Historical candidate evidence
+
+The records below preserve their dated outcomes; earlier passes and failures do not certify R24 or later artifacts.
+
+### R22 checkpoint (2026-10-17, historical)
 
 **Release held: R22 passed four of five workflows.** The accepted Z.AI argument-schema change preserves OAuth behavior, strict decoding, cancellation, usage accounting and the existing correction/deadline limits. The Windows runtime-free package manifest verified 179 payload files; its test executable SHA-256 is `970d7037b4567912fb09254821d110ce16c08a39b4772dec6e531eda1235d4c9`. [R22 receipt](evidence/standalone-cli/candidate-r22-verification.json).
 
