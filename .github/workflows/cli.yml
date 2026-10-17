@@ -1,0 +1,35 @@
+name: CLI
+on:
+  pull_request:
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Focused tests and static checks
+        run: |
+          go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
+          go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+      - name: Build native portable folder
+        run: go run ./packaging
+      - name: Installed portable workflows
+        shell: bash
+        run: |
+          target="$(go env GOOS)-$(go env GOARCH)"
+          executable=scopeweaver-cli
+          if [ "$(go env GOOS)" = windows ]; then executable=scopeweaver-cli.exe; fi
+          export SCOPEWEAVER_CLI_E2E_BINARY="$PWD/dist/scopeweaver-cli-$target/$executable"
+          go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v

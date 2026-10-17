@@ -1,0 +1,23 @@
+[
+  {
+    "package": "db",
+    "passed": 336,
+    "failed": 0,
+    "skipped": 0,
+    "result": "pass"
+  },
+  {
+    "package": "server",
+    "passed": 491,
+    "failed": 2,
+    "skipped": 4,
+    "result": "fail"
+  },
+  {
+    "package": "agent",
+    "passed": 534,
+    "failed": 0,
+    "skipped": 0,
+    "result": "pass"
+  }
+]

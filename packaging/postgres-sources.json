@@ -1,0 +1,44 @@
+{
+  "postgres_version": "17.11",
+  "publisher_version": "17.11.0",
+  "publisher": "https://github.com/zonkyio/embedded-postgres-binaries",
+  "repository": "https://repo.maven.apache.org/maven2/io/zonky/test/postgres/",
+  "targets": {
+    "windows-amd64": {
+      "artifact": "windows-amd64",
+      "archive": "postgres-windows-x86_64.txz",
+      "sha256": "98040fae18dd9633ff95932125b0cecf0a45a1a9312e216e2a33ad03a31d4251"
+    },
+    "linux-amd64": {
+      "artifact": "linux-amd64",
+      "archive": "postgres-linux-x86_64.txz",
+      "sha256": "0dd7b72b6f335b8ecfb355fa24c5781e8a93edd09880bb77eb52ebbf29b3e96d"
+    },
+    "linux-arm64": {
+      "artifact": "linux-arm64v8",
+      "archive": "postgres-linux-arm_64.txz",
+      "sha256": "8b042e0ea418b1927d95399207950da0734d27fe01e29503ade3bdc464ad4c2b"
+    },
+    "darwin-amd64": {
+      "artifact": "darwin-amd64",
+      "archive": "postgres-darwin-x86_64.txz",
+      "sha256": "d464ff178e9860ba204662ac23fa547504b7fd392392ff2fb92e3fd73b5bdb64"
+    },
+    "darwin-arm64": {
+      "artifact": "darwin-arm64v8",
+      "archive": "postgres-darwin-arm_64.txz",
+      "sha256": "a1c2786acb0c398f9b2d76806fc52f5dc8b222cbc8e9383a9b9702084daaf3a5"
+    }
+  },
+  "windows_vc_runtime": {
+    "version": "14.0.33321.0",
+    "url": "https://download.microsoft.com/download/4/7/c/47c6134b-d61f-4024-83bd-b9c9ea951c25/Microsoft.VCLibs.x64.14.00.Desktop.appx",
+    "sha256": "b56a9101f706f9d95f815f5b7fa6efbac972e86573d378b96a07cff5540c5961",
+    "checksum_source": "https://github.com/microsoft/winget-pkgs/blob/master/manifests/m/Microsoft/VCLibs/Desktop/14/14.0.33321.0/Microsoft.VCLibs.Desktop.14.installer.yaml",
+    "files": [
+      "msvcp140.dll",
+      "vcruntime140.dll",
+      "vcruntime140_1.dll"
+    ]
+  }
+}

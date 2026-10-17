@@ -1,90 +1,25 @@
-# ScopeWeaver 기여 안내
+# scopeweaver-cli 기여 안내
 
 [English](CONTRIBUTING.md)
 
-버그 수정, ARTEX 원본 백포트, 의존성 업그레이드, 문서, 테스트 등 모든 기여를 환영합니다.
+README.ko.md, docs/ko/cli.md, docs/ko/CLI-VERIFICATION.md를 읽으세요. AGPL-3.0·출처·로컬 격리 환경 사용 제한을 유지합니다. 기존 엔진 소스·테스트는 동작과 근거를 보존합니다.
 
-## 시작하기 전에
+dev에서 기능·수정 브랜치를 만들고 dev로 PR을 제출합니다. main 승격, 원격 저장소 생성, 공개에는 유지관리자 승인과 사람의 검토가 필요합니다. 관련 없는 작업을 보존하세요.
 
-- [사용 제한](README.ko.md#라이선스와-면책-조항)을 읽어 주세요. 실제 온라인 시스템을 대상으로 하는
-  기능을 추가하거나 사용 제한을 약화하는 기여는 받지 않습니다.
-- 큰 변경은 먼저 이슈를 열어 방향을 합의해 주세요.
-- PR 하나에는 한 가지 주제만 담아 주세요. 작은 PR일수록 빨리 리뷰됩니다.
+명령 계약은 internal/cli/operations.json입니다. 새 기능에는 이름 있는 명령, 매개변수·영향·응답 메타데이터, 소스 변경 감지 테스트가 필요합니다. 실제 동작으로 영향을 분류하고 통과를 위해 검증을 약화하지 마세요.
 
-## PR 요구 사항
+README·docs는 영어·한국어를 함께 유지합니다. 인터페이스 요약은 en·ko·zh-Hans를 지원하며 원본 증거·기술 진단을 보존합니다.
 
-- **제공 언어의 완전성과 영어/한국어 문서 쌍을 유지합니다.** 사용자 문구는 영어, 한국어, 간체 중국어(`zh-Hans`)가 모두 필요합니다.
-  - 서버 메시지: `locale.Register(key, en, ko)` 호환성을 유지하고 `locale.RegisterAll`과 `locale/`의 언어별 리소스로 추가 제공 언어를 모두 등록합니다.
-  - 웹 UI: EN/KO 테이블과 `web/src/i18n/messages/zh-Hans.ts`에 현재 영어 키를 모두 반영합니다.
-  - 문서: `README.md`와 `README.ko.md`, `docs/`와 `docs/ko/`
-- **바뀐 동작에는 테스트를 추가합니다.** 변경이 없으면 실패하는 테스트를 추가하거나 고쳐 주세요.
-  기존 검사를 끄거나, 건너뛰거나, 느슨하게 만들어 통과시키지 마세요.
-- **일회용 데이터베이스만 사용합니다.** PostgreSQL에 쓰는 테스트는 `scopeweaver_test_*`
-  (에이전트 어댑터 E2E는 `scopeweaver_adapter_*`) 이름의 새 데이터베이스를 사용해야 합니다.
-- **원본 작업을 표기합니다.** ARTEX 백포트에는 `Upstream-commit: mhtsec/ARTEX@<sha>`와 원저자의
-  `Co-authored-by:` 트레일러를 추가하고, `docs/PROVENANCE.md`와 `docs/ko/PROVENANCE.md`를
-  갱신해 주세요.
-- **라이선스.** 기여는 저장소의 [AGPL-3.0](LICENSE) 라이선스로 받습니다.
+    go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
+    go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+    go run ./packaging -target windows-amd64
 
-## 언어 추가와 변경
+SCOPEWEAVER_CLI_E2E_BINARY를 패키지 실행 파일 경로로 지정한 뒤 실행합니다.
 
-[언어 안내](web/src/i18n/README.ko.md)에 따라 공통 `locale/definitions.json`의 표준 ID,
-원어 이름, Intl 매핑과 별칭, 일치 사례, 완전한 프런트엔드/백엔드 카탈로그, date-fns 매핑,
-회귀 테스트와 브라우저 스모크를 갱신합니다. `zh`, `zh-CN`, `zh-SG`는 `zh-Hans`에 매핑됩니다.
-명시된 Hans는 충돌하는 지역보다 우선하며 선언되지 않은 번체 태그는 지원하지 않습니다.
-영어가 키, 의미, 보간 필드와 rich 태그의 기준입니다. 백엔드의 런타임 영어/키 대체는 호환성을
-위한 보호 장치이며 출시 준비의 증거가 아닙니다. 사용자 콘텐츠, 초안, 원시 증거, 식별자와
-과거 데이터를 번역하지 않습니다. 번역을 검토하고 우려를 기록하며 증거 없이 원어민 승인을
-주장하지 않습니다. 다른 언어를 추가해도 기능 안내의 영어/한국어 쌍을 유지합니다.
+    go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v
 
-## 실행할 검사
+Linux·macOS에서는 해당 대상을 선택하세요. E2E는 다른 디렉터리에서 패키지 실행 파일과 임시 상태를 사용합니다. 핵심 DB 테스트는 ARTEX_TEST_DSN으로 지정한 새로운 scopeweaver_test_* 데이터베이스가 필요합니다. 사용자 DB를 쓰거나 실제 실행 검증을 모의 성공으로 바꾸지 마세요. 기존 실패·생략도 보고합니다.
 
-[.github/workflows/ci.yml](.github/workflows/ci.yml)의 CI 작업과 같습니다.
+런타임 변경은 인증, 동시 시작, 비정상 종료 복구, 정상 종료, 종료된 전체 폴더 이동, home별 스킬을 확인합니다. 버전 불일치·인증 정보 누락 시 데이터를 보존합니다.
 
-```bash
-# 백엔드: 모든 Go 패키지 (ARTEX_PG_DSN을 일회용 scopeweaver_test_* 데이터베이스로 지정)
-go test ./... -count=1
-
-# 프런트엔드
-cd web && npm ci && npm test && npm run build:static
-
-# 에이전트 어댑터 (scopeweaver_adapter_* 데이터베이스를 사용하는 실제 백엔드 E2E 포함)
-cd adapters/agent && npm ci && npm test && npm run check
-SCOPEWEAVER_ADAPTER_E2E=1 go test ./server -run '^TestAgentAdapterE2E$' -count=1
-```
-
-`e2e` 워크플로는 모든 PR과 머지 후에 실제 바이너리를 대상으로 핵심 브라우저 스모크 테스트도 실행합니다.
-실행 중인 서버와 새 `scopeweaver_test_*` 데이터베이스로 로컬에서 실행하려면
-`psql`과 같은 체크아웃에서 빌드한 임베디드 바이너리가 필요합니다.
-
-```bash
-cd e2e && npm ci && npx playwright install chromium
-SCOPEWEAVER_URL=http://127.0.0.1:8787 ARTEX_PG_DSN=postgres://.../scopeweaver_test_e2e \
-  SCOPEWEAVER_BINARY=/absolute/path/to/scopeweaver npm run smoke
-```
-
-기존 스모크 검사에서 비밀번호를 초기화한 뒤, 대시보드 회귀 검사는 같은 시험 DB를 사용하는
-격리된 바이너리 복사본을 빈 루프백 포트에서 실행합니다. 영어·한국어의 기존·신규 토큰 누적과
-프로필 필터를 검사하고, 시험 서버를 종료한 뒤 자신이 만든 데이터를 삭제합니다. 대시보드 증적과
-시험 서버 로그는 `e2e/e2e-results/dashboard-token-chart/`에 저장됩니다.
-
-핵심 스모크는 중국어 설정 복원, 초기 설정/로그인/작업/설정/채팅 초안, 첫 API 언어와
-SSE 재연결 시 필터 보존도 검사합니다.
-
-PR 설명에 실행한 검사와 실행하지 못한 검사를 적어 주세요.
-
-## 리뷰와 머지
-
-최신 `dev`에서 `feat/*` 또는 `fix/*` 브랜치를 만들고, PR의 대상은 `dev`로 지정합니다.
-통합한 `dev`의 해당 커밋에서 모든 검사와 E2E가 통과하면 이 저장소의 `dev`에서 `main`으로
-승격 PR을 엽니다. 승격에는 머지 커밋을 사용해 `dev`가 `main`의 조상으로 남도록 합니다.
-승격 후 검사도 확인하고, 다음 작업은 다시 `dev`에서 시작합니다.
-`branch-policy` 검사는 이 경로를 따르지 않는 PR을 거부합니다.
-
-1. 현재 후보 커밋의 `branch-policy`, `frontend`, `agent-adapter`, `backend`, `windows`,
-   `chat-browser`, `smoke` 필수 검사가 모두 통과해야 합니다. `dev`와 `main` 모두 머지 후
-   CI와 E2E를 실행합니다. 처음 기여하는 경우 관리자가 CI 실행을 승인합니다.
-2. PR은 diff를 기준으로 정확성, 보안, 제공 언어의 번역 완전성, 영어·한국어 문서 일치 여부를 리뷰합니다.
-3. **모든 PR은 머지 전에 관리자가 직접 최종 확인합니다.** 이 확인 없이는 머지하지 않습니다.
-
-릴리스는 머지 전후로 전체 E2E 테스트를 거친 뒤 관리자가 진행합니다.
+패키지는 고정 런타임 체크섬·의존성 고지·파일 명세를 포함합니다. 공개 전 제3자 재배포 조건을 검토하세요. 자동 공개 워크플로는 없습니다. 기존 워크플로는 역사적 참고용 docs/upstream-workflows에만 보존합니다.

@@ -1,0 +1,67 @@
+{
+  "publisher_source_commit": "c56022003f8b1a6284567c365f44738b7e83514b",
+  "license_sources": [
+    {
+      "path": "edb-windows-17.11/commandlinetools_3rd_party_licenses.txt",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/commandlinetools_3rd_party_licenses.txt",
+      "sha256": "72aee4dccdecefede32f1268e1ba638a7424a30f8e6de1b10bc22ba27426f177"
+    },
+    {
+      "path": "edb-windows-17.11/legalnotice.html",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/doc/src/sgml/html/legalnotice.html",
+      "sha256": "fb33e3009a5a277adf0ac023d5e60c91729c7b7d22c354e27111b064a6678a26"
+    },
+    {
+      "path": "edb-windows-17.11/libpq-notice-processing.html",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/doc/src/sgml/html/libpq-notice-processing.html",
+      "sha256": "812d124c0155909150529134fbae84a2db455c86b3cbbc99e17b65026312b288"
+    },
+    {
+      "path": "edb-windows-17.11/pgAdmin_3rd_party_licenses.txt",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/pgAdmin_3rd_party_licenses.txt",
+      "sha256": "c5b44ad88714a52e55feabdecb306a0d45b8d88e6e9cd68ee4536ef9af5268a7"
+    },
+    {
+      "path": "edb-windows-17.11/pgAdmin_license.txt",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/pgAdmin_license.txt",
+      "sha256": "9362b3b64b44ed62ee8a1bc8f6a3b9d3b34abb36a2995f71d52ba91b54d762c8"
+    },
+    {
+      "path": "edb-windows-17.11/server_license.txt",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/server_license.txt",
+      "sha256": "39294f3f5b41533b307e118ee37c356f32cbc7746fc97e8b91f1b49a9068a24e"
+    },
+    {
+      "path": "edb-windows-17.11/StackBuilder_3rd_party_licenses.txt",
+      "url": "https://get.enterprisedb.com/postgresql/postgresql-17.11-1-windows-x64-binaries.zip",
+      "archive_member": "pgsql/StackBuilder_3rd_party_licenses.txt",
+      "sha256": "28ec399a3617d7f831c1ce67efe7209c0c988b04f45cea939edccea0aff4ae8e"
+    },
+    {
+      "path": "zonky-Apache-2.0.txt",
+      "url": "https://raw.githubusercontent.com/zonkyio/embedded-postgres-binaries/c56022003f8b1a6284567c365f44738b7e83514b/LICENSE",
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    },
+    {
+      "path": "Microsoft-VC-Runtime-license.docx",
+      "url": "https://visualstudio.microsoft.com/wp-content/uploads/2021/09/Visual-C-Runtime-2015-2022-License-1.docx",
+      "sha256": "f1e3d56ceb2ad68aae0711b910375009e651ac5530fa0760f0dea6e81e54fae1"
+    },
+    {
+      "path": "Microsoft-VC-Runtime-license.txt",
+      "url": "https://visualstudio.microsoft.com/wp-content/uploads/2021/09/Visual-C-Runtime-2015-2022-License-1.docx",
+      "sha256": "76c6045b291b9fbd6049453142f8ca6f10e3d0e57b63aff6e57fe8398f04cef1"
+    },
+    {
+      "path": "Microsoft-VC-Runtime-license.html",
+      "url": "https://visualstudio.microsoft.com/license-terms/vs2022-cruntime/",
+      "sha256": "df6dbd605f8b5a7f97ac69b9694ffbc09606bde2a35cb2b197e3e9c91d093be0"
+    }
+  ]
+}
