@@ -1,0 +1,67 @@
+{
+  "candidate": "R11",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "windows_sha256": "805ec5929c3837072421a26047a7759e97cf937a4efe904dc6c13d56bc08c486",
+  "runtime_mode": "download",
+  "test_setup": "Separate test copy with previously verified runtime; public candidate remains runtime-free",
+  "implementation_agent": {
+    "tool": "Pi",
+    "provider": "zai",
+    "model": "glm-5.3",
+    "thinking": "max",
+    "session": "01a148f4-2bf7-75da-b95b-2121f7168b27"
+  },
+  "runs": {
+    "glm-5.3-flash-low": {
+      "passed": true,
+      "elapsed_seconds": 134.42,
+      "cli_invocations": 113,
+      "correction_attempts": 1,
+      "log_sha256": "bd6ce24b59923815b69b6a8037e08aad06bdec86abd26b399208dfc6d6d2024c",
+      "proof_markers": [
+        "    codex_e2e_test.go:33: Real subscription profile: model=glm-5.3-flash reasoning_effort=low\n",
+        "    codex_e2e_test.go:33: Verified real Z.AI GLM Flash Coding Plan chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume\n",
+        "    codex_e2e_test.go:33: Verified 19 additional positive CLI operations plus explicit unsupported Codex model discovery; queued edits, real finding reads and byte-exact loopback evidence, without extra inference. Discard remains untested: it requires an unknown run, not an ordinary queued input.\n",
+        "    codex_e2e_test.go:33: Verified 113 installed CLI invocations; real Z.AI GLM Flash Coding Plan planner/worker through Codex transport, owned loopback HTTP evidence (1 GETs), persisted usage and report. Disposable home: <owned temporary home>\n",
+        "    codex_e2e_test.go:90: GLM argument-format correction attempts: 1\n"
+      ]
+    },
+    "glm-5.3-flash-high": {
+      "passed": false,
+      "elapsed_seconds": 464.31,
+      "cli_invocations": null,
+      "correction_attempts": 0,
+      "log_sha256": "3e23f6f1616c095201abb8c433415ac4f30c6c864c573240bbfab9855b10ae14",
+      "proof_markers": [
+        "    codex_e2e_test.go:33: Real subscription profile: model=glm-5.3-flash reasoning_effort=high\n",
+        "    codex_e2e_test.go:33: Verified real Z.AI GLM Flash Coding Plan chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume\n",
+        "    codex_e2e_test.go:90: GLM argument-format correction attempts: 0\n"
+      ]
+    }
+  },
+  "high_failure": {
+    "task_budget_seconds": 420,
+    "goal_proven_at": "2026-10-17T18:36:24+09:00",
+    "paused_at": "2026-10-17T18:37:48+09:00",
+    "goal_id": 2,
+    "evidence_node_id": 5,
+    "intent_ids": [
+      3
+    ],
+    "finding_record_ids": [
+      1
+    ],
+    "fixture_gets": 1,
+    "unexpected_requests": 0,
+    "observed": "Successful final prove_goal recorded before budget, then planner still producing model output at harness pause",
+    "source_cause": "Planner.Plan returns GoalMet only after captureRun returns; engine completion waits on Plan",
+    "underlying_model_latency_cause": "unknown"
+  },
+  "release_gate": "Historical R11 gate: strict Flash/high completion failed; later candidates require independent review and acceptance.",
+  "limitations": [
+    "Low pass and one format-correction attempt do not identify which inference phase required correction.",
+    "No deadline relaxation, model/effort change, semantic deduplication, or failure waiver.",
+    "Prior candidate failures preserved; final source and native CI remain separate."
+  ]
+}

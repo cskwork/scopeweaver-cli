@@ -23,11 +23,11 @@ import (
 	"unicode"
 	"unicode/utf8"
 
+	"github.com/Autumn-27/norma/llm"
+	"github.com/Autumn-27/norma/skill"
 	"github.com/cskwork/scopeweaver-cli/agent"
 	"github.com/cskwork/scopeweaver-cli/db"
 	"github.com/cskwork/scopeweaver-cli/locale"
-	"github.com/Autumn-27/norma/llm"
-	"github.com/Autumn-27/norma/skill"
 )
 
 // validSkillName checks the agentskills.io name constraints, widened so a skill can
@@ -1837,6 +1837,26 @@ func (s *Server) pgSaveProfile(w http.ResponseWriter, r *http.Request) {
 	p := body.LLMProfile
 	p.APIKey = body.APIKey
 	p.Streaming = body.Streaming == nil || *body.Streaming
+	if p.Format == "codex-cli" {
+		cfg := agent.ConfigFrom(p.Format, p.Model, p.BaseURL, p.APIKey, p.Proxy)
+		// Retain an omitted key only for an edit of the same Coding Plan endpoint.
+		if cfg.APIKey == "" && p.ID != 0 && cfg.BaseURL != "" {
+			old, err := pg.ProfileByID(p.ID)
+			if err != nil {
+				writeError(w, 500, err)
+				return
+			}
+			if old != nil && old.Format == "codex-cli" && agent.ConfigFrom(old.Format, old.Model, old.BaseURL, "", old.Proxy).BaseURL == cfg.BaseURL {
+				cfg.APIKey = old.APIKey
+			}
+		}
+		cfg.ReasoningEffort = p.ReasoningEffort
+		if _, err := cfg.NewProvider(); err != nil {
+			writeError(w, 400, err)
+			return
+		}
+		p.Model, p.BaseURL = cfg.Model, cfg.BaseURL
+	}
 	// Negative output limits are meaningless; normalize to zero, omitting the request field. Field-name selection
 	// applies only to Chat Completions; Anthropic and OpenAI Responses fix their field names, so storing it misleads readers.
 	// Clear it for non-OpenAI formats and unknown values, avoiding a user-facing DB CHECK error.
@@ -2024,12 +2044,16 @@ func (s *Server) pgListModels(w http.ResponseWriter, r *http.Request) {
 	apiKey := strings.TrimSpace(req.APIKey)
 	if apiKey == "" && req.ProfileID != nil {
 		if p, err := s.m.pg.ProfileByID(*req.ProfileID); err == nil && p != nil {
-			if req.Provider != "ollama" || p.Format == "ollama" {
+			if (req.Provider != "ollama" || p.Format == "ollama") && req.Provider != "codex-cli" {
 				apiKey = p.APIKey
 			}
 		}
 	}
 	cfg := s.applyLLMPolicy(agent.ConfigFrom(req.Provider, "", req.BaseURL, apiKey, req.Proxy))
+	if cfg.Provider() == "codex-cli" {
+		writeJSON(w, 200, map[string]any{"ok": false, "error": "codex-cli: model discovery is unsupported; configure a model explicitly"})
+		return
+	}
 	if req.Provider == "ollama" {
 		s.listOllamaModels(w, r, cfg)
 		return

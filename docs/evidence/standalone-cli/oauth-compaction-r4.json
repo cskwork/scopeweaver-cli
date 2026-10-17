@@ -1,0 +1,172 @@
+{
+  "status": "PASS",
+  "candidate": {
+    "binary": "D:\\Git\\scopeweaver-cli\\dist\\candidate-20261017-r4-test\\scopeweaver-cli.exe",
+    "sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+    "home": "D:\\Git\\scopeweaver-cli\\dist\\r4-compaction-e2e-20261017\\home",
+    "copied_stopped_home": "D:\\Git\\scopeweaver-cli\\dist\\r3-lifecycle-e2e-20261017\\home",
+    "start_unix": 1792217339.1185322
+  },
+  "calls": 33,
+  "inference_calls": 2,
+  "seed_inference_calls": 0,
+  "main_campaign_seconds": 46.76,
+  "reduction": {
+    "conversation": {
+      "before_tokens": 11552,
+      "after_tokens": 9742,
+      "reduction": 1810,
+      "percent": 15.67,
+      "same_basis_reduction_pass": true
+    },
+    "task": {
+      "before_tokens": 12265,
+      "after_tokens": 10433,
+      "reduction": 1832,
+      "percent": 14.94,
+      "same_basis_reduction_pass": true
+    }
+  },
+  "checks": [
+    {
+      "assertion": "conversation genuine seed idle with no prior compaction",
+      "passed": true
+    },
+    {
+      "assertion": "conversation successful context compaction count and source",
+      "passed": true
+    },
+    {
+      "assertion": "conversation meaningful measured context reduction",
+      "passed": true
+    },
+    {
+      "assertion": "conversation persisted summary preserves synthetic marker",
+      "passed": true
+    },
+    {
+      "assertion": "conversation latest turn and completed attempts preserved",
+      "passed": true
+    },
+    {
+      "assertion": "conversation compaction retry returns same published result",
+      "passed": true
+    },
+    {
+      "assertion": "conversation existing billed usage preserved",
+      "passed": true
+    },
+    {
+      "assertion": "task genuine seed idle with no prior compaction",
+      "passed": true
+    },
+    {
+      "assertion": "task successful context compaction count and source",
+      "passed": true
+    },
+    {
+      "assertion": "task meaningful measured context reduction",
+      "passed": true
+    },
+    {
+      "assertion": "task persisted summary preserves synthetic marker",
+      "passed": true
+    },
+    {
+      "assertion": "task latest turn and completed attempts preserved",
+      "passed": true
+    },
+    {
+      "assertion": "task compaction retry returns same published result",
+      "passed": true
+    },
+    {
+      "assertion": "first shutdown tracked processes gone",
+      "passed": true
+    },
+    {
+      "assertion": "conversation compact summary survives DB reopen",
+      "passed": true
+    },
+    {
+      "assertion": "conversation history and billed usage survive DB reopen",
+      "passed": true
+    },
+    {
+      "assertion": "task compact summary survives DB reopen",
+      "passed": true
+    },
+    {
+      "assertion": "task history and billed usage survive DB reopen",
+      "passed": true
+    },
+    {
+      "assertion": "task paid usage survives DB reopen",
+      "passed": true
+    },
+    {
+      "assertion": "both compaction records persisted with positive paid usage",
+      "passed": true
+    },
+    {
+      "assertion": "task compaction exact paid usage survived DB reopen",
+      "passed": true
+    }
+  ],
+  "compaction_usage_records_after_restart": [
+    {
+      "cache_read": 0,
+      "cache_write": 0,
+      "id": 53,
+      "input_tokens": 22244,
+      "latency_ms": 15176,
+      "model": "gpt-6.1-sol",
+      "output_tokens": 839,
+      "profile_name": "Owned advanced OAuth fixture",
+      "session_id": "",
+      "status": "ok",
+      "task_id": "1",
+      "ts": "2026-10-17T15:09:37.130771+09:00",
+      "worker": ""
+    },
+    {
+      "cache_read": 0,
+      "cache_write": 0,
+      "id": 52,
+      "input_tokens": 22213,
+      "latency_ms": 15633,
+      "model": "gpt-6.1-sol",
+      "output_tokens": 902,
+      "profile_name": "R3 owned lifecycle OAuth",
+      "session_id": "",
+      "status": "ok",
+      "task_id": "",
+      "ts": "2026-10-17T15:09:19.225513+09:00",
+      "worker": ""
+    }
+  ],
+  "cleanup": {
+    "checked_at": "2026-10-17T15:11:07.5164694+09:00",
+    "owned_remaining_count": 0,
+    "remaining": [],
+    "postmaster_pid_present": false,
+    "sha256": "4E0C9D74B903F67248ED8C870B8D42ED39E465CB7DB9EAC5D2E57DC8303C91D2",
+    "note": "Immediate post-stop conhost observation resolved naturally; no forced termination."
+  },
+  "database_closed_log_present": false,
+  "source_review": {
+    "result": "No concrete remaining issue in narrow fix",
+    "paths": [
+      "codexprovider/protocol.go:64",
+      "codexprovider/provider.go:67",
+      "codexprovider/catalog.go:27",
+      "codexprovider/provider_test.go:629"
+    ],
+    "test_evidence_read": [
+      "dist/compaction-effort-before.log",
+      "dist/compaction-effort-after.log"
+    ],
+    "tests_rerun": false
+  },
+  "usage_scope": "Compaction numeric usage is persisted in llm records52/53. Existing conversation billed_usage and exploration aggregate ledgers remain unchanged across compaction and survive restart; do not claim compaction cost was added to those aggregates."
+}

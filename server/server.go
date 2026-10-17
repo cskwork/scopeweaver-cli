@@ -20,6 +20,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Autumn-27/norma/llm"
+	actool "github.com/Autumn-27/norma/tool"
+	"github.com/Autumn-27/norma/transcript"
 	"github.com/cskwork/scopeweaver-cli/agent"
 	"github.com/cskwork/scopeweaver-cli/chatstate"
 	"github.com/cskwork/scopeweaver-cli/db"
@@ -28,9 +31,6 @@ import (
 	"github.com/cskwork/scopeweaver-cli/locale"
 	"github.com/cskwork/scopeweaver-cli/report"
 	"github.com/cskwork/scopeweaver-cli/traffic"
-	"github.com/Autumn-27/norma/llm"
-	actool "github.com/Autumn-27/norma/tool"
-	"github.com/Autumn-27/norma/transcript"
 )
 
 // BuildVersion is the backend application version, injected from cmd/artex at
@@ -68,8 +68,12 @@ type Server struct {
 	// immediately, so a page reload / proxy timeout can't abort a live run. This
 	// map serializes turns per task — one main-agent run at a time per task, so
 	// concurrent messages don't corrupt the shared exp<id>-main transcript.
-	chatMu   sync.Mutex
-	chatBusy map[string]bool
+	chatMu        sync.Mutex
+	chatBusy      map[string]bool
+	chatClosing   bool
+	chatWG        sync.WaitGroup
+	chatDrainDone chan struct{}
+	chatDrainErr  error
 	// chatCancel holds the cancel func for each in-flight conversation run (keyed by
 	// convBusyKey), so a manual stop can abort JUST that session's agent run. Set/
 	// cleared alongside chatBusy under chatMu. Aborting a run does NOT touch the P3
@@ -1385,10 +1389,13 @@ func (s *Server) setLLM(w http.ResponseWriter, r *http.Request) {
 	}
 	if cfg.APIKey == "" && !cfg.Ready() {
 		s.cfgMu.Lock()
-		cfg.APIKey = s.llmCfg.APIKey // keep existing key if not re-entered
+		active := s.llmCfg
 		s.cfgMu.Unlock()
+		if cfg.Provider() != "codex-cli" || (active.Provider() == "codex-cli" && cfg.BaseURL != "" && cfg.BaseURL == active.BaseURL) {
+			cfg.APIKey = active.APIKey // retain credentials only within the same Codex provider
+		}
 	}
-	if !cfg.Ready() {
+	if !cfg.Ready() && cfg.Provider() != "codex-cli" {
 		writeErr(w, 400, "api_key required")
 		return
 	}
@@ -1459,7 +1466,7 @@ func (s *Server) testLLM(w http.ResponseWriter, r *http.Request) {
 	// Likewise, fall back to the stored custom session-header name when omitted by the form.
 	if req.ProfileID != nil {
 		if p, err := s.m.pg.ProfileByID(*req.ProfileID); err == nil && p != nil {
-			if cfg.APIKey == "" && (cfg.Provider() != "ollama" || p.Format == "ollama") {
+			if cfg.APIKey == "" && (cfg.Provider() != "ollama" || p.Format == "ollama") && (cfg.Provider() != "codex-cli" || (p.Format == "codex-cli" && cfg.BaseURL != "" && cfg.BaseURL == agent.ConfigFrom(p.Format, p.Model, p.BaseURL, "", p.Proxy).BaseURL)) {
 				cfg.APIKey = p.APIKey
 			}
 			if cfg.SessionHeaderKey == "" {
@@ -1483,9 +1490,16 @@ func (s *Server) testLLM(w http.ResponseWriter, r *http.Request) {
 		active = agent.ConfigFrom(active.Provider(), active.Model, active.BaseURL, active.APIKey, active.Proxy)
 		// Reuse local gateway credentials only for the same format and transport target.
 		// Other local endpoints and native Ollama remain deliberately keyless.
-		sameGateway := cfg.Provider() != "ollama" && cfg.Format == active.Format && cfg.BaseURL == active.BaseURL && cfg.Proxy == active.Proxy
-		if !cfg.Ready() || sameGateway {
+		sameGateway := cfg.Provider() != "ollama" && cfg.Provider() != "codex-cli" && cfg.Format == active.Format && cfg.BaseURL == active.BaseURL && cfg.Proxy == active.Proxy
+		sameCodingPlan := cfg.Provider() == "codex-cli" && active.Provider() == "codex-cli" && cfg.BaseURL != "" && cfg.BaseURL == active.BaseURL
+		if (cfg.Provider() != "codex-cli" && (!cfg.Ready() || sameGateway)) || sameCodingPlan {
 			cfg.APIKey = active.APIKey
+		}
+	}
+	if cfg.Provider() == "codex-cli" {
+		if _, err := cfg.NewProvider(); err != nil {
+			writeJSON(w, 200, map[string]any{"ok": false, "error": locale.ErrorMessage(responseLanguage(w), err)})
+			return
 		}
 	}
 	if !cfg.Ready() {

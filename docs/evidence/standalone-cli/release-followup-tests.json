@@ -1,0 +1,78 @@
+{
+  "focused": {
+    "pass": 62,
+    "fail": 0,
+    "skip": 10,
+    "failed_tests": [],
+    "skipped_tests": [
+      "TestVerifyStagedRejectsTamperedBinary",
+      "TestVerifyStagedRejectsUnrunnableBinary",
+      "TestApplyStagedHappyPath",
+      "TestApplyStagedKeepsCurrentWhenVerifyFails",
+      "TestSwapOverwritesPreviousBackup",
+      "TestConfirmCountsAttemptsThenRollsBack",
+      "TestManualRollbackIsReversible",
+      "TestExtractBinaryFindsNestedEntry",
+      "TestSettleClearsMarkerAndStopsRollback",
+      "TestSettleIsNoopWithoutMarker"
+    ]
+  },
+  "server": {
+    "pass": 492,
+    "fail": 1,
+    "skip": 4,
+    "failed_tests": [
+      "TestChatBranchCopyRejectsDestinationSymlink"
+    ],
+    "skipped_tests": [
+      "TestAgentAdapterE2E",
+      "TestChatControlsE2E",
+      "TestLiveContextReview",
+      "TestTaskArchivePackageSkipsSymlink"
+    ]
+  },
+  "llmrec": {
+    "pass": 23,
+    "fail": 0,
+    "skip": 0,
+    "failed_tests": [],
+    "skipped_tests": []
+  },
+  "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "source_dirty": true,
+  "current_windows_binary_sha256": "dec0b7b7e3dc9b39b8c9343f30d6551008cc5076d8cd0c8fdbc0db0522e0d240",
+  "focused_includes_installed_e2e": true,
+  "vet_passed": true,
+  "server_scope": "Full suite after startup fix, before later proxy regression addition; latter test and two existing HTTP tests passed separately.",
+  "proxy_tests": {
+    "passed": 3,
+    "new_regression_failed_before_fix": true
+  },
+  "installed_startup_failure": {
+    "passed": true,
+    "invalid_file_preserved": true,
+    "recovered_after_fixture_moved": true
+  },
+  "codex_oauth_smoke": {
+    "passed": true,
+    "cli_version": "0.162.1",
+    "model": "gpt-6.1-sol",
+    "tool_calls": 0,
+    "internal_provider_verified": false
+  },
+  "publication_ready": false,
+  "glm_coding_plan_smoke": {
+    "passed": false,
+    "provider_error_code": "401",
+    "provider_error_message": "token expired or incorrect",
+    "internal_provider_verified": false
+  },
+  "updated_wsl_candidate": {
+    "packaged_invocations_passed": 62,
+    "server_regressions_passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "owned_processes_after": 0,
+    "binary_sha256": "9b1cd73e2d0f40911de8244dd1e4cb0f959e63a5672a3909c9021604520d1b56"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "cli": "Codex 0.162.1",
+  "model": "glm-5.3",
+  "endpoint": "https://api.z.ai/api/v1/responses",
+  "authenticated_by": "ZAI_API_KEY environment variable (value never recorded)",
+  "direct_probe": "stream closed before response.completed",
+  "diagnostic_codex_exit": 1,
+  "provider_responses": [
+    {
+      "request_path": "/api/v1/responses",
+      "request_body_bytes": 319052,
+      "event_types": [],
+      "http_status": 200,
+      "content_type": "application/json",
+      "response_error": {
+        "code": "401",
+        "msg": "token expired or incorrect"
+      }
+    }
+  ],
+  "model_inference_completed": false,
+  "global_configuration_changed": false,
+  "credentials_recorded": false
+}

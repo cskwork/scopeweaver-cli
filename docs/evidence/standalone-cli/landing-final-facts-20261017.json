@@ -1,0 +1,31 @@
+{
+  "result": "PASS for bounded factual/link/resource/wrapping scope",
+  "browser_checks_passed": 116,
+  "static_checks_passed": 7,
+  "layouts": [
+    "1440-en",
+    "1440-ko",
+    "390-en",
+    "390-ko",
+    "320-en",
+    "320-ko"
+  ],
+  "markdown_relative_links": 62,
+  "language_spans_each": 107,
+  "source_docs_frozen": true,
+  "landing_sha256": "da4fb9bdaf7aa5ff41c90fdd85fe87bfe69fb6faa94d003637bb80201f1ed474",
+  "css_js_unchanged": true,
+  "browser_closed": true,
+  "server_stopped": true,
+  "release": "held; no publication action",
+  "detector": "exit1; preserved existing pinned design warnings/advisories, not a detector pass",
+  "coverage_snapshot": {
+    "recorded_utc": "2026-10-17T06:45:31.671673+00:00",
+    "invoked": 284,
+    "positive": 283,
+    "error_only": 1,
+    "untested": 13,
+    "total": 297,
+    "remaining_local_recorded_utc": "2026-10-17T06:41:14.902043+00:00"
+  }
+}

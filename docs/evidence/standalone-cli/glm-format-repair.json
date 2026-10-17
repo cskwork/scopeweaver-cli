@@ -1,0 +1,45 @@
+{
+  "source_base": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "status": "deterministic regression and source review passed; live acceptance is recorded separately in candidate-r7-verification.json",
+  "before": {
+    "test": "TestGLMArgumentRepairSubprocess",
+    "result": "failed",
+    "error": "codex: tool arguments must be a JSON object string",
+    "log_sha256": "221ad9b518a85a74c0fb6f6b380df7efce416d6405041a56b28ce70f6c395a1a"
+  },
+  "after": {
+    "provider_tests": "passed",
+    "elapsed_seconds": 4.793,
+    "vet": "passed",
+    "log_sha256": "d10dba89f40c440ded4a9487894d57ef3c93390fd74940fd17123b620e37230f"
+  },
+  "invariants": [
+    "At most one additional fresh invocation for Z.AI argument-object encoding failure; OAuth remains one attempt.",
+    "Entire first response rejected before any tool event; strict validation and ambiguity rejection preserved.",
+    "Both attempts share ten-minute total deadline; local-only policy and cancellation rechecked.",
+    "All four paid usage fields are summed once, including second-attempt failure.",
+    "No repair for quota/network/protocol/native-tool/unknown-tool/duplicate-key failures."
+  ],
+  "latest_pre_fix_live_failure": {
+    "candidate": "R5",
+    "utc": "2026-10-17T07:29:59Z",
+    "model": "glm-5.3",
+    "effort": "low",
+    "input_tokens": 17933,
+    "output_tokens": 25,
+    "tools_executed": 0,
+    "error": "codex: tool arguments must be a JSON object string",
+    "raw_argument_shape": "unknown; raw value not captured",
+    "log_sha256": "8a675693170f732c3376b3391d19ac8d86c84018b2a3b28008bd399c73fc73f3"
+  },
+  "source_sha256": {
+    "codexprovider/provider.go": "88031274c62ca44854c6d9fa27255e965405b871aceeed8ead04917a55c53caf",
+    "codexprovider/provider_test.go": "b17e0a10cc9c86cd7b2f42e10be23013e68a8289a720f05403e80036ad5f5d93",
+    "codexprovider/argument_repair_test.go": "78c74d1cba6e6ba6c2500ed1bc5555225ab38ebca50529b3606f55b448966fbd",
+    "internal/cli/codex_e2e_test.go": "03eb5add4cac3862981d4edc35d781801f01e235e9aa67eab1512fb2023dbba2"
+  },
+  "limits": [
+    "Adapter recovery does not establish the underlying model/provider cause.",
+    "Source review inspected tests but did not independently rerun them; coordinator final-focused-r7.json records rerun."
+  ]
+}

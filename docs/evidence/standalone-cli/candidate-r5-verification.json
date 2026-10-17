@@ -1,0 +1,47 @@
+{
+  "candidate": "R5",
+  "source_revision": "ad814451c9a69aa9ffd9c61c84b484a9f7165475",
+  "source_dirty": false,
+  "windows_sha256": "4a1704cdd12c908afe2d2390c88a8041c49b1cc816a9a1d60f3f82346215a0a5",
+  "runtime_mode": "download",
+  "windows_first_use": "health and normal stop passed using a separate test clone; public package remains runtime-free",
+  "runs": {
+    "core": {
+      "passed": true,
+      "cli_invocations": 62,
+      "elapsed_seconds": 60.46,
+      "log_sha256": "349d575bbcf2467a555c4228e7e129a2837d5c3449b8fd8a76fc7cd6261e4bcc",
+      "proof_markers": [
+        "portable_e2e_test.go:171: Verified 62 installed CLI invocations against bundled PostgreSQL; no model or target calls."
+      ]
+    },
+    "oauth": {
+      "passed": true,
+      "cli_invocations": 137,
+      "elapsed_seconds": 205.12,
+      "log_sha256": "fe185867f0b987dff8726abd71aa833ea6c713372a39e879fd137021f91c8001",
+      "proof_markers": [
+        "codex_e2e_test.go:25: Verified real ChatGPT OAuth chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume",
+        "codex_e2e_test.go:25: Verified 19 additional positive CLI operations plus explicit unsupported Codex model discovery; queued edits, real finding reads and byte-exact loopback evidence, without extra inference. Discard remains untested: it requires an unknown run, not an ordinary queued input.",
+        "codex_e2e_test.go:25: Verified 137 installed CLI invocations; real ChatGPT OAuth planner/worker through Codex transport, owned loopback HTTP evidence (1 GETs), persisted usage and report."
+      ]
+    },
+    "glm-flash": {
+      "passed": true,
+      "cli_invocations": 123,
+      "elapsed_seconds": 172.47,
+      "log_sha256": "c8481b15b6d3073bab7ca5cc1474d83dd66c36e309b448f37cecf8f01cc59d8a",
+      "proof_markers": [
+        "codex_e2e_test.go:33: Verified real Z.AI GLM Flash Coding Plan chat, paired Norma Read execution, positive billed usage, branch history and paused queue/resume",
+        "codex_e2e_test.go:33: Verified 19 additional positive CLI operations plus explicit unsupported Codex model discovery; queued edits, real finding reads and byte-exact loopback evidence, without extra inference. Discard remains untested: it requires an unknown run, not an ordinary queued input.",
+        "codex_e2e_test.go:33: Verified 123 installed CLI invocations; real Z.AI GLM Flash Coding Plan planner/worker through Codex transport, owned loopback HTTP evidence (1 GETs), persisted usage and report."
+      ]
+    }
+  },
+  "limitations": [
+    "Parallel local runs are functional checks, not latency benchmarks.",
+    "Paid OAuth and Flash use only synthetic owned files and loopback endpoints; Flash success does not certify flagship GLM-5.3.",
+    "Historical 291-name union spans multiple candidates and is not all-options/states coverage.",
+    "Core log retains earlier wording bundled PostgreSQL; this R5 public package downloaded runtime into a separate test clone before E2E."
+  ]
+}

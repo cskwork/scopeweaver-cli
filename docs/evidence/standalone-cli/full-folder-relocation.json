@@ -1,0 +1,154 @@
+{
+  "started_utc": "2026-10-17T00:52:07.767571+00:00",
+  "package": "D:\\Git\\scopeweaver-cli\\dist\\scopeweaver-cli-0.1.0-windows-amd64",
+  "copy_a": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+  "moved_b": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+  "cwd": "C:\\Windows\\Temp",
+  "default_home": true,
+  "explicit_home_argument": false,
+  "environment_home_override_removed": true,
+  "restricted_path": true,
+  "steps": [
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+      "arguments": [
+        "workspace",
+        "write",
+        "--path",
+        "fixture.txt",
+        "--content",
+        "포터블 전체 폴더 이동 검증 | 中文持久化 | UTF-8 ✓\nsecond line preserved",
+        "--yes",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"ok\":true,\"path\":\"fixture.txt\"}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+      "arguments": [
+        "runtime",
+        "status",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\portable-relocation-a\\\\state\",\"pid\":36620,\"running\":true}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+      "arguments": [
+        "workspace",
+        "read",
+        "--path",
+        "fixture.txt",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"binary\":false,\"content\":\"포터블 전체 폴더 이동 검증 | 中文持久化 | UTF-8 ✓\\nsecond line preserved\",\"path\":\"fixture.txt\",\"size\":89}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+      "arguments": [
+        "runtime",
+        "stop",
+        "--yes",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\portable-relocation-a\\\\state\",\"running\":false}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+      "arguments": [
+        "workspace",
+        "read",
+        "--path",
+        "fixture.txt",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"binary\":false,\"content\":\"포터블 전체 폴더 이동 검증 | 中文持久化 | UTF-8 ✓\\nsecond line preserved\",\"path\":\"fixture.txt\",\"size\":89}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+      "arguments": [
+        "runtime",
+        "status",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\portable-relocation-한글-b\\\\state\",\"pid\":30952,\"running\":true}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+      "arguments": [
+        "runtime",
+        "stop",
+        "--yes",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\portable-relocation-한글-b\\\\state\",\"running\":false}\n",
+      "stderr": ""
+    },
+    {
+      "folder": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+      "arguments": [
+        "runtime",
+        "status",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\portable-relocation-한글-b\\\\state\",\"reason\":\"private runtime is not running\",\"running\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "success": true,
+  "limits": [
+    "Present Windows host only; no clean-machine or VM validation.",
+    "Microsoft VC DLLs are bundled, but normal Windows system libraries remain available."
+  ],
+  "manifest": {
+    "file_count": 1573,
+    "mismatches": [],
+    "passed": true
+  },
+  "documentation": {
+    "README.md": false,
+    "README.ko.md": false,
+    "docs/cli.md": false,
+    "docs/ko/cli.md": false
+  },
+  "copy_complete": true,
+  "finished_utc": "2026-10-17T00:53:18.244245+00:00",
+  "verification_helper_correction": "Excluded the PowerShell inventory process itself; its command line contains the inspected paths.",
+  "processes_after_a_stop": [],
+  "move_safety": {
+    "source_absolute": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-a",
+    "destination_absolute": "D:\\Git\\scopeweaver-cli\\dist\\portable-relocation-한글-b",
+    "source_under_dist": true,
+    "destination_under_dist": true,
+    "destination_did_not_exist": true
+  },
+  "move_completed": true,
+  "read_before_move": {
+    "binary": false,
+    "content": "포터블 전체 폴더 이동 검증 | 中文持久化 | UTF-8 ✓\nsecond line preserved",
+    "path": "fixture.txt",
+    "size": 89
+  },
+  "read_after_move": {
+    "binary": false,
+    "content": "포터블 전체 폴더 이동 검증 | 中文持久化 | UTF-8 ✓\nsecond line preserved",
+    "path": "fixture.txt",
+    "size": 89
+  },
+  "processes_after_b_stop": [],
+  "original_manifest_reverified": true
+}

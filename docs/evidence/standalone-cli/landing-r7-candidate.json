@@ -1,0 +1,140 @@
+{
+  "result": "PASS for bounded R7 landing facts, links, assets and wrapping",
+  "recorded_utc": "2026-10-17T08:06:03.544560+00:00",
+  "scope": "Three paired EN/KO AI factual passages plus top notice and release gate refreshed; approved CSS/JS and design retained",
+  "source_files_frozen": true,
+  "browser_checks_passed": 147,
+  "static_checks_passed": 10,
+  "layouts": [
+    "1440-en",
+    "1440-ko",
+    "390-en",
+    "390-ko",
+    "320-en",
+    "320-ko"
+  ],
+  "local_markdown_links": 106,
+  "paired_language_spans": 107,
+  "browser_errors": 0,
+  "browser_version": "151.0.7922.34",
+  "visual_review": {
+    "passed": true,
+    "limits_cards": [
+      "1440-en",
+      "1440-ko",
+      "390-en",
+      "390-ko",
+      "320-en",
+      "320-ko"
+    ],
+    "passed_cards": [
+      "1440-en",
+      "1440-ko",
+      "320-en",
+      "320-ko"
+    ],
+    "top_notices": [
+      "320-en",
+      "320-ko"
+    ],
+    "outcome": "Changed copy wraps within cards; no clipping or horizontal overflow; approved design retained"
+  },
+  "external_resource_requests": 0,
+  "failed_http_responses": [],
+  "css_js_unchanged": true,
+  "browser_closed": true,
+  "server_stopped": true,
+  "coverage": {
+    "invoked": 297,
+    "positive": 297,
+    "error_only": 0,
+    "untested": 0,
+    "total": 297,
+    "recorded_utc": "2026-10-17T07:21:13.786692+00:00"
+  },
+  "r7_package": {
+    "source_revision": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+    "source_dirty": true,
+    "windows_sha256": "97c39bb222d3b0bdb8f1cf3e75b185fa0d94c948cde48d956a2c4579f51b2e62"
+  },
+  "r7_runs": {
+    "glm-5.3": {
+      "passed": true,
+      "elapsed_seconds": 138.5,
+      "cli_invocations": 119,
+      "correction_attempts": 0,
+      "log_sha256": "97ac370008fddf2064e3debba86b64dc4c3fc79fa320ffefe7e7b161d2102179",
+      "failure": null
+    },
+    "glm-5.3-flash": {
+      "passed": false,
+      "elapsed_seconds": 136.98,
+      "cli_invocations": null,
+      "correction_attempts": 0,
+      "log_sha256": "33e45c6b670328ea2ea5d20de4922eac96587bd18afc58561c7cee35dd0bf498",
+      "failure": "expected exactly one real synthetic finding; initial diagnostic did not capture actual count/name"
+    },
+    "glm-5.3-flash-low-diagnostic": {
+      "passed": false,
+      "elapsed_seconds": 286.06,
+      "cli_invocations": null,
+      "correction_attempts": 0,
+      "log_sha256": "eb6a0c309cc8ad0b106df56150073654607b8ea8b1bd0437b5a102f0e41354c2",
+      "failure": "exactly-one-finding contract violated by two distinct report_finding calls"
+    },
+    "oauth": {
+      "passed": true,
+      "elapsed_seconds": 163.68,
+      "cli_invocations": 131,
+      "correction_attempts": null,
+      "log_sha256": "3a9fbe0439870697d19972959ae6a2901e0de5788c3e4309252685d8be607602",
+      "failure": null
+    },
+    "glm-5.3-flash-high": {
+      "passed": false,
+      "elapsed_seconds": 482.38,
+      "cli_invocations": null,
+      "correction_attempts": 0,
+      "log_sha256": "ab4f5a9cf9829bc41e616b43590fbd28d9bfee1792a68e5bd0fd86c38f53cda3",
+      "failure": "planner/worker task did not finish within budget"
+    }
+  },
+  "provider_receipt": {
+    "path": "docs/evidence/standalone-cli/candidate-r7-verification.json",
+    "sha256": "fcfb1ab54820e62e2efb0107de7c2343688754097c76538ec6300cf780daa414"
+  },
+  "dated_native_ci": {
+    "source": "80f9016",
+    "run": 39012848998,
+    "passed": [
+      "Windows",
+      "Ubuntu",
+      "macOS26arm64"
+    ],
+    "later_heads": "Latest private PR1 checks authoritative"
+  },
+  "release": "unpublished and held; unresolved R7 Flash verification, final clean-head CI and human review remain",
+  "limitations": [
+    "Live R7 flagship pass had zero correction attempts; deterministic tests verify recovery, not this live pass.",
+    "R7 Flash/low failed the exact-one-finding assertion; Flash/high did not finish final planning within the seven-minute task budget.",
+    "Historical 297/297 catalog union does not certify every state, live vendor or final artifact.",
+    "Unchanged clipboard interactions were not rerun; this is content/assets/wrapping QA."
+  ],
+  "detector": "Not rerun; existing approved design advisories/exit1 retained, not a detector pass",
+  "hashes": {
+    "docs/CLI-VERIFICATION.md": "dd34c2ad4e589e64e6313e533a99ae3f6fedd751db03ec09877463ca35be22f8",
+    "docs/ko/CLI-VERIFICATION.md": "8872a11c4232f9a25dadaadc9daff4a659730ed5c97e67ddd6c7fa35fbd5330d",
+    "docs/ai-providers.md": "42b2d2d61c78362e7b29e404aebf7cf7e8bd290d2335192ec01d8a18b4e3590a",
+    "docs/ko/ai-providers.md": "fc2c85f96300ac9aff6d629abeaf07f85a491f2bb9006fab8664cce03cd34135",
+    "PRODUCT.md": "e7d9779be5ffb21d6e799fbe942668e83e421d54582b8a0075881ec11e358219",
+    "landing/index.html": "a67dc27b3ac7b96c6bacdf9eb06be51e9c81222d0233fd9376cc18d124ec759a",
+    ".omc/RELEASE_RULE.md": "b8f00b620dca8a9e1cf1ed9f3e7b3739240b455085c06b4e9770938b9cb06e80",
+    "landing/styles.css": "14ad3cb0bfe79fdcebd61a117bf97cf0a1e12f89c158634f17fa1a35f265be16",
+    "landing/script.js": "ac31f043f637a5e47f41768d19f0a0e437f1dcabc2f4559f4dbbaf48d98e7368"
+  },
+  "raw_evidence": "Ignored dist/landing-r7-candidate-20261017/evidence.json and static-checks.json",
+  "prior_receipt_preserved": {
+    "path": "docs/evidence/standalone-cli/landing-final-candidate.json",
+    "sha256": "9ef4432944e850383ebe30aa2aaa9b84c2ec7f77548d884b7c5a7858e6017182"
+  }
+}

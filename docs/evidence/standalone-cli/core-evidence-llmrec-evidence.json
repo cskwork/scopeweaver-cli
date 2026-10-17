@@ -1,0 +1,16 @@
+[
+  {
+    "package": "evidence",
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "result": "pass"
+  },
+  {
+    "package": "llmrec",
+    "passed": 22,
+    "failed": 1,
+    "skipped": 0,
+    "result": "fail"
+  }
+]

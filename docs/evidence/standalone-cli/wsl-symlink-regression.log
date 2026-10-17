@@ -1,0 +1,3 @@
+=== RUN   TestChatBranchCopyRejectsDestinationSymlink
+--- PASS: TestChatBranchCopyRejectsDestinationSymlink (0.01s)
+PASS

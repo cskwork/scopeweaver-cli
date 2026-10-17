@@ -1,0 +1,41 @@
+{
+  "packages": 19,
+  "top_level_passed": 291,
+  "passed_including_subtests": 545,
+  "skipped": 8,
+  "database_followup": "evidence and llmrec run separately with fresh disposable databases",
+  "skips": [
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/chatstate",
+      "Test": "TestPreparedTranscriptCleanupPreservesSymlinks"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/llmrec",
+      "Test": "TestSideUsageRecordedOnceOnConsumerCancellation"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/llmrec",
+      "Test": "TestStreamUsageCumulativePerCall"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/llmrec",
+      "Test": "TestWorkerOverrideMetersCompleteAndStreamWithoutBodyRecording"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/evidence",
+      "Test": "TestEvidenceBindingLifecycle"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/evidence",
+      "Test": "TestEvidenceAtomicFailuresAndLegacy"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/evidence",
+      "Test": "TestEvidenceConcurrentBindAndDelete"
+    },
+    {
+      "Package": "github.com/cskwork/scopeweaver-cli/evidence",
+      "Test": "TestEvidenceGCGraceAndActiveRestore"
+    }
+  ]
+}

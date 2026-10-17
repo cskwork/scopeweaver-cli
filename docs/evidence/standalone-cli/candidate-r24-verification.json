@@ -1,0 +1,165 @@
+{
+  "candidate": "R24 Windows amd64",
+  "date": "2026-10-18",
+  "source_parent": "650dc82910e5e36668161a5276455506f64713fe",
+  "source_dirty": true,
+  "acceptance": "PASS: five of five unchanged packaged workflows",
+  "release_status": "Pending new clean-head native archives, required maintainer review and integration/promotion; no public release claimed by this receipt",
+  "task_budget_seconds": 420,
+  "shared_completion_budget_seconds": 600,
+  "product_efforts": "GLM low, Flash low/high, OAuth low; unchanged",
+  "package": {
+    "binary_sha256": "8f91bbb7d1ce764f890e699c2fa32400405e5a81c4cbf03bc22c6bff0da83a77",
+    "manifest_payload_files": 181,
+    "public_runtime_mode": "download",
+    "source_freeze_sha256": "879c376d6dd28663f6e1509240ce06742fef9ebcbc4b9e9ae0fa579a5754bc07",
+    "runtime_files_copied_and_sha_verified": 1482,
+    "first_case": "flash-high",
+    "matrix_cases": 5,
+    "efforts_and_budgets": "unchanged"
+  },
+  "production_source_sha256": {
+    "agent/planner.go": "88f5a159d74d6b7dbea0f8b6c0f259c7f82bb2ea28fb17ecdc776cdf9dd98429",
+    "agent/planner_evidence.go": "72ed0a4a27edec69423d2045ea257b910772a17f64e345ae58000b26ccaf5566",
+    "locale/agent_runtime.go": "9ea8970508432453ec005f34fb723797de4a836eda895a97aa978a767f2ec3cf",
+    "locale/zh-Hans.json": "f6c57c825d05e7b34a14ba3b783775c7e023e438b2d4ba4f896af23c34aac26d"
+  },
+  "workflows": [
+    {
+      "case": "flash-high",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 317.83,
+      "log_sha256": "c635d773cbbaa1942e6a8b4cbec115c53cb117dfafcb78c1b6924272e7d3a535",
+      "installed_cli_calls": 182,
+      "zai_argument_correction_attempts": 0
+    },
+    {
+      "case": "glm-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 82.63,
+      "log_sha256": "e3472523480a8b076dc534f8b19f5320afefb28d967656ad1c365560019c25fc",
+      "installed_cli_calls": 106,
+      "zai_argument_correction_attempts": 0
+    },
+    {
+      "case": "core",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 19.14,
+      "log_sha256": "4fa10c5d4201f3699a751cb3298aa9f67b9eea6b676792525bc4c6b0483ab092",
+      "installed_cli_calls": 62,
+      "zai_argument_correction_attempts": null
+    },
+    {
+      "case": "flash-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 114.84,
+      "log_sha256": "ece2e991b70db1767fb01959d647768594ab3e05dcdb54b12f45b3c91dfe8739",
+      "installed_cli_calls": 117,
+      "zai_argument_correction_attempts": 0
+    },
+    {
+      "case": "oauth",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 108.12,
+      "log_sha256": "0ad7b1a50e55c8079287a49c6c5538950c17bd99caf6121b67222ca844cf1556",
+      "installed_cli_calls": 115,
+      "zai_argument_correction_attempts": null
+    }
+  ],
+  "checks": {
+    "focused_six_packages": {
+      "pass": 186,
+      "fail": 0,
+      "skip": 19
+    },
+    "native_exits": {
+      "focused": 0,
+      "focused-vet": 0,
+      "full-clean-vet": 0,
+      "package": 0
+    },
+    "agent_full_db": {
+      "cli": {
+        "pass": 607,
+        "fail": 0,
+        "skip": 0
+      },
+      "original": {
+        "pass": 598,
+        "fail": 0,
+        "skip": 0
+      }
+    },
+    "new_actual_planner_regression_events": 31,
+    "original_formatted_test_groups": {
+      "pass": 31,
+      "fail": 0,
+      "skip": 0,
+      "source_change": "module prefix and gofmt import order only"
+    },
+    "locale_completeness": "1986 production keys x 3 shipped languages; full check unchanged",
+    "landing_static": {
+      "checks_passed": 33,
+      "errors": 0,
+      "regression_test_events_passed": 19,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native_linux_race": {
+      "focused": {
+        "tests": {
+          "pass": 49,
+          "fail": 0,
+          "skip": 0
+        },
+        "go_exit": 0,
+        "data_race": false,
+        "raw_log_sha256": "5f49f17a92cf580cfcf5d2422fc176de6c6b486b01ac1ea9c22f1a7e147aab5e",
+        "postgres_stop_exit": 0,
+        "postmaster_pid_absent": true
+      },
+      "full_agent": {
+        "tests": {
+          "pass": 607,
+          "fail": 0,
+          "skip": 0
+        },
+        "go_exit": 0,
+        "data_race": false,
+        "raw_log_sha256": "1212d9a1de322acdfd9c24867b2a9a4165cfabd3ec419a55cf8c2fd55b9e18b7",
+        "postgres_stop_exit": 0,
+        "postmaster_pid_absent": true
+      },
+      "scope": "Same four production-code and three promoted-test pins, native ext4 Go1.26.3/gcc/PostgreSQL; no installs. Failed initial missing-createdb setup retained; successful existing pgx setup used."
+    }
+  },
+  "behavior": "Bounded current-task finding/done trigger yields are read via the final resolved node_detail capability and supplied to the first real Planner.Plan request. Real prove_goal, authentic receipts, usage and terminal proof semantics remain required.",
+  "bounds": {
+    "read_attempts": 4,
+    "whole_attachment_utf8_bytes": 32768,
+    "whole_node_omission": true,
+    "source": "one existing bounded overview snapshot; no related-task expansion"
+  },
+  "access": "Final schema/read-only/explicit permission/wrapper/default/meter/result restrictions honored or safe skip; no raw helper fallback, fabricated model tool identity or automatic proof.",
+  "limitations": [
+    "Real paid/subscription acceptance is Windows candidate-specific; native clean-head release archives are verified separately.",
+    "Test clone used1482 pinned runtime files copied and SHA-verified; public folder remains runtime-free with first-use downloads.",
+    "Controlled regression-provider usage is synthetic; actual subscription usage evidence comes from installed CLI workflows.",
+    "Timings are functional receipts, not latency benchmarks or proof of a provider-latency root cause.",
+    "Historical297-operation ledger proves one positive contract per exact command name, not every option/state or final artifact.",
+    "Inherited Windows server symlink-privilege failure reproduces on unchanged650dc82; preserved separately, never weakened."
+  ],
+  "historical_receipts_retained": [
+    "candidate-r11-verification.json",
+    "candidate-r16-verification.json",
+    "candidate-r18-verification.json",
+    "candidate-r19-verification.json",
+    "candidate-r20-verification.json",
+    "candidate-r22-verification.json"
+  ]
+}

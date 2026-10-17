@@ -17,7 +17,7 @@ func testPaths(t *testing.T) Paths {
 	dir := t.TempDir()
 	return Paths{
 		Dir:     dir,
-		Current: filepath.Join(dir, "scopeweaver"),
+		Current: filepath.Join(dir, "scopeweaver-cli"),
 		New:     filepath.Join(dir, "artex.new"),
 		Sum:     filepath.Join(dir, "artex.new.sha256"),
 		Old:     filepath.Join(dir, "artex.old"),
@@ -42,7 +42,7 @@ func itoa(n int) string {
 	return string(rune('0' + n))
 }
 
-// stage writes scopeweaver.new and its checksum to simulate a staged update.
+// stage writes scopeweaver-cli.new and its checksum to simulate a staged update.
 func stage(t *testing.T, p Paths, marker string, exitCode int) {
 	t.Helper()
 	fakeBin(t, p.New, marker, exitCode)
@@ -162,13 +162,13 @@ func TestApplyStagedHappyPath(t *testing.T) {
 		t.Error("State must be Pending after replacement")
 	}
 	if !strings.Contains(readAll(t, p.Current), "new") {
-		t.Error("scopeweaver must be replaced with the new version")
+		t.Error("scopeweaver-cli must be replaced with the new version")
 	}
 	if !strings.Contains(readAll(t, p.Old), "old") {
-		t.Error("Previous version must be backed up to scopeweaver.old")
+		t.Error("Previous version must be backed up to scopeweaver-cli.old")
 	}
 	if _, err := os.Stat(p.New); !os.IsNotExist(err) {
-		t.Error("scopeweaver.new must be absent after replacement")
+		t.Error("scopeweaver-cli.new must be absent after replacement")
 	}
 	if _, err := os.Stat(p.Sum); !os.IsNotExist(err) {
 		t.Error("Checksum file must be removed after replacement")
@@ -293,18 +293,18 @@ func TestParseSums(t *testing.T) {
 		winSum   = "ABCDEF0000000000000000000000000000000000000000000000000000000000"
 	)
 	// sha256sum separates with two spaces; shasum -a 256 binary mode prefixes filenames with *.
-	raw := linuxSum + "  scopeweaver-0.3.8-linux-amd64.zip\n" +
-		winSum + " *scopeweaver-0.3.8-windows-amd64.zip\n" +
+	raw := linuxSum + "  scopeweaver-cli-0.3.8-linux-amd64.zip\n" +
+		winSum + " *scopeweaver-cli-0.3.8-windows-amd64.zip\n" +
 		"\n" +
 		"garbage line\n" + // Exactly two fields, but the first is not a digest.
-		"deadbeef  scopeweaver-0.3.8-darwin-arm64.zip\n" // Incorrect digest length.
+		"deadbeef  scopeweaver-cli-0.3.8-darwin-arm64.zip\n" // Incorrect digest length.
 
 	out := parseSums(raw)
-	if out["scopeweaver-0.3.8-linux-amd64.zip"] != linuxSum {
+	if out["scopeweaver-cli-0.3.8-linux-amd64.zip"] != linuxSum {
 		t.Errorf("Incorrect Linux entry parsing: %v", out)
 	}
 	// Normalize digests to lowercase to avoid false mismatches caused by casing.
-	if got := out["scopeweaver-0.3.8-windows-amd64.zip"]; got != strings.ToLower(winSum) {
+	if got := out["scopeweaver-cli-0.3.8-windows-amd64.zip"]; got != strings.ToLower(winSum) {
 		t.Errorf("Incorrect Windows entry (strip * prefix and lowercase digest): %q", got)
 	}
 	if len(out) != 2 {
@@ -314,7 +314,7 @@ func TestParseSums(t *testing.T) {
 
 func TestExtractBinaryFindsNestedEntry(t *testing.T) {
 	if runtime.GOOS == "windows" {
-		t.Skip("Windows package basename is scopeweaver.exe; this fixture uses Unix naming")
+		t.Skip("Windows package basename is scopeweaver-cli.exe; this fixture uses Unix naming")
 	}
 	dir := t.TempDir()
 	zipPath := filepath.Join(dir, "release.zip")
@@ -324,12 +324,12 @@ func TestExtractBinaryFindsNestedEntry(t *testing.T) {
 		t.Fatal(err)
 	}
 	zw := zip.NewWriter(f)
-	// Real package layout: scopeweaver-<version>-<os>-<arch>/scopeweaver, plus unrelated files.
+	// Real package layout: scopeweaver-cli-<version>-<os>-<arch>/scopeweaver-cli, plus unrelated files.
 	for name, body := range map[string]string{
-		"scopeweaver-0.3.8-linux-amd64/README.md":           "readme",
-		"scopeweaver-0.3.8-linux-amd64/skills/a.md":         "skill",
-		"scopeweaver-0.3.8-linux-amd64/scopeweaver":         "#!/bin/sh\nexit 0\n",
-		"scopeweaver-0.3.8-linux-amd64/config.example.json": "{}",
+		"scopeweaver-cli-0.3.8-linux-amd64/README.md":           "readme",
+		"scopeweaver-cli-0.3.8-linux-amd64/skills/a.md":         "skill",
+		"scopeweaver-cli-0.3.8-linux-amd64/scopeweaver-cli":     "#!/bin/sh\nexit 0\n",
+		"scopeweaver-cli-0.3.8-linux-amd64/config.example.json": "{}",
 	} {
 		w, err := zw.Create(name)
 		if err != nil {
@@ -349,7 +349,7 @@ func TestExtractBinaryFindsNestedEntry(t *testing.T) {
 		t.Fatalf("extractBinary: %v", err)
 	}
 	if got := readAll(t, dst); !strings.Contains(got, "exit 0") {
-		t.Errorf("Extracted file is not the scopeweaver executable: %q", got)
+		t.Errorf("Extracted file is not the scopeweaver-cli executable: %q", got)
 	}
 	info, err := os.Stat(dst)
 	if err != nil {
@@ -368,7 +368,7 @@ func TestExtractBinaryMissingEntry(t *testing.T) {
 		t.Fatal(err)
 	}
 	zw := zip.NewWriter(f)
-	w, _ := zw.Create("scopeweaver-0.3.8-linux-amd64/README.md")
+	w, _ := zw.Create("scopeweaver-cli-0.3.8-linux-amd64/README.md")
 	_, _ = w.Write([]byte("readme"))
 	_ = zw.Close()
 	f.Close()
@@ -405,12 +405,12 @@ func TestCheckURLRejectsNonGitHub(t *testing.T) {
 }
 
 func TestAssetNameMatchesBuildScript(t *testing.T) {
-	// build.sh package_binary uses scopeweaver-<version>-<os>-<arch>.zip, stripping
+	// build.sh package_binary uses scopeweaver-cli-<version>-<os>-<arch>.zip, stripping
 	// the leading v. A single character mismatch breaks updates on every platform.
-	if got := AssetName("v0.3.8", "linux", "amd64"); got != "scopeweaver-0.3.8-linux-amd64.zip" {
+	if got := AssetName("v0.3.8", "linux", "amd64"); got != "scopeweaver-cli-0.3.8-linux-amd64.zip" {
 		t.Errorf("AssetName = %q", got)
 	}
-	if got := AssetName("0.3.8", "windows", "amd64"); got != "scopeweaver-0.3.8-windows-amd64.zip" {
+	if got := AssetName("0.3.8", "windows", "amd64"); got != "scopeweaver-cli-0.3.8-windows-amd64.zip" {
 		t.Errorf("AssetName = %q", got)
 	}
 }

@@ -1,0 +1,222 @@
+{
+  "binary_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+  "seconds": 7.65,
+  "calls": 35,
+  "positive_contracts": {
+    "sync scopesentry datasource set": {
+      "detail": "Owned HTTP MCP handshake and tools/list observed; exact datasource URL/name/enabled persisted via mcp list.",
+      "lines": [
+        3
+      ]
+    },
+    "mcp refresh": {
+      "detail": "Real own HTTP MCP initialize/tools/list changed generation1 descriptions to generation2, cache readback exact.",
+      "lines": [
+        5
+      ]
+    },
+    "sync scopesentry status": {
+      "detail": "Configured datasource performed real MCP reachability probe and returned reachable=true.",
+      "lines": [
+        7
+      ]
+    },
+    "sync scopesentry projects list": {
+      "detail": "Nonempty owned MCP project result returned; exact pageIndex2/pageSize7/search arguments observed.",
+      "lines": [
+        8
+      ]
+    },
+    "sync scopesentry tasks list": {
+      "detail": "Nonempty owned MCP task result returned; exact pageIndex3/pageSize9/search arguments observed.",
+      "lines": [
+        9
+      ]
+    },
+    "sync scopesentry run": {
+      "detail": "Real MCP list_assets imported one subdomain/app/service/IP and company; explicit per-type CLI asset and company readbacks exact. Initial harness assumed all types default; default actually root_domain, failure retained.",
+      "lines": [
+        10
+      ]
+    },
+    "llm models list": {
+      "detail": "Owned OpenAI-compatible GET/v1/models with exact synthetic bearer and two model IDs; no inference/provider calls.",
+      "lines": [
+        23
+      ]
+    },
+    "settings web-search test": {
+      "detail": "Existing DeepSeek base_url accepted owned HTTP endpoint; actual messages SSE web_search_tool_result parsed count1; exact request tools/model/key observed. Synthetic provider/search fixture, no live inference; initial header-case harness failure preserved.",
+      "lines": [
+        26
+      ]
+    }
+  },
+  "assertions": [
+    {
+      "assertion": "immutable input binary pinned",
+      "passed": true
+    },
+    {
+      "assertion": "datasource saved enabled",
+      "passed": true
+    },
+    {
+      "assertion": "actual datasource URL persisted",
+      "passed": true
+    },
+    {
+      "assertion": "refresh returns all four actual tool names",
+      "passed": true
+    },
+    {
+      "assertion": "refreshed cache readback exact",
+      "passed": true
+    },
+    {
+      "assertion": "configured enabled reachable status",
+      "passed": true
+    },
+    {
+      "assertion": "projects nonempty exact data",
+      "passed": true
+    },
+    {
+      "assertion": "projects exact remote arguments",
+      "passed": true
+    },
+    {
+      "assertion": "tasks nonempty exact data",
+      "passed": true
+    },
+    {
+      "assertion": "tasks exact remote arguments",
+      "passed": true
+    },
+    {
+      "assertion": "actual nonzero ingestions all types",
+      "passed": true
+    },
+    {
+      "assertion": "ingested asset values persisted",
+      "passed": false
+    },
+    {
+      "assertion": "ingested asset values persisted with explicit type filters",
+      "passed": false
+    },
+    {
+      "assertion": "ingested asset values persisted with explicit type filters",
+      "passed": true
+    },
+    {
+      "assertion": "company persisted",
+      "passed": true
+    },
+    {
+      "assertion": "OpenAI models exact nonempty",
+      "passed": true
+    },
+    {
+      "assertion": "OpenAI GET models bearer path",
+      "passed": true
+    },
+    {
+      "assertion": "web search parsed actual one local SSE result",
+      "passed": true
+    },
+    {
+      "assertion": "search exact local provider body",
+      "passed": false
+    },
+    {
+      "assertion": "search exact local provider body with HTTP header case normalization",
+      "passed": true
+    },
+    {
+      "assertion": "search endpoint loopback exact",
+      "passed": true
+    },
+    {
+      "assertion": "default loopback notification rejected",
+      "passed": true
+    },
+    {
+      "assertion": "no notification receiver requests",
+      "passed": true
+    },
+    {
+      "assertion": "portable env isolation strips notification optin",
+      "passed": true
+    },
+    {
+      "assertion": "missing MCP refresh explicit not found",
+      "passed": true
+    },
+    {
+      "assertion": "invalid sync dimension rejected",
+      "passed": true
+    },
+    {
+      "assertion": "invalid search backend explicit error",
+      "passed": true
+    }
+  ],
+  "gaps": {
+    "notify channels test": "Blocked before channel creation: portable isolatedEnv strips documented ARTEX_NOTIFY_ALLOW_LOCAL=1 opt-in, so owned loopback URL remains rejected. No source/package/guard mutation.",
+    "notify deliveries retry": "Cannot create a real loopback notification delivery because portable env strips local-relay opt-in; no DB rows injected and no n=0 retry claimed."
+  },
+  "http_requests": 23,
+  "fixture_closed": true,
+  "live_provider_calls": 0,
+  "external_notifications": 0,
+  "manual_db_row_injection": false,
+  "owned_processes_remaining": 0,
+  "binary_hash_unchanged": true,
+  "campaign_wall_seconds_from_identity_write": 144.95,
+  "assertion_failures_retained": [
+    {
+      "assertion": "ingested asset values persisted",
+      "passed": false
+    },
+    {
+      "assertion": "ingested asset values persisted with explicit type filters",
+      "passed": false
+    },
+    {
+      "assertion": "search exact local provider body",
+      "passed": false
+    }
+  ],
+  "expected_cli_failures": [
+    {
+      "line": 28,
+      "operation": "notify channels create",
+      "exit": 1,
+      "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: Invalid destination URL: Delivery to local/link-local address 127.0.0.1 is blocked (set ARTEX_NOTIFY_ALLOW_LOCAL=1 only if local delivery is required)\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+    },
+    {
+      "line": 31,
+      "operation": "notify channels create",
+      "exit": 1,
+      "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: Invalid destination URL: Delivery to local/link-local address 127.0.0.1 is blocked (set ARTEX_NOTIFY_ALLOW_LOCAL=1 only if local delivery is required)\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+    },
+    {
+      "line": 32,
+      "operation": "mcp refresh",
+      "exit": 1,
+      "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 404: MCP server not found\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+    },
+    {
+      "line": 33,
+      "operation": "sync scopesentry run",
+      "exit": 1,
+      "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: dimension must be project or task\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+    }
+  ],
+  "limitations": [
+    "Owned protocol-compatible synthetic MCP, OpenAI model-list and DeepSeek search-SSE fixtures validate installed command integration; no live third-party integration or actual inference tested.",
+    "Notification send/retry blocked by installed portable env isolation removing documented local-relay opt-in.",
+    "Disposable runtime home retained as evidence, stopped; no DB-row injection or package mutation."
+  ]
+}

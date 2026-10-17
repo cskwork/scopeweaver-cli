@@ -20,15 +20,16 @@ import (
 	"strings"
 	"time"
 
-	runtimeconfig "github.com/cskwork/scopeweaver-cli/config"
-	"github.com/cskwork/scopeweaver-cli/llmnet"
-	"github.com/cskwork/scopeweaver-cli/llmrec"
-	"github.com/cskwork/scopeweaver-cli/ollama"
 	"github.com/Autumn-27/norma/agentcore"
 	"github.com/Autumn-27/norma/compaction"
 	"github.com/Autumn-27/norma/llm"
 	acperm "github.com/Autumn-27/norma/permission"
 	"github.com/Autumn-27/norma/transcript"
+	"github.com/cskwork/scopeweaver-cli/codexprovider"
+	runtimeconfig "github.com/cskwork/scopeweaver-cli/config"
+	"github.com/cskwork/scopeweaver-cli/llmnet"
+	"github.com/cskwork/scopeweaver-cli/llmrec"
+	"github.com/cskwork/scopeweaver-cli/ollama"
 )
 
 // Config describes the LLM backend resolved from the environment.
@@ -161,7 +162,7 @@ func compactionConfig(windowTokens int) *compaction.Config {
 
 // FromEnv resolves the LLM provider config:
 //
-//	ARTEX_LLM_PROVIDER = anthropic|openai (default: inferred from keys)
+//	ARTEX_LLM_PROVIDER = anthropic|openai|openai-responses|ollama|codex-cli
 //	ARTEX_LLM_MODEL    = model id        (default: per provider)
 //	ARTEX_LLM_BASE_URL = endpoint        (optional)
 //	ARTEX_LLM_PROXY    = proxy URL        (optional; http/https/socks5)
@@ -180,10 +181,12 @@ func FromEnv() (Config, bool) {
 		}
 	}
 	c := ConfigFrom(prov, file.Model, file.BaseURL, file.APIKey, file.Proxy)
-	// Native Ollama never falls back to a cloud credential.
+	// Native Ollama and Codex OAuth never fall back to another cloud credential.
 	_, explicitKey := runtimeconfig.LLMEnv("API_KEY")
 	if c.APIKey == "" && !explicitKey {
 		switch c.Provider() {
+		case "codex-cli":
+			// ZAI_API_KEY is resolved only by the Codex adapter for its pinned endpoint.
 		case "ollama":
 			c.APIKey = os.Getenv("OLLAMA_API_KEY")
 		case "anthropic":
@@ -224,6 +227,15 @@ func ConfigFrom(provider, model, baseURL, apiKey, proxy string) Config {
 		Stream:  true, // Streaming defaults on; callers override from the profile.
 	}
 	switch strings.TrimSpace(provider) {
+	case "codex-cli":
+		c.Format = llm.Format("codex-cli")
+		c.BaseURL = codexprovider.NormalizeBaseURL(c.BaseURL)
+		if c.Model == "" {
+			c.Model = "gpt-6.1-sol"
+			if c.BaseURL == codexprovider.ZAIBaseURL {
+				c.Model = "glm-5.3"
+			}
+		}
 	case "ollama":
 		c.Format = llm.Format("ollama")
 		c.BaseURL = ollama.NormalizeBaseURL(c.BaseURL)
@@ -268,9 +280,11 @@ func isFalsy(s string) bool {
 	return false
 }
 
-// Provider returns the short provider name ("anthropic"/"openai").
+// Provider returns the supported profile format name.
 func (c Config) Provider() string {
 	switch c.Format {
+	case llm.Format("codex-cli"):
+		return "codex-cli"
 	case llm.Format("ollama"):
 		return "ollama"
 	case llm.FormatOpenAI:
@@ -285,6 +299,16 @@ func (c Config) Provider() string {
 // limiter lives on the single provider instance — so planner + all workers +
 // main agent (which share this provider) are bounded by one shared rate limit.
 func (c Config) NewProvider() (llm.Provider, error) {
+	if c.Provider() == "codex-cli" {
+		if c.Proxy != "" {
+			return nil, locale.Errorf("codex-cli: profile proxy is unsupported")
+		}
+		provider, err := codexprovider.New(codexprovider.Options{Model: c.Model, BaseURL: c.BaseURL, APIKey: c.APIKey, ReasoningEffort: c.ReasoningEffort, LocalLLMOnly: c.LocalLLMOnly, PolicyResolver: c.PolicyResolver})
+		if err != nil {
+			return nil, err
+		}
+		return llm.RateLimited(provider, llm.RateLimit{PerSecond: c.RatePerSecond, PerMinute: c.RatePerMinute}), nil
+	}
 	client, err := c.HTTPClient()
 	if err != nil {
 		return nil, err
@@ -478,8 +502,11 @@ func requestBodySnapshot(req *http.Request) string {
 	return string(b)
 }
 
-// Ready allows keyless native Ollama and explicit local compatible servers.
+// Ready checks configuration; Codex executable/login readiness is checked on use.
 func (c Config) Ready() bool {
+	if c.Provider() == "codex-cli" {
+		return c.Proxy == "" && codexprovider.ValidateOptions(codexprovider.Options{Model: c.Model, BaseURL: c.BaseURL, APIKey: c.APIKey, ReasoningEffort: c.ReasoningEffort, LocalLLMOnly: c.LocalLLMOnly, PolicyResolver: c.PolicyResolver}) == nil
+	}
 	return c.APIKey != "" || c.Provider() == "ollama" || llmnet.IsLocalEndpoint(c.BaseURL)
 }
 
@@ -513,6 +540,10 @@ func quotaAwareHTTPClient(proxy, sessionHeaderKey string) (*http.Client, error) 
 // just the collapsed ok/err the UI shows. Bodies are clipped to keep a chatty
 // SSE stream from flooding the log.
 func logTestConnection(c Config, capt *llmrec.Capture) {
+	if c.Provider() == "codex-cli" {
+		log.Printf("[llm-test] codex-cli / %s — official Codex CLI transport; HTTP capture unavailable", c.Model)
+		return
+	}
 	attempts := capt.Attempts()
 	if len(attempts) == 0 {
 		log.Printf(locale.Text(locale.ServerDefault(), "[llm-test] %s / %s @ %s — no HTTP request sent (configuration or connection failed)"),

@@ -1,0 +1,165 @@
+{
+  "recorded": "2026-10-17",
+  "model": "glm-5.3-flash",
+  "successful_inference": false,
+  "user_reported_key_type": "Personal Coding Plan / Team Plan",
+  "credentials_recorded": false,
+  "global_config_changed": false,
+  "codex": {
+    "version": "0.162.1",
+    "endpoint": "https://api.z.ai/api/v1/responses",
+    "responses": [
+      {
+        "authorization_matches_supplied_key": true,
+        "request_path": "/api/v1/responses",
+        "model": "glm-5.3-flash",
+        "reasoning": {
+          "effort": "low"
+        },
+        "request_body_bytes": 51497,
+        "event_types": [
+          "response.failed",
+          "error"
+        ],
+        "http_status": 200,
+        "content_type": "text/event-stream",
+        "errors": [
+          {
+            "type": "response.failed"
+          },
+          {
+            "code": "insufficient_quota",
+            "message": "Insufficient balance or no resource package. Please recharge.[2026101712480204c038d1e1774b82]",
+            "type": "error"
+          }
+        ]
+      }
+    ]
+  },
+  "claude_code": {
+    "endpoint": "https://api.z.ai/api/anthropic",
+    "timed_out_during_retries": true,
+    "responses": [
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][2026101712515308038e7328ed40a5]"
+          },
+          "request_id": "2026101712515308038e7328ed40a5"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][202610171251541a305b76fba34f3c]"
+          },
+          "request_id": "202610171251541a305b76fba34f3c"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][20261017125155dfbe66e02d714268]"
+          },
+          "request_id": "20261017125155dfbe66e02d714268"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][2026101712515735767e189fd3493c]"
+          },
+          "request_id": "2026101712515735767e189fd3493c"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][20261017125202a2ccb0119f7c47b8]"
+          },
+          "request_id": "20261017125202a2ccb0119f7c47b8"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][202610171252118f4f3adecbbd4b00]"
+          },
+          "request_id": "202610171252118f4f3adecbbd4b00"
+        }
+      },
+      {
+        "path": "/v1/messages?beta=true",
+        "model": "glm-5.3-flash",
+        "authorization_matches_supplied_key": true,
+        "event_types": [],
+        "http_status": 429,
+        "content_type": "application/json",
+        "response": {
+          "type": "error",
+          "error": {
+            "type": "rate_limit_error",
+            "code": "1113",
+            "message": "[1113][Insufficient balance or no resource package. Please recharge.][20261017125228ee9edf897ab64157]"
+          },
+          "request_id": "20261017125228ee9edf897ab64157"
+        }
+      }
+    ]
+  },
+  "interpretation": "Both official clients received upstream Z.ai insufficient-resource errors with the intended authorization value. This reproduces outside ScopeWeaver. Account-side cause remains unknown."
+}

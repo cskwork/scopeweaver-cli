@@ -1,0 +1,31 @@
+{
+  "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "source_dirty": true,
+  "target": "linux-amd64",
+  "environment": "Existing Ubuntu WSL2, uid 1000 user",
+  "windows_crosscompiled": true,
+  "cgo_enabled": false,
+  "offline_package": true,
+  "postgres_version": "17.11",
+  "portable_cli_e2e": {
+    "passed": true,
+    "installed_invocations": 62,
+    "duration_seconds": 13.06,
+    "exit_code": 0
+  },
+  "symlink_regression": {
+    "test": "TestChatBranchCopyRejectsDestinationSymlink",
+    "passed": true,
+    "duration_seconds": 0.01,
+    "exit_code": 0
+  },
+  "owned_processes_after": 0,
+  "runner_exit_code": 0,
+  "mode_workaround": "chmod +x only the known Linux CLI, three PostgreSQL executables, and two test binaries after Windows extraction",
+  "limitations": [
+    "WSL2 on this host, not clean Linux VM",
+    "No full Linux engine/database suite",
+    "No model calls, external targets or notifications",
+    "Windows package extraction requires executable mode restoration before WSL run"
+  ]
+}

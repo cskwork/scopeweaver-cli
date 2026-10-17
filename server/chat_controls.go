@@ -273,6 +273,10 @@ func (s *Server) admitChatHTTP(w http.ResponseWriter, r *http.Request, ref chats
 }
 
 func (s *Server) admitChatPrompt(w http.ResponseWriter, r *http.Request, ref chatstate.SessionRef, clientID, mode, targetRunID string, prompt chatstate.Prompt, legacyTask ...bool) (chatstate.Admission, bool) {
+	if s.ctx.Err() != nil {
+		writeErr(w, http.StatusServiceUnavailable, locale.Text(responseLanguage(w), "server is shutting down"))
+		return chatstate.Admission{}, false
+	}
 	if ref.TaskID > 0 && s.engine.IsDeleting(strconv.FormatInt(ref.TaskID, 10)) {
 		chatControlError(w, chatstate.ErrGone)
 		return chatstate.Admission{}, false
@@ -295,6 +299,14 @@ func (s *Server) admitChatPrompt(w http.ResponseWriter, r *http.Request, ref cha
 			writeErr(w, 503, s.chatUnavailableReason(locale.FromRequest(r)))
 			return chatstate.Admission{}, false
 		}
+	}
+	// Serialize admission with the shutdown barrier so no queued input can be
+	// accepted after the background-chat drain has begun.
+	s.chatMu.Lock()
+	defer s.chatMu.Unlock()
+	if s.chatClosing || s.ctx.Err() != nil {
+		writeErr(w, http.StatusServiceUnavailable, locale.Text(responseLanguage(w), "server is shutting down"))
+		return chatstate.Admission{}, false
 	}
 	var a chatstate.Admission
 	var err error

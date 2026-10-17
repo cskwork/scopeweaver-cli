@@ -1,0 +1,233 @@
+{
+  "started_local": "2026-10-17T14:05:15+09:00",
+  "ended_local": "2026-10-17T14:14:15.590153+09:00",
+  "binary_sha256": "64ba8d29e2632c7fbbb320ebc622a7fcc327c3359fb745fd7008488c798c887f",
+  "binary_unchanged_after": "64ba8d29e2632c7fbbb320ebc622a7fcc327c3359fb745fd7008488c798c887f",
+  "cli_invocations_logged": 54,
+  "unique_catalog_operations_invoked": 35,
+  "requested_operations": 18,
+  "requested_nonstream_positive_functional": 15,
+  "requested_stream_event_delivery": 3,
+  "stream_interrupt_failures": 3,
+  "no_provider_inference": true,
+  "real_external_notifications": 0,
+  "owned_target_http_requests": 1,
+  "notification_disabled_metadata_only": true,
+  "results": [
+    {
+      "operation": "auth init",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        2
+      ],
+      "source": "server/server.go:699",
+      "path": "/api/auth/init"
+    },
+    {
+      "operation": "auth login",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        3,
+        8,
+        9
+      ],
+      "source": "server/server.go:700",
+      "path": "/api/auth/login"
+    },
+    {
+      "operation": "auth change-password",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        4
+      ],
+      "source": "server/server.go:701",
+      "path": "/api/auth/change-password"
+    },
+    {
+      "operation": "companies reattribute",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        15
+      ],
+      "source": "server/server.go:797",
+      "path": "/api/companies/reattribute"
+    },
+    {
+      "operation": "intercept task list",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        12
+      ],
+      "source": "server/server.go:976",
+      "path": "/api/intercept/task/{taskID}"
+    },
+    {
+      "operation": "llm set",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        41
+      ],
+      "source": "server/server.go:781",
+      "path": "/api/llm"
+    },
+    {
+      "operation": "notify channels create",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        33,
+        35
+      ],
+      "source": "server/server.go:850",
+      "path": "/api/notify/channels"
+    },
+    {
+      "operation": "notify channels list",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        34,
+        36,
+        38,
+        40
+      ],
+      "source": "server/server.go:849",
+      "path": "/api/notify/channels"
+    },
+    {
+      "operation": "notify channels update",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        37
+      ],
+      "source": "server/server.go:851",
+      "path": "/api/notify/channels/{id}"
+    },
+    {
+      "operation": "notify channels delete",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        39
+      ],
+      "source": "server/server.go:852",
+      "path": "/api/notify/channels/{id}"
+    },
+    {
+      "operation": "visibility get",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        28,
+        30,
+        32
+      ],
+      "source": "server/server.go:940",
+      "path": "/api/visibility/{kind}/{id}"
+    },
+    {
+      "operation": "visibility set",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        29,
+        31
+      ],
+      "source": "server/server.go:941",
+      "path": "/api/visibility/toggle"
+    },
+    {
+      "operation": "agents prompt reset",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        20
+      ],
+      "source": "server/server.go:890",
+      "path": "/api/agents/{key}/prompt/reset"
+    },
+    {
+      "operation": "tools reset",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        25
+      ],
+      "source": "server/server.go:912",
+      "path": "/api/tools/{key}/reset"
+    },
+    {
+      "operation": "logs watch",
+      "status": "event_delivery_pass_interrupt_exit_failure",
+      "detail": "16 JSON events; native Windows CTRL_BREAK; no forced termination; exit1, expected130; request_failed: interrupt signal received",
+      "calls_jsonl_lines": [
+        49,
+        52
+      ],
+      "source": "server/server.go:707",
+      "path": "/api/logs/stream"
+    },
+    {
+      "operation": "update watch",
+      "status": "event_delivery_pass_interrupt_exit_failure",
+      "detail": "1 JSON events; native Windows CTRL_BREAK; no forced termination; exit1, expected130; request_failed: interrupt signal received",
+      "calls_jsonl_lines": [
+        53
+      ],
+      "source": "server/server.go:714",
+      "path": "/api/update/stream"
+    },
+    {
+      "operation": "exploration activity watch",
+      "status": "event_delivery_pass_interrupt_exit_failure",
+      "detail": "3 JSON events; native Windows CTRL_BREAK; no forced termination; exit1, expected130; request_failed: interrupt signal received",
+      "calls_jsonl_lines": [
+        54
+      ],
+      "source": "server/server.go:821",
+      "path": "/api/exploration/activity/stream"
+    },
+    {
+      "operation": "traffic blob download",
+      "status": "positive_functional_readback_pass",
+      "detail": "Actual successful command and owned fixture readback; see assertions.json",
+      "calls_jsonl_lines": [
+        48
+      ],
+      "source": "server/server.go:836",
+      "path": "/api/traffic/blob"
+    }
+  ],
+  "expected_error_cases": [
+    {
+      "operation": "auth login",
+      "condition": "Old password rejected after successful change; actualHTTP401/exit4"
+    },
+    {
+      "operation": "notify channels create",
+      "condition": "Disabled localhost URL rejected bySSRFguard; retried successfully with example.invalid metadata and enabled=false"
+    }
+  ],
+  "harness_limitations": [
+    "Initial auth commands were expected to be rejected but actually succeeded; expectations were corrected using explicit old/new password readbacks.",
+    "First traffic probe found capture disabled; enabled owned traffic capture before real loopback request.",
+    "First CTRL_C harness attempt used forced termination after signal did not close child. It is not cancellation evidence.",
+    "A bounded --timeout probe was inapplicable because SSE intentionally has no total request timeout; subprocess timeout killed that owned stream.",
+    "Final CTRL_BREAK attempts all exited without forced termination, but exit1 instead of130.",
+    "Transient harness exceptions remain in assertions.json; they are not product failures. Final product finding is the three stream interrupt exit-code failures."
+  ],
+  "cleanup": {
+    "checked_at": "2026-10-17T14:14:15.4037484+09:00",
+    "remaining_owned_processes": [],
+    "count": 0,
+    "fixture_server_closed": true,
+    "runtime_stop_exit": 0
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "source_dirty": true,
+  "target": "linux-amd64",
+  "environment": "Existing Ubuntu WSL2, uid 1000 user",
+  "windows_crosscompiled": true,
+  "cgo_enabled": false,
+  "offline_package": true,
+  "postgres_version": "17.11",
+  "candidate_sha256": "9B1CD73E2D0F40911DE8244DD1E4CB0F959E63A5672A3909C9021604520D1B56",
+  "package_manifest_sha256": "82EA833EFB45A683035C933E38C83C3573DFF063A50F6680DA305B45AF1F26EE",
+  "portable_cli_e2e": {
+    "passed": true,
+    "installed_invocations": 62,
+    "duration_seconds": 11.34,
+    "exit_code": 0
+  },
+  "server_regressions": {
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "tests": [
+      "TestChatBranchCopyRejectsDestinationSymlink",
+      "TestRunHTTPTool",
+      "TestHTTPToolTruncatesLargeBody",
+      "TestHTTPToolUsesManagerProxyURL"
+    ],
+    "exit_code": 0
+  },
+  "owned_processes_after": 0,
+  "runner_exit_code": 0,
+  "mode_workaround": "chmod +x only the known Linux CLI, three PostgreSQL executables, and two test binaries after Windows extraction",
+  "limitations": [
+    "WSL2 on this host, not clean Linux VM",
+    "No full Linux engine/database suite",
+    "No model calls, external targets or notifications",
+    "Windows package extraction requires executable mode restoration before WSL run",
+    "Packaged verification documents predate this final test receipt; hashes retained in artifact-hashes.json"
+  ]
+}

@@ -2,6 +2,16 @@
 
 [English](../PROVENANCE.md)
 
+## 독립 CLI 파생 프로젝트 (2026-10-17)
+
+이 저장소는 ScopeWeaver 엔진 커밋 `2df0b307dcb817a459abebd3a4c240a2019598db`에서 파생된 `cskwork/scopeweaver-cli`입니다. Go 모듈은 `github.com/cskwork/scopeweaver-cli`이며 `cmd/scopeweaver-cli`에서 에이전트용 실행 파일과 전용 엔진을 빌드합니다. 아래의 과거 출처 기록에서 설명하는 모듈·배포 이름은 원본 앱에 해당합니다.
+
+CLI 변경에는 명령 목록, 홈별 휴대형 DB·런타임, 첫 실행 시 검증된 다운로드, 공식 Codex 구독 연결 제공자, CLI 전용 패키징이 포함됩니다. 원본 AGPL 라이선스와 제3자 저작자 표시는 유지합니다. 공통 런타임 수정은 원본 앱에도 [ScopeWeaver PR #38](https://github.com/cskwork/scopeweaver/pull/38)로 제안했으며, 원본 저장소 병합을 완료했다는 뜻은 아닙니다.
+
+대기 중인 입력 편집의 빈 첨부 목록 수정과 DB·HTTP 회귀 검사는 cskwork가 작성한 [ScopeWeaver 커밋 58a79fe](https://github.com/cskwork/scopeweaver/commit/58a79fef2e84046243403659227e0735c6978e6a)에서 선택적으로 백포트했습니다. 누락·null 목록을 배열로 정규화하며 스키마 마이그레이션이나 기존 데이터 일괄 변경은 하지 않습니다. [수정 전후 검증](../evidence/standalone-cli/attachment-followup.json).
+
+## 과거 ScopeWeaver 출처 기록
+
 ScopeWeaver는 [Autumn-27/ARTEX](https://github.com/Autumn-27/ARTEX)의 커밋 `160fe13`을 바탕으로 만든 독립 파생 프로젝트입니다. GitHub 포크 네트워크 관계 없이 [cskwork/scopeweaver](https://github.com/cskwork/scopeweaver)에서 별도로 관리합니다.
 
 **2026-10-02** ScopeWeaver 변경 범위는 제품 이름, 영어 기본/한국어 선택 화면과 메시지, 문서와 내장 에이전트 지침, 설치/빌드/시작/업데이트/비밀번호 재설정 안내, 보고서 및 에이전트 언어 처리, 배포 이름입니다. 실행 파일은 `scopeweaver`(Windows는 `scopeweaver.exe`)이며 압축 파일 이름은 `scopeweaver-<version>-<os>-<arch>.zip`입니다. Docker Compose는 현재 소스를 로컬에서 빌드합니다. 릴리스 워크플로는 이 저장소와 GHCR을 대상으로 설정되어 있습니다.
