@@ -12,6 +12,10 @@ A home defaults to `state/` beside the executable. `private/` holds protected cr
 
 Stop before relocation. Paths and ports are recomputed on restart. Relocation within the same platform is supported. A running cluster must not be copied, and raw PostgreSQL directories are not a cross-platform backup format. Major-version mismatch or missing credentials fails without deleting data. Crash recovery authenticates and verifies the existing database's data directory before adopting it.
 
+Notification delivery blocks loopback and link-local destinations by default. For a trusted local relay, the existing explicit `ARTEX_NOTIFY_ALLOW_LOCAL=1` setting is passed to the private runtime; it is never enabled automatically. This opt-in allows both loopback and link-local delivery. Stop the home and set the variable before starting it again when changing this policy. Other inherited database/configuration paths remain isolated.
+
+On Windows, PostgreSQL needs ASCII command-line paths. Unicode portable folders and homes use verified ASCII 8.3 aliases when the filesystem provides them. If no usable alias exists, startup fails explicitly without moving data or changing system settings; use an ASCII folder and home. ASCII paths do not require 8.3 support.
+
 `internal/cli/operations.json` is the executable command contract: names, paths, input types, effects, response modes and source references. Tests compare it with static routes, generated side-question routes and wildcard chat dispatch. `schema` reads the same catalog.
 
 JSON, uploads, downloads, Markdown and events use separate transport paths. JSON is bounded at 32 MiB. Downloads refuse overwrite and remove incomplete files. Mutations are never automatically retried. Streams emit one JSON event per line and stop on cancellation/backend closure; backend cursor parameters support resumption.

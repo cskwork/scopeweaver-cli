@@ -2,11 +2,11 @@ package portable
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -14,7 +14,7 @@ import (
 )
 
 func TestRuntimeInstallLockSharedAcrossHomes(t *testing.T) {
-	root := t.TempDir()
+	root := canonicalBootstrapTempDir(t)
 	target := runtime.GOOS + "-" + runtime.GOARCH
 	var calls atomic.Int32
 	var active atomic.Int32
@@ -70,7 +70,7 @@ func TestRuntimeInstallLockSharedAcrossHomes(t *testing.T) {
 	}
 }
 func TestRuntimeInstallLockHonorsCancellation(t *testing.T) {
-	root := t.TempDir()
+	root := canonicalBootstrapTempDir(t)
 	os.MkdirAll(filepath.Join(root, "runtime"), 0755)
 	lock, err := acquireLock(context.Background(), filepath.Join(root, "runtime", "install.lock"))
 	if err != nil {
@@ -80,14 +80,14 @@ func TestRuntimeInstallLockHonorsCancellation(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Millisecond)
 	defer cancel()
 	err = ensurePostgresWith(ctx, root, runtime.GOOS+"-"+runtime.GOARCH, func(context.Context, string, string) error { t.Fatal("acquired held install lock"); return nil })
-	if err == nil {
-		t.Fatal("lock wait ignored cancellation")
+	if !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("lock wait did not report cancellation: %v", err)
 	}
 }
 
 func TestRuntimeInstallRejectsCompleteSymlinkBeforeFastPath(t *testing.T) {
-	root := t.TempDir()
-	real := t.TempDir()
+	root := canonicalBootstrapTempDir(t)
+	real := canonicalBootstrapTempDir(t)
 	bin := filepath.Join(real, "postgres", "bin")
 	os.MkdirAll(bin, 0755)
 	suffix := ""
@@ -109,10 +109,20 @@ func TestRuntimeInstallRejectsCompleteSymlinkBeforeFastPath(t *testing.T) {
 		t.Fatal("installer reached redirected runtime")
 		return nil
 	})
-	if err == nil || !strings.Contains(err.Error(), "symlink runtime parent") {
+	if err == nil || err.Error() != "symlink runtime parent is not allowed: "+filepath.Join(root, "runtime") {
 		t.Fatalf("error=%v", err)
 	}
 	if _, err := os.Stat(filepath.Join(real, "install.lock")); !os.IsNotExist(err) {
 		t.Fatal("lock written through symlink")
 	}
+}
+
+// Resolve system temp aliases (such as macOS /var) before testing runtime parents.
+func canonicalBootstrapTempDir(t *testing.T) string {
+	t.Helper()
+	root, err := filepath.EvalSymlinks(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	return root
 }

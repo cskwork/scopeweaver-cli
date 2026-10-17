@@ -138,8 +138,10 @@ func fakeAppServer() {
 			case "glm-5.3", "glm-5.3-flash":
 				home := os.Getenv("CODEX_HOME")
 				catalog, err := os.ReadFile(home + string(os.PathSeparator) + "models.json")
-				cwd, _ := os.Getwd()
-				if err != nil || string(catalog) != zaiModelCatalog || home != cwd || os.Getenv("SCOPEWEAVER_CODEX_ZAI_API_KEY") == "" {
+				// A system temp alias can differ from the physical working-directory path.
+				homeInfo, homeErr := os.Stat(home)
+				cwdInfo, cwdErr := os.Stat(".")
+				if err != nil || string(catalog) != zaiModelCatalog || homeErr != nil || cwdErr != nil || !os.SameFile(homeInfo, cwdInfo) || os.Getenv("SCOPEWEAVER_CODEX_ZAI_API_KEY") == "" {
 					os.Exit(28)
 				}
 				encoded, _ := json.Marshal(map[string]any{"assistant_text": home, "tool_calls": []any{}})

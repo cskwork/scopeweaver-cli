@@ -126,6 +126,19 @@ func TestIsolatedEnvironmentPreservesProviderOnly(t *testing.T) {
 		}
 	}
 }
+func TestIsolatedEnvironmentPreservesExplicitLocalNotifications(t *testing.T) {
+	for _, value := range []string{"1", "true", "0", ""} {
+		entry := "ARTEX_NOTIFY_ALLOW_LOCAL=" + value
+		got := isolatedEnv([]string{entry, "ARTEX_NOTIFY_UNKNOWN=ignored", "ARTEX_PG_DSN=live"})
+		if len(got) != 1 || got[0] != entry {
+			t.Fatalf("explicit notification policy %q was lost or unrelated settings inherited: %v", value, got)
+		}
+	}
+	if got := isolatedEnv(nil); len(got) != 0 {
+		t.Fatalf("notification delivery was enabled without an explicit setting: %v", got)
+	}
+}
+
 func TestDatabaseMajorMismatchPreservesCluster(t *testing.T) {
 	data := t.TempDir()
 	path := filepath.Join(data, "PG_VERSION")

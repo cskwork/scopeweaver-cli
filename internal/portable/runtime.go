@@ -21,6 +21,7 @@ import (
 
 	"github.com/cskwork/scopeweaver-cli/agent"
 	"github.com/cskwork/scopeweaver-cli/locale"
+	"github.com/cskwork/scopeweaver-cli/notify"
 	"github.com/cskwork/scopeweaver-cli/selfupdate"
 	"github.com/cskwork/scopeweaver-cli/server"
 	"github.com/golang-jwt/jwt/v5"
@@ -360,7 +361,7 @@ func isolatedEnv(env []string) []string {
 			if !strings.HasPrefix(key, "ARTEX_LLM_") && !strings.HasPrefix(key, "SCOPEWEAVER_LLM_") &&
 				key != "ARTEX_LOCAL_LLM_ONLY" && key != "SCOPEWEAVER_LOCAL_LLM_ONLY" &&
 				key != "ARTEX_LOCAL_LLM_ALLOWED_CIDRS" && key != "SCOPEWEAVER_LOCAL_LLM_ALLOWED_CIDRS" &&
-				key != "SCOPEWEAVER_LANGUAGE" && key != "SCOPEWEAVER_CODEX_PATH" {
+				key != "SCOPEWEAVER_LANGUAGE" && key != "SCOPEWEAVER_CODEX_PATH" && key != notify.AllowLocalTargetsEnv {
 				continue
 			}
 		}

@@ -159,7 +159,7 @@ func fixtureDownload(data []byte) downloader {
 }
 func TestInstallPublishesCompleteRuntimeAndReusesWithoutNetwork(t *testing.T) {
 	data := fixtureArchive(t, false)
-	root := t.TempDir()
+	root := canonicalRuntimeTempDir(t)
 	pins := fixturePins(data)
 	if err := ensureWithSources(context.Background(), root, "linux-amd64", pins, fixtureDownload(data)); err != nil {
 		t.Fatal(err)
@@ -182,7 +182,7 @@ func TestInstallFailuresPreserveDataAndAllowRetry(t *testing.T) {
 	good := fixtureArchive(t, false)
 	for _, kind := range []string{"hash", "archive", "interrupted", "cancelled"} {
 		t.Run(kind, func(t *testing.T) {
-			root := t.TempDir()
+			root := canonicalRuntimeTempDir(t)
 			sentinel := filepath.Join(root, "user-data")
 			os.WriteFile(sentinel, []byte("preserve"), 0600)
 			payload := good
@@ -219,7 +219,7 @@ func TestInstallFailuresPreserveDataAndAllowRetry(t *testing.T) {
 	}
 }
 func TestExistingIncompleteRuntimeIsPreserved(t *testing.T) {
-	root := t.TempDir()
+	root := canonicalRuntimeTempDir(t)
 	existing := filepath.Join(root, "runtime", "postgres")
 	os.MkdirAll(existing, 0755)
 	sentinel := filepath.Join(existing, "existing")
@@ -236,7 +236,7 @@ func TestExistingIncompleteRuntimeIsPreserved(t *testing.T) {
 	}
 }
 func TestRuntimeFolderWriteFailureIsActionable(t *testing.T) {
-	root := t.TempDir()
+	root := canonicalRuntimeTempDir(t)
 	os.WriteFile(filepath.Join(root, "runtime"), []byte("keep"), 0600)
 	err := Ensure(context.Background(), root, "linux-amd64")
 	if err == nil || !strings.Contains(err.Error(), "folder permissions") {
@@ -247,7 +247,7 @@ func TestRuntimeFolderWriteFailureIsActionable(t *testing.T) {
 func TestAtomicPublishNeverReplacesExistingFileOrDirectory(t *testing.T) {
 	for _, directory := range []bool{false, true} {
 		t.Run(fmt.Sprint("directory=", directory), func(t *testing.T) {
-			root := t.TempDir()
+			root := canonicalRuntimeTempDir(t)
 			source := filepath.Join(root, "source")
 			target := filepath.Join(root, "target")
 			if directory {
@@ -275,8 +275,8 @@ func TestAtomicPublishNeverReplacesExistingFileOrDirectory(t *testing.T) {
 func TestValidateRejectsSymlinkParentsWithCompleteBinaries(t *testing.T) {
 	for _, level := range []string{"runtime", "postgres", "bin"} {
 		t.Run(level, func(t *testing.T) {
-			root := t.TempDir()
-			real := t.TempDir()
+			root := canonicalRuntimeTempDir(t)
+			real := canonicalRuntimeTempDir(t)
 			bin := real
 			link := filepath.Join(root, "runtime")
 			switch level {
@@ -309,7 +309,7 @@ func TestValidateRejectsSymlinkParentsWithCompleteBinaries(t *testing.T) {
 				}
 				t.Fatal(err)
 			}
-			if err := Validate(root, runtime.GOOS+"-"+runtime.GOARCH); err == nil || !strings.Contains(err.Error(), "symlink runtime parent") {
+			if err := Validate(root, runtime.GOOS+"-"+runtime.GOARCH); err == nil || err.Error() != "symlink runtime parent is not allowed: "+link {
 				t.Fatalf("complete runtime through symlink accepted: %v", err)
 			}
 			if got, _ := os.ReadFile(filepath.Join(bin, "postgres"+suffix)); string(got) != "preserve" {
@@ -317,4 +317,14 @@ func TestValidateRejectsSymlinkParentsWithCompleteBinaries(t *testing.T) {
 			}
 		})
 	}
+}
+
+// Resolve system temp aliases (such as macOS /var) before testing runtime parents.
+func canonicalRuntimeTempDir(t *testing.T) string {
+	t.Helper()
+	root, err := filepath.EvalSymlinks(t.TempDir())
+	if err != nil {
+		t.Fatal(err)
+	}
+	return root
 }

@@ -115,14 +115,14 @@ func validateClusterVersion(data, major string) error {
 	return nil
 }
 func runPostgres(ctx context.Context, exe string, args ...string) (string, error) {
-	cmd := exec.CommandContext(ctx, exe, args...)
-	cmd.Env = isolatedEnv(os.Environ())
-	hideCommand(cmd)
+	cmd, err := newPostgresCommand(ctx, exe, args...)
+	if err != nil {
+		return "", err
+	}
 	// pg_ctl's background postgres child can inherit stdout/stderr handles on
 	// Windows. Pipes make CombinedOutput wait for that child's entire lifetime.
 	// Real files let us wait only for pg_ctl while retaining startup diagnostics.
 	var capture *os.File
-	var err error
 	for i := 0; i+1 < len(args); i++ {
 		if args[i] == "-D" {
 			capture, err = os.OpenFile(filepath.Join(filepath.Dir(args[i+1]), "private", "postgres-command.log"), os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0600)
@@ -293,9 +293,10 @@ func startPostgres(ctx context.Context, home string) (result *postgresProcess, r
 	return process, nil
 }
 func postgresRunning(ctx context.Context, tools postgresTools, data string) (bool, error) {
-	cmd := exec.CommandContext(ctx, tools.ctl, "-D", data, "status")
-	cmd.Env = isolatedEnv(os.Environ())
-	hideCommand(cmd)
+	cmd, err := newPostgresCommand(ctx, tools.ctl, "-D", data, "status")
+	if err != nil {
+		return false, err
+	}
 	output, err := cmd.CombinedOutput()
 	if err == nil {
 		return true, nil
@@ -341,7 +342,15 @@ func (p *postgresProcess) verify(ctx context.Context) error {
 	}
 	matches := filepath.Clean(actual) == filepath.Clean(expected)
 	if runtime.GOOS == "windows" {
-		matches = strings.EqualFold(filepath.Clean(actual), filepath.Clean(expected))
+		actualInfo, err := os.Stat(actual)
+		if err != nil {
+			return fmt.Errorf("verify PostgreSQL data directory: %w", err)
+		}
+		expectedInfo, err := os.Stat(expected)
+		if err != nil {
+			return err
+		}
+		matches = os.SameFile(actualInfo, expectedInfo)
 	}
 	if !matches {
 		return errors.New("PostgreSQL data directory does not match this private runtime; refusing to adopt or stop it")
