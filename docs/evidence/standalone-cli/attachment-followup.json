@@ -1,0 +1,121 @@
+{
+  "verified_at": "2026-10-17T07:26:35.9392891+00:00",
+  "upstream_fix_commit": "58a79fef2e84046243403659227e0735c6978e6a",
+  "cli_head": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "production_lines_added": 6,
+  "database_test_lines_added": 145,
+  "server_test_lines_added": 107,
+  "modification_scope": [
+    "db/chat_controls.go",
+    "db/chat_controls_test.go",
+    "server/chat_controls_test.go"
+  ],
+  "database_safety": "Each helper invocation created and dropped a separate scopeweaver_test_backport_* database on the owned disposable PostgreSQL fixture; no user database, schema migration or data patch.",
+  "behavior": "Normalize nil attachments to [] before queued-edit persistence and after successful admission decoding; retain JSON type errors, CAS revision rejection, queue order and other inputs.",
+  "vet": {
+    "command": "go vet ./db ./server",
+    "exit_code": 0
+  },
+  "checks": [
+    {
+      "label": "attachment-followup-red-db-20261017",
+      "log": "attachment-followup-red-db-20261017.jsonl",
+      "first_time": "2026-10-17T16:19:02.4373206+09:00",
+      "last_time": "2026-10-17T16:19:09.0495062+09:00",
+      "package_result": "fail",
+      "passed_test_events": 6,
+      "failed_test_events": 7,
+      "skipped_test_events": 0,
+      "failed_tests": [
+        "TestChatInputEditAttachmentManifest/nil",
+        "TestChatInputEditAttachmentManifest/omitted",
+        "TestChatInputEditAttachmentManifest/null",
+        "TestChatInputEditAttachmentManifest",
+        "TestChatInputLegacyAttachmentManifest/omitted",
+        "TestChatInputLegacyAttachmentManifest/null",
+        "TestChatInputLegacyAttachmentManifest"
+      ]
+    },
+    {
+      "label": "attachment-followup-red-server-20261017",
+      "log": "attachment-followup-red-server-20261017.jsonl",
+      "first_time": "2026-10-17T16:19:27.8995743+09:00",
+      "last_time": "2026-10-17T16:19:31.2507058+09:00",
+      "package_result": "fail",
+      "passed_test_events": 4,
+      "failed_test_events": 3,
+      "skipped_test_events": 0,
+      "failed_tests": [
+        "TestChatInputPatchAttachmentManifest/omitted",
+        "TestChatInputPatchAttachmentManifest/null",
+        "TestChatInputPatchAttachmentManifest"
+      ]
+    },
+    {
+      "label": "attachment-followup-green-db-20261017",
+      "log": "attachment-followup-green-db-20261017.jsonl",
+      "first_time": "2026-10-17T16:20:25.0122427+09:00",
+      "last_time": "2026-10-17T16:20:33.5048945+09:00",
+      "package_result": "pass",
+      "passed_test_events": 18,
+      "failed_test_events": 0,
+      "skipped_test_events": 0,
+      "failed_tests": []
+    },
+    {
+      "label": "attachment-followup-green-server-20261017",
+      "log": "attachment-followup-green-server-20261017.jsonl",
+      "first_time": "2026-10-17T16:20:30.2958965+09:00",
+      "last_time": "2026-10-17T16:20:33.2747907+09:00",
+      "package_result": "pass",
+      "passed_test_events": 7,
+      "failed_test_events": 0,
+      "skipped_test_events": 0,
+      "failed_tests": []
+    },
+    {
+      "label": "attachment-followup-compat-server-20261017",
+      "log": "attachment-followup-compat-server-20261017.jsonl",
+      "first_time": "2026-10-17T16:20:58.2447345+09:00",
+      "last_time": "2026-10-17T16:21:03.2550579+09:00",
+      "package_result": "pass",
+      "passed_test_events": 6,
+      "failed_test_events": 0,
+      "skipped_test_events": 0,
+      "failed_tests": []
+    },
+    {
+      "label": "attachment-followup-full-db-20261017",
+      "command": "go run dist/verify-cli-final-shared.go -pkg ./db -run . -label attachment-followup-full-db-20261017",
+      "log": "attachment-followup-full-db-20261017.jsonl",
+      "log_sha256": "ed799170a6f459bc83c33b7d53042876b84f0b5783b61068885ca1da34467b58",
+      "first_time": "2026-10-17T16:24:58.4876459+09:00",
+      "last_time": "2026-10-17T16:26:18.1624053+09:00",
+      "package_result": "pass",
+      "passed_top_level_tests": 230,
+      "passed_test_events": 355,
+      "failed_test_events": 0,
+      "skipped_test_events": 0,
+      "failed_tests": []
+    }
+  ],
+  "source_files": [
+    {
+      "path": "db/chat_controls.go",
+      "sha256": "006ac7553f66a26b5c10df8ace15df9aae18a9e371080385a6e2495c9f56ee1f"
+    },
+    {
+      "path": "db/chat_controls_test.go",
+      "sha256": "47f1b2a2093241fa6ae5c2f49a296704824f33d9e9eecf112f68582af943e5aa"
+    },
+    {
+      "path": "server/chat_controls_test.go",
+      "sha256": "13377ff1382edec4b87a6100813ddea141e13345b8bfe8f77612f13d572c2074"
+    }
+  ],
+  "limitations": [
+    "Full database suite plus focused HTTP attachment and adjacent compatibility checks passed; full repository and packaged CLI suites are handled by the coordinator.",
+    "Full Windows server suite was not repeated; the inherited Windows symlink privilege failure remains outside this backport.",
+    "No commit or push performed."
+  ]
+}
