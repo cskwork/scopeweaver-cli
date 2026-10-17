@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -36,6 +37,9 @@ func fakeArgumentRepair(input json.RawMessage, normal string) string {
 		return "fake-" + mode
 	case "valid":
 		return `{"assistant_text":"hello","tool_calls":[{"name":"echo","arguments":"{\"value\":\"hello\"}"}]}`
+	case "object-valid":
+		// Z.AI nested-object wire form: valid envelope, no repair needed.
+		return `{"assistant_text":"hello","tool_calls":[{"name":"echo","arguments":{"value":"hello"}}]}`
 	case "malformed":
 		return `{"assistant_text":"broken"`
 	case "unknown":
@@ -216,11 +220,11 @@ func TestGLMArgumentRepairFailureRetainsPaidUsage(t *testing.T) {
 
 func TestArgumentRepairContextBoundAndSafeDiagnostic(t *testing.T) {
 	prefix := strings.Repeat("x", maxContextBytes-len(argumentRepairFeedback))
-	prompt, err := argumentRepairContext(prefix)
+	prompt, err := argumentRepairContext(prefix, "")
 	if err != nil || len(prompt) != maxContextBytes {
 		t.Fatalf("bounded feedback length %d, error %v", len(prompt), err)
 	}
-	if _, err := argumentRepairContext(prefix + "x"); err == nil {
+	if _, err := argumentRepairContext(prefix+"x", ""); err == nil {
 		t.Fatal("oversize correction accepted")
 	}
 	var diagnostic bytes.Buffer
@@ -252,4 +256,114 @@ func TestGLMArgumentRepairEarlyConsumerUsage(t *testing.T) {
 		t.Fatal("missing paid usage")
 	}
 	requireArgumentSessions(t, sessions, "initial\nrepair\n")
+}
+
+// R20: content-free rejection diagnostics. The R19 GLM/low failure left the
+// actual arguments shape unknown; decodeEnvelope now classifies the FIRST
+// rejected call (allowlisted tool name, call index, JSON kind, byte count) into
+// the error text and the correction log line — never raw arguments.
+func TestArgumentShapeClassification(t *testing.T) {
+	cases := []struct {
+		raw  *string
+		kind string
+	}{
+		{nil, "nil"},
+		{ptr(""), "invalid-json"},
+		{ptr("not json"), "invalid-json"},
+		{ptr("[]"), "not-object:array"},
+		{ptr(`"file.txt"`), "not-object:string"},
+		{ptr("5"), "not-object:number"},
+		{ptr("true"), "not-object:boolean"},
+		{ptr("null"), "not-object:null"},
+		{ptr(`"{\"file_path\":\"x\"}"`), "not-object:string"},
+		{ptr(`{"file_path":"x"}`), "object"},
+		{ptr("{}"), "object"},
+	}
+	for _, tc := range cases {
+		kind, n := argumentShape(tc.raw)
+		want := 0
+		if tc.raw != nil {
+			want = len(strings.TrimSpace(*tc.raw))
+		}
+		if kind != tc.kind || n != want {
+			t.Errorf("argumentShape(%v) = %q,%d want %q,%d", tc.raw, kind, n, tc.kind, want)
+		}
+	}
+}
+
+func ptr(s string) *string { return &s }
+
+func TestDecodeEnvelopeRejectionDetailIsContentFree(t *testing.T) {
+	tools := []llm.ToolSchema{{Name: "Read", Description: "read", InputSchema: map[string]any{"type": "object"}}}
+	envelope := func(args string) string {
+		return `{"assistant_text":"x","tool_calls":[{"name":"Read","arguments":` + args + `}]}`
+	}
+	cases := []struct {
+		name, value, kind string // value = the intended arguments VALUE (not JSON-encoded)
+	}{
+		{"bare array", `[]`, "not-object:array"},
+		{"nil", "", "nil"},
+		{"bare windows path", `C:\Users\owned\file.txt`, "invalid-json"},
+		{"double encoded", `"{\"file_path\":\"x\"}"`, "not-object:string"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			args := "null"
+			if tc.kind != "nil" {
+				encoded, err := json.Marshal(tc.value)
+				if err != nil {
+					t.Fatal(err)
+				}
+				args = string(encoded)
+			}
+			_, _, err := decodeEnvelope(envelope(args), tools)
+			if !errors.Is(err, errArgumentObject) {
+				t.Fatalf("error identity lost: %v", err)
+			}
+			msg := err.Error()
+			prefix := `; rejected call 1 tool "Read": ` + tc.kind + ", "
+			if !strings.Contains(msg, prefix) {
+				t.Fatalf("detail mismatch: got %s want substring %s", msg, prefix)
+			}
+			// The detail carries only kind + byte count after the tool name.
+			detail := msg[strings.Index(msg, "; rejected call"):]
+			if raw := strings.TrimSuffix(strings.SplitN(detail, ", ", 2)[1], " bytes"); raw != "" && len(raw) > 4 {
+				t.Fatalf("detail byte count implausible (possible raw content): %s", detail)
+			}
+		})
+	}
+}
+
+func TestRejectionDetailExtractionAndSafety(t *testing.T) {
+	if d := rejectionDetail(nil); d != "" {
+		t.Fatalf("nil error must yield empty detail, got %q", d)
+	}
+	if d := rejectionDetail(errors.New("unrelated")); d != "" {
+		t.Fatalf("unrelated error must yield empty detail, got %q", d)
+	}
+	wrapped := fmt.Errorf("%w%s", errArgumentObject, "; rejected call 2 tool \"Read\": not-object:array, 2 bytes")
+	if d := rejectionDetail(wrapped); d != "; rejected call 2 tool \"Read\": not-object:array, 2 bytes" {
+		t.Fatalf("detail extraction mismatch: %q", d)
+	}
+}
+
+// The single allowed retry is shape-informed: the content-free rejection detail
+// rides into the correction feedback so the model learns WHAT was wrong (kind,
+// byte count — never raw arguments) alongside the generic contract restatement.
+func TestArgumentRepairFeedbackCarriesShapeDetail(t *testing.T) {
+	detail := `; rejected call 1 tool "Read": not-object:array, 2 bytes`
+	prompt, err := argumentRepairContext("ctx", detail)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := " Rejected call 1 tool \"Read\": not-object:array, 2 bytes."
+	if !strings.Contains(prompt, want) {
+		t.Fatalf("feedback missing shape detail:\n%s", prompt)
+	}
+	if plain, _ := argumentRepairContext("ctx", ""); strings.Contains(plain, "Rejected call") {
+		t.Fatal("empty detail must not alter the generic feedback")
+	}
+	if leaked, _ := argumentRepairContext("ctx", "; rejected call 1 tool \"Read\": not-object:array, 2 bytes"); strings.Contains(leaked, "[") {
+		t.Fatal("detail must remain content-free")
+	}
 }

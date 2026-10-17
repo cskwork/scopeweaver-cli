@@ -98,11 +98,21 @@ func (p *provider) run(ctx context.Context, req llm.CompletionRequest, prompt st
 	if err != nil {
 		return "", s.usage, err
 	}
+	// Private wire form: the Z.AI/GLM route requests arguments as a nested JSON
+	// object, removing the JSON-inside-a-string double encoding where R20
+	// observed invalid inner JSON inside an otherwise valid envelope; the OAuth
+	// route keeps its known-working strict string schema and instructions.
+	instructions := bridgeInstructions
+	schema := outputSchema(req.Tools)
+	if p.options.BaseURL == ZAIBaseURL {
+		instructions = zaiBridgeInstructions
+		schema = zaiOutputSchema(req.Tools)
+	}
 	threadParams := map[string]any{
 		"model": p.options.Model, "ephemeral": true, "cwd": scratch,
 		"approvalPolicy": "never", "sandbox": "read-only", "environments": []any{},
 		"dynamicTools": []any{}, "runtimeWorkspaceRoots": []any{}, "selectedCapabilityRoots": []any{},
-		"baseInstructions": bridgeInstructions, "developerInstructions": strings.Join(req.System, "\n\n") + "\n\n" + bridgeInstructions, "config": config,
+		"baseInstructions": instructions, "developerInstructions": strings.Join(req.System, "\n\n") + "\n\n" + instructions, "config": config,
 	}
 	if p.options.BaseURL == ZAIBaseURL {
 		threadParams["modelProvider"] = "scopeweaver_zai"
@@ -127,7 +137,7 @@ func (p *provider) run(ctx context.Context, req llm.CompletionRequest, prompt st
 	}
 	turnParams := map[string]any{
 		"threadId": s.threadID, "input": []any{map[string]any{"type": "text", "text": prompt}},
-		"environments": []any{}, "outputSchema": outputSchema(req.Tools), "approvalPolicy": "never",
+		"environments": []any{}, "outputSchema": schema, "approvalPolicy": "never",
 		"summary": "none", "runtimeWorkspaceRoots": []any{}, "sandboxPolicy": map[string]any{"type": "readOnly"},
 	}
 

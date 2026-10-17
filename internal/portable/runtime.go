@@ -494,7 +494,11 @@ func Run(ctx context.Context, home string) (retErr error) {
 	}
 	defer func() {
 		cancel(agent.AbortShutdown)
-		_ = mgr.Close()
+		// Close now stops and joins the log sink's DB writer before closing the
+		// pool; a genuine close failure must surface instead of being hidden.
+		if err := mgr.Close(); err != nil {
+			retErr = errors.Join(retErr, fmt.Errorf("close manager: %w", err))
+		}
 	}()
 	settle := time.AfterFunc(selfupdate.SettleDelay, selfupdate.Settle)
 	defer settle.Stop()

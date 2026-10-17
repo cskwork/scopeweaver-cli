@@ -1,0 +1,123 @@
+{
+  "candidate": "R19 Windows amd64",
+  "date": "2026-10-17",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "binary_sha256": "7f213ce69636aaa50e9e6400c3fd0119fac69f74c37202d5d07c098448eed4f3",
+  "runtime_mode": "download",
+  "manifest_payload_files": 177,
+  "source_freeze_sha256": "a7c6bcd910c051063230a61c1f83a0aaf88d4ea252c3163f5291d235c5fd3991",
+  "r18_source_files_unchanged": 23,
+  "task_budget_seconds": 420,
+  "workflows": [
+    {
+      "case": "core",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 28.57,
+      "log_sha256": "fb768af42f35f77d26a521f3681b743d3d7106b18724864d997fd4c8a57bc3a1",
+      "installed_cli_calls": 62,
+      "correction_attempts": null,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "flash-high",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 388.06,
+      "log_sha256": "435b5ddccb7ced23b67e1bf74b01fd136b2e57d0961320032a09edeac0a61a69",
+      "installed_cli_calls": 200,
+      "correction_attempts": 0,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "flash-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 118.15,
+      "log_sha256": "773c37d3a331e74fa176d04ce3545a8de3f50f314f9abf95260454cced477980",
+      "installed_cli_calls": 114,
+      "correction_attempts": 0,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "oauth",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 131.94,
+      "log_sha256": "04ac27cae3db52e9972414a1f054470553471402ec23ac4bf0c6450c9a6c250c",
+      "installed_cli_calls": 120,
+      "correction_attempts": null,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "glm-low",
+      "go_exit": 1,
+      "passed": false,
+      "elapsed_seconds": null,
+      "log_sha256": "0f10e424823fb1bb11bc1f2594869c21b6ac3ccbf33a9ee895467eef7587b72b",
+      "installed_cli_calls": null,
+      "correction_attempts": 1,
+      "failed_test_seconds": 22.55
+    }
+  ],
+  "acceptance": "FAIL: 4 of 5 workflows passed; no release",
+  "failure": {
+    "case": "glm-low",
+    "phase": "First chat before any tool, planner or worker executed",
+    "error": "codex: GLM argument-format correction failed: codex: tool arguments must be a JSON object string",
+    "terminal_state": "model_error",
+    "correction_attempts": 1,
+    "usage": {
+      "input_tokens": 35953,
+      "output_tokens": 172,
+      "cache_read_tokens": 2112,
+      "cache_write_tokens": 0
+    },
+    "raw_argument_shape": "not captured; unknown",
+    "cause": "under investigation; not inferred from earlier fixtures"
+  },
+  "shutdown_verification": {
+    "fresh_database_engine_shutdown_wire": {
+      "pass": 11,
+      "fail": 0,
+      "skip": 0
+    },
+    "isolated_stock_shutdown": {
+      "pass": 29,
+      "fail": 0,
+      "skip": 0
+    },
+    "focused_six_packages": {
+      "pass": 162,
+      "fail": 0,
+      "skip": 18
+    },
+    "native_linux_race_real_postgres": {
+      "pass": 6,
+      "fail": 0,
+      "skip": 0,
+      "go_exit": 0,
+      "scope": "TestStopDB only",
+      "owned_cluster_stopped": true
+    },
+    "full_clean_source_vet_exit": 0,
+    "packaging_exit": 0,
+    "original_shared_fix": {
+      "pr": "https://github.com/cskwork/scopeweaver/pull/40",
+      "head": "c9fb642879adf5c4edd53b561986d7b01fb8afb2",
+      "independent_blocked_insert": "RED before / GREEN after with unchanged oracle",
+      "genuine_sql_error_guard": "PASS before and after",
+      "occupied_port_regression_passes": 21,
+      "merged": false
+    }
+  },
+  "limitations": [
+    "Candidate-specific Windows AI results; no all-workflow acceptance for R19.",
+    "Passing workflow timings are functional evidence, not benchmarks.",
+    "Local paid E2E used a separate clone with verified runtime files; public folder is runtime-free.",
+    "The format failure is in the CLI-only codexprovider bridge, absent from original ScopeWeaver.",
+    "R19 preserves accepted AI source bytes; the malformed provider arguments remain unknown pending content-free diagnostics.",
+    "Native final-head archives, final human review, merge and public release remain separate gates."
+  ]
+}

@@ -338,6 +338,7 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 			break
 		}
 		if state["status"] == "failed" {
+			codexTaskFlowDigest(t, run, taskID)
 			t.Fatalf("synthetic planner/worker task failed: %v", state)
 		}
 		pause(3 * time.Second)
@@ -352,10 +353,14 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 				t.Logf("task failure detail: %v", detail)
 			}
 		}
+		codexTaskFlowDigest(t, run, taskID)
+		t.Logf("owned fixture requests at budget failure: GETs=%d unexpected=%d", fixtureRequests.Load(), unexpectedRequests.Load())
 		t.Fatalf("planner/worker task did not finish within budget: task=%s activities=%v", taskID, trace)
 	}
-	if fixtureRequests.Load() == 0 || unexpectedRequests.Load() != 0 {
-		t.Fatalf("owned fixture requests=%d unexpected=%d", fixtureRequests.Load(), unexpectedRequests.Load())
+	if fixtureRequests.Load() != 1 || unexpectedRequests.Load() != 0 {
+		codexTaskFlowDigest(t, run, taskID)
+		t.Logf("owned fixture requests at GET-count failure: GETs=%d unexpected=%d", fixtureRequests.Load(), unexpectedRequests.Load())
+		t.Fatalf("owned fixture must receive exactly one GET; actual=%d unexpected=%d", fixtureRequests.Load(), unexpectedRequests.Load())
 	}
 	taskTokens := run("exploration", "tokens", "get", "--task", taskID)
 	plannerUsage, workerUsage := false, false
@@ -368,20 +373,32 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 		workerUsage = workerUsage || strings.HasPrefix(worker, "work#")
 	}
 	if !plannerUsage || !workerUsage {
+		codexTaskFlowDigest(t, run, taskID)
 		t.Fatalf("real planner/worker usage unproven: %v", taskTokens)
 	}
 	activity := run("exploration", "activity", "list", "--task", taskID, "--limit", "500")
 	plannerIntent, workerFinding, workerHTTPResult := false, false, false
 	workerHTTPCalls := map[string]bool{}
+	// Exact-dispatch oracles: the fixture contract is ONE worker intent, created by ONE
+	// successful planner add_intent call, and ONE worker WebFetch. Existence-only
+	// checks would let extra planner intents or duplicate probes pass unnoticed.
+	plannerAddIntentUses, plannerAddIntentSuccesses, intentsCreated := 0, 0, 0
 	for _, row := range codexRows(t, activity, "items") {
 		worker := codexString(row["worker"])
 		isWorker := strings.HasPrefix(worker, "work#")
 		if row["kind"] == "tool_use" {
 			plannerIntent = plannerIntent || (worker == "planner" && row["tool"] == "add_intent")
 			workerFinding = workerFinding || (isWorker && row["tool"] == "report_finding")
+			if worker == "planner" && row["tool"] == "add_intent" {
+				plannerAddIntentUses++
+			}
 			if isWorker && row["tool"] == "WebFetch" {
 				workerHTTPCalls[codexString(row["tool_use_id"])] = true
 			}
+		}
+		if worker == "planner" && row["kind"] == "tool_result" && row["tool"] == "add_intent" && row["is_error"] != true {
+			plannerAddIntentSuccesses++
+			intentsCreated += codexIntentsCreated(codexString(row["summary"]))
 		}
 		if isWorker && row["kind"] == "tool_result" && row["is_error"] != true && workerHTTPCalls[codexString(row["tool_use_id"])] {
 			detail := run("exploration", "activity", "get", "--task", taskID, "--seq", codexString(row["seq"]))
@@ -389,14 +406,97 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 		}
 	}
 	if !plannerIntent || !workerFinding || !workerHTTPResult {
+		codexTaskFlowDigest(t, run, taskID)
 		t.Fatalf("planner intent=%v worker finding=%v paired worker HTTP evidence=%v; activities=%v", plannerIntent, workerFinding, workerHTTPResult, activity)
+	}
+	if plannerAddIntentUses != 1 || plannerAddIntentSuccesses != 1 || intentsCreated != 1 {
+		codexTaskFlowDigest(t, run, taskID)
+		t.Fatalf("planner must dispatch exactly one worker intent via exactly one successful add_intent: uses=%d successes=%d intentsCreated=%d; activities=%v", plannerAddIntentUses, plannerAddIntentSuccesses, intentsCreated, activity)
+	}
+	if len(workerHTTPCalls) != 1 {
+		codexTaskFlowDigest(t, run, taskID)
+		t.Fatalf("worker must issue exactly one WebFetch call for the sole endpoint; actual=%d; activities=%v", len(workerHTTPCalls), activity)
 	}
 	report := run("report", "get", "--task", taskID)
 	if text := codexString(report["data"]); !strings.Contains(text, labMarker) || !strings.Contains(text, "SYNTHETIC LAB ONLY") {
+		codexTaskFlowDigest(t, run, taskID)
 		t.Fatalf("report lacks actual synthetic finding evidence: %v", report)
 	}
 	runSubscriptionExtraE2E(t, run, submit, branchID, taskID)
 	t.Logf("Verified %d installed CLI invocations; real %s planner/worker through Codex transport, owned loopback HTTP evidence (%d GETs), persisted usage and report. Disposable home: %s", calls, providerName, fixtureRequests.Load(), home)
+}
+
+// codexTaskFlowDigest logs a bounded, structured digest of the planner/worker
+// control flow for a failed synthetic task: round boundaries, add_intent/prove_goal
+// pairs, report_finding/WebFetch calls with worker identity, and the persisted
+// finding snapshot. It answers the questions earlier failure receipts could not
+// (which worker reported which finding, whether prove_goal ran, what each round
+// dispatched) without dumping raw prompts or credentials.
+func codexTaskFlowDigest(t *testing.T, run func(...string) map[string]any, taskID string) {
+	t.Helper()
+	activity := run("exploration", "activity", "list", "--task", taskID, "--limit", "500")
+	for _, row := range codexRows(t, activity, "items") {
+		tool := codexString(row["tool"])
+		// get_worker_output/list_findings successes are included so same-session
+		// post-dispatch polling is judgeable from the digest alone.
+		interesting := row["kind"] == "round" || row["is_error"] == true ||
+			(tool == "add_intent" || tool == "prove_goal" || tool == "report_finding" || tool == "WebFetch" ||
+				tool == "get_worker_output" || tool == "list_findings")
+		if !interesting {
+			continue
+		}
+		detail := ""
+		wantDetail := row["kind"] == "tool_result" || row["is_error"] == true ||
+			(row["kind"] == "tool_use" && (tool == "add_intent" || tool == "prove_goal" || tool == "report_finding"))
+		if wantDetail {
+			detail = codexString(run("exploration", "activity", "get", "--task", taskID, "--seq", codexString(row["seq"]))["detail"])
+			if runes := []rune(detail); len(runes) > 1200 {
+				detail = string(runes[:1200]) + "…"
+			}
+		}
+		summary := []rune(codexString(row["summary"]))
+		if len(summary) > 300 {
+			summary = append(summary[:300], []rune("…")...)
+		}
+		t.Logf("task flow: seq=%s ts=%s worker=%s kind=%s tool=%s intent_id=%v is_error=%v summary=%q detail=%s",
+			codexString(row["seq"]), codexString(row["ts"]), codexString(row["worker"]), codexString(row["kind"]), tool,
+			row["intent_id"], row["is_error"], string(summary), detail)
+	}
+	findings := run("findings", "list", "--task-id", taskID, "--page", "1", "--limit", "20")
+	t.Logf("task flow: persisted findings snapshot: %v", codexRows(t, findings, "items"))
+	// Goal/frontier/finding state as the engine sees it, bounded to keep receipts readable.
+	if raw, err := json.Marshal(run("exploration", "graph", "get", "--task", taskID)); err == nil {
+		snapshot := string(raw)
+		if runes := []rune(snapshot); len(runes) > 4000 {
+			snapshot = string(runes[:4000]) + "…"
+		}
+		t.Logf("task flow: exploration graph snapshot: %s", snapshot)
+	}
+	intents := run("exploration", "intents", "list", "--task", taskID, "--limit", "50")
+	t.Logf("task flow: intent states: %v", intents)
+}
+
+// codexIntentsCreated counts intents a successful planner add_intent result created:
+// "intent created: N" (single-item mode) or {"ids":[...]} (batch mode; zero ids are
+// per-item failures and do not count).
+func codexIntentsCreated(summary string) int {
+	summary = strings.TrimSpace(summary)
+	if strings.HasPrefix(summary, "intent created:") {
+		return 1
+	}
+	var parsed struct {
+		IDs []any `json:"ids"`
+	}
+	if err := json.Unmarshal([]byte(summary), &parsed); err == nil {
+		created := 0
+		for _, id := range parsed.IDs {
+			if codexNumber(id) > 0 {
+				created++
+			}
+		}
+		return created
+	}
+	return 0
 }
 
 func codexString(value any) string {

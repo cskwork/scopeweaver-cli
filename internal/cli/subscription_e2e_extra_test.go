@@ -109,12 +109,7 @@ func runSubscriptionExtraE2E(t *testing.T, run func(...string) map[string]any, s
 
 	findings := codexRows(t, run("findings", "list", "--task-id", taskID, "--page", "1", "--limit", "20"), "items")
 	if len(findings) != 1 || !strings.Contains(codexString(findings[0]["name"]), "SYNTHETIC LAB ONLY") {
-		activity := run("exploration", "activity", "list", "--task", taskID, "--limit", "500")
-		for _, row := range codexRows(t, activity, "items") {
-			if row["tool"] == "report_finding" || row["is_error"] == true {
-				t.Logf("finding failure activity: %v", run("exploration", "activity", "get", "--task", taskID, "--seq", codexString(row["seq"])))
-			}
-		}
+		codexTaskFlowDigest(t, run, taskID)
 		t.Fatalf("expected exactly one real synthetic finding; actual=%v", findings)
 	}
 	findingID := codexString(findings[0]["finding_id"])

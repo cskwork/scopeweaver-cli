@@ -83,10 +83,16 @@ func fakeAppServer() {
 			_ = json.Unmarshal(req.Params["baseInstructions"], &base)
 			var developer string
 			_ = json.Unmarshal(req.Params["developerInstructions"], &developer)
-			if !strings.Contains(developer, bridgeInstructions) || (model != "text" && !strings.Contains(developer, "fixture-system")) {
+			// The private wire form is route-specific: Z.AI/GLM threads carry the
+			// nested-object instructions; OAuth threads keep the string form.
+			expectedInstructions := bridgeInstructions
+			if model == "glm-5.3" || model == "glm-5.3-flash" {
+				expectedInstructions = zaiBridgeInstructions
+			}
+			if !strings.Contains(developer, expectedInstructions) || (model != "text" && !strings.Contains(developer, "fixture-system")) {
 				os.Exit(27)
 			}
-			if base != bridgeInstructions {
+			if base != expectedInstructions {
 				os.Exit(24)
 			}
 			response(map[string]any{"thread": map[string]any{"id": thread}})
@@ -105,6 +111,28 @@ func fakeAppServer() {
 		case "turn/start":
 			if string(req.Params["environments"]) != "[]" || len(req.Params["outputSchema"]) == 0 || len(req.Params["effort"]) != 0 {
 				os.Exit(25)
+			}
+			// Route-specific arguments wire form: OAuth requests a JSON-object
+			// string; Z.AI/GLM requests a nested JSON object.
+			var output struct {
+				Properties struct {
+					ToolCalls struct {
+						Items struct {
+							Properties struct {
+								Arguments struct {
+									Type string `json:"type"`
+								} `json:"arguments"`
+							} `json:"properties"`
+						} `json:"items"`
+					} `json:"tool_calls"`
+				} `json:"properties"`
+			}
+			wantArgumentsType := "string"
+			if model == "glm-5.3" || model == "glm-5.3-flash" {
+				wantArgumentsType = "object"
+			}
+			if json.Unmarshal(req.Params["outputSchema"], &output) != nil || output.Properties.ToolCalls.Items.Properties.Arguments.Type != wantArgumentsType {
+				os.Exit(29)
 			}
 			response(map[string]any{"turn": map[string]any{"id": turn}})
 			if model == "retry" {

@@ -2,6 +2,8 @@
 
 ScopeWeaver 기능을 에이전트가 명령줄에서 사용할 수 있는 독립 실행형 CLI입니다. 배포 폴더에 Go 엔진, 기본 스킬과 의존성 고지가 포함됩니다. 처음 기능 명령을 실행하면 체크섬이 고정된 PostgreSQL과 Windows용 Visual C++ 실행 파일을 같은 폴더 안에 내려받습니다. 별도의 ScopeWeaver·데이터베이스·Docker·Node.js·Go 설치 없이 실행합니다.
 
+**공개 보류(2026-10-17).** R22의 포터블 코어, GLM-5.3/low, GLM-5.3-Flash/low, ChatGPT OAuth/low는 통과했습니다. Flash/high는 기존 작업 제한 420초를 초과해 전체 5개 중 4개 흐름이 통과했습니다. AI 실행 4개 모두 실제 도구를 실행했으며 인자 형식 보정은 0회였습니다. 남은 수정, 전체 통과, 네이티브 배포 패키지 검사와 최종 사람 검토가 필요합니다. 공개 배포판은 없습니다. [날짜별 검증 기록](docs/ko/CLI-VERIFICATION.md)을 확인하세요.
+
 [English](README.md) · [구조와 호환성](docs/ko/cli.md) · [AI 제공자](docs/ko/ai-providers.md) · [검증](docs/ko/CLI-VERIFICATION.md)
 
 ## 시작
@@ -66,7 +68,7 @@ scopeweaver-cli logs watch --json
 
 내장 AI는 일반 API·로컬 제공자와 `codex-cli`를 지원합니다. `codex-cli`는 채팅·플래너·워커의 모델 요청을 공식 Codex app-server로 보냅니다. 키 없는 프로필은 `codex login`으로 로그인한 ChatGPT 계정을 사용합니다. Z.AI 프로필은 `glm-5.3`, `https://api.z.ai/api/v1`과 해당 Coding Plan 인증 정보를 사용합니다. 공식 Codex는 별도 의존성이며 PATH 또는 `SCOPEWEAVER_CODEX_PATH`에서 찾습니다. 검증한 버전은 0.162.1입니다.
 
-모델 가중치, 구독과 인증 정보는 포함하지 않습니다. 프로필 저장·활성화 명령, 응답 버퍼링, 도구 격리와 제공자 검증 결과는 [AI 제공자 설정과 한계](docs/ko/ai-providers.md)를 확인하세요. 기록된 GLM 호출은 추론을 완료하지 못했습니다. 사용자는 Personal Coding Plan·Team Plan 키라고 확인했습니다. Z.AI는 `insufficient_quota`를 반환했고 직접 내장 호출은 `usageLimitExceeded`로 실패했습니다. 계정 권한과 실제 원인은 별도로 검증하지 못했습니다.
+모델 가중치, 구독과 인증 정보는 포함하지 않습니다. 과거 R18 Windows 후보에서 ChatGPT OAuth, GLM-5.3/low, GLM-5.3-Flash/low·high 흐름을 통과했습니다. 명령, 정확한 결과와 한계는 [AI 제공자 설정](docs/ko/ai-providers.md)과 [날짜별 검증 기록](docs/ko/CLI-VERIFICATION.md)을 확인하세요. 공개에는 네이티브 패키지 검사와 유지관리자 사람 검토가 필요합니다.
 
 사용자 지정 명령, Python 도구, 브라우저 도구, 외부 MCP·서비스는 해당 연동에서 선택한 실행 파일이나 서비스를 요구합니다. `doctor`는 이식 가능한 핵심 실행 환경과 선택적 연동 요구 사항을 구분합니다.
 
@@ -102,4 +104,4 @@ ScopeWeaver 커밋 `2df0b307dcb817a459abebd3a4c240a2019598db`를 기반으로 �
 
 [AGPL-3.0](LICENSE), [제3자 고지](THIRD_PARTY_NOTICES.txt), 상위 프로젝트 사용 제한이 유지됩니다. 소스 연구와 로컬 격리 환경의 기술 검증에만 사용하세요. 소유하거나 허가받은 대상도 포함해 온라인 시스템에 대한 실제 테스트는 상위 프로젝트에서 금지합니다. [보존된 출처 문서](docs/ko/PROVENANCE.md)를 확인하세요.
 
-제3자 실행 환경의 라이선스는 `licenses/`, 소스 정보는 `POSTGRES-SOURCES.json`에 있습니다. 내려받은 실행 환경은 배포 폴더 안에 유지됩니다. 패키지 생성은 공개 배포를 뜻하지 않으며 릴리스나 원격 저장소는 생성하지 않았습니다.
+제3자 실행 환경의 라이선스는 `licenses/`, 소스 정보는 `POSTGRES-SOURCES.json`에 있습니다. 내려받은 실행 환경은 배포 폴더 안에 유지됩니다. 패키지 생성은 공개 배포를 뜻하지 않습니다. CLI 저장소는 비공개이며 [PR #1](https://github.com/cskwork/scopeweaver-cli/pull/1)은 dev를 대상으로 합니다. 공개 CLI 태그나 릴리스는 생성하지 않았습니다.
