@@ -164,7 +164,15 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 		t.Fatalf("unhealthy packaged runtime: %v", health)
 	}
 	submit(map[string]any{"language": "en", "workers": 1, "llm_max_concurrent": 1, "web_search_enabled": false, "notify_enabled": false, "llm_record": true}, "settings", "set")
-	profileData := map[string]any{"name": providerName + " installed E2E", "format": "codex-cli", "model": model, "base_url": baseURL, "reasoning_effort": "low", "streaming": true}
+	effort := "low"
+	if baseURL != "" && os.Getenv("SCOPEWEAVER_CLI_GLM_E2E_EFFORT") != "" {
+		effort = os.Getenv("SCOPEWEAVER_CLI_GLM_E2E_EFFORT")
+		if effort != "low" && effort != "high" && effort != "max" {
+			t.Fatal("SCOPEWEAVER_CLI_GLM_E2E_EFFORT must be low, high or max")
+		}
+	}
+	t.Logf("Real subscription profile: model=%s reasoning_effort=%s", model, effort)
+	profileData := map[string]any{"name": providerName + " installed E2E", "format": "codex-cli", "model": model, "base_url": baseURL, "reasoning_effort": effort, "streaming": true}
 	if baseURL != "" {
 		profileData["context_window_k"] = 1000
 	}
