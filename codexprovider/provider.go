@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"io"
 	"iter"
+	"log"
 	"os"
 	"strings"
 	"unicode/utf8"
@@ -28,6 +29,11 @@ const ZAIBaseURL = "https://api.z.ai/api/v1"
 const maxOutputBytes = 2 << 20
 const maxContextBytes = 32 << 20
 const maxToolCalls = 128
+
+var errArgumentObject = errors.New("codex: tool arguments must be a JSON object string")
+
+const argumentRepairFeedback = "\nARGUMENT_FORMAT_CORRECTION: The prior response was rejected and no tool calls were executed. Return a new complete action envelope. Each tool arguments string must encode the complete JSON input object matching the selected tool input_schema, including all required fields. Array values belong under their named object keys; never return a bare array, null, or placeholder input. If no valid tool call is needed, return tool_calls as an empty array."
+const argumentRepairDiagnostic = "codex: GLM argument-format correction started (attempt 2 of 2; prior response not executed)"
 
 // Options selects a Codex model and its official provider configuration.
 // Empty BaseURL uses the existing Codex ChatGPT login, never an extracted token.
@@ -98,16 +104,33 @@ func New(options Options) (llm.Provider, error) {
 	return &provider{options: options}, nil
 }
 
-func (p *provider) Complete(ctx context.Context, req llm.CompletionRequest) (llm.Message, string, llm.Usage, error) {
+func (p *provider) checkInvocation(ctx context.Context) error {
 	if err := ctx.Err(); err != nil {
-		return llm.Message{}, "", llm.Usage{}, err
+		return err
 	}
 	localOnly := p.options.LocalLLMOnly
 	if p.options.PolicyResolver != nil {
 		localOnly, _ = p.options.PolicyResolver()
 	}
 	if localOnly {
-		return llm.Message{}, "", llm.Usage{}, errors.New("codex: blocked by local-LLM-only policy (Codex uses a cloud provider)")
+		return errors.New("codex: blocked by local-LLM-only policy (Codex uses a cloud provider)")
+	}
+	return ctx.Err()
+}
+
+func argumentRepairContext(prompt string) (string, error) {
+	if len(prompt)+len(argumentRepairFeedback) > maxContextBytes {
+		return "", errors.New("codex: argument-format correction context exceeds 32 MiB")
+	}
+	return prompt + argumentRepairFeedback, nil
+}
+
+func (p *provider) Complete(ctx context.Context, req llm.CompletionRequest) (llm.Message, string, llm.Usage, error) {
+	// Both fresh threads share one invocation budget; run cannot extend this deadline.
+	ctx, cancel := context.WithTimeout(ctx, invocationTimeout)
+	defer cancel()
+	if err := p.checkInvocation(ctx); err != nil {
+		return llm.Message{}, "", llm.Usage{}, err
 	}
 	prompt, err := completionContext(req)
 	if err != nil {
@@ -118,7 +141,27 @@ func (p *provider) Complete(ctx context.Context, req llm.CompletionRequest) (llm
 		return llm.Message{}, "", usage, err
 	}
 	message, stop, err := decodeEnvelope(text, req.Tools)
-	return message, stop, usage, err
+	if p.options.BaseURL != ZAIBaseURL || !errors.Is(err, errArgumentObject) {
+		return message, stop, usage, err
+	}
+	prompt, err = argumentRepairContext(prompt)
+	if err != nil {
+		return llm.Message{}, "", usage, err
+	}
+	if err := p.checkInvocation(ctx); err != nil {
+		return llm.Message{}, "", usage, err
+	}
+	log.Print(argumentRepairDiagnostic)
+	text, repairUsage, err := p.run(ctx, req, prompt)
+	usage.Add(repairUsage)
+	if err != nil {
+		return llm.Message{}, "", usage, err
+	}
+	message, stop, err = decodeEnvelope(text, req.Tools)
+	if err != nil {
+		return llm.Message{}, "", usage, fmt.Errorf("codex: GLM argument-format correction failed: %w", err)
+	}
+	return message, stop, usage, nil
 }
 
 // Stream buffers the structured result until the turn has completed and the
@@ -264,19 +307,34 @@ func decodeEnvelope(text string, tools []llm.ToolSchema) (llm.Message, string, e
 	if *envelope.Text != "" {
 		message.Content = append(message.Content, llm.TextBlock(*envelope.Text))
 	}
+	invalidArguments := false
 	for _, call := range *envelope.Calls {
 		if !allowed[call.Name] {
 			return llm.Message{}, "", errors.New("codex: action envelope requested an unavailable tool")
 		}
 		if call.Arguments == nil {
-			return llm.Message{}, "", errors.New("codex: tool arguments must be a JSON object string")
+			invalidArguments = true
+			continue
 		}
 		args := bytes.TrimSpace([]byte(*call.Arguments))
 		var object map[string]json.RawMessage
-		if len(args) == 0 || args[0] != '{' || json.Unmarshal(args, &object) != nil || object == nil || rejectDuplicateKeys(args) != nil {
-			return llm.Message{}, "", errors.New("codex: tool arguments must be a JSON object string")
+		if !json.Valid(args) {
+			invalidArguments = true
+			continue
+		}
+		if rejectDuplicateKeys(args) != nil {
+			return llm.Message{}, "", errors.New("codex: malformed or ambiguous tool arguments")
+		}
+		if args[0] != '{' || json.Unmarshal(args, &object) != nil || object == nil {
+			invalidArguments = true
+			continue
 		}
 		message.Content = append(message.Content, llm.ContentBlock{Type: llm.BlockToolUse, ID: "codex_" + uuid.NewString(), Name: call.Name, Input: json.RawMessage(args)})
+	}
+	// Check every call before classifying a repairable error: a later unknown
+	// tool or ambiguous argument object must still fail closed without a retry.
+	if invalidArguments {
+		return llm.Message{}, "", errArgumentObject
 	}
 	stop := "end_turn"
 	if len(*envelope.Calls) > 0 {

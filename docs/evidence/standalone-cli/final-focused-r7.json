@@ -1,0 +1,21 @@
+{
+  "candidate": "R7 working source after 80f9016",
+  "command": "go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider ./notify -count=1 -json",
+  "passed_test_events": 339,
+  "failed_test_events": 0,
+  "skipped_test_events": 18,
+  "package_results": {
+    "github.com/cskwork/scopeweaver-cli/selfupdate": "pass",
+    "github.com/cskwork/scopeweaver-cli/packaging": "pass",
+    "github.com/cskwork/scopeweaver-cli/internal/runtimebundle": "pass",
+    "github.com/cskwork/scopeweaver-cli/notify": "pass",
+    "github.com/cskwork/scopeweaver-cli/internal/cli": "pass",
+    "github.com/cskwork/scopeweaver-cli/internal/portable": "pass",
+    "github.com/cskwork/scopeweaver-cli/codexprovider": "pass"
+  },
+  "vet_passed": true,
+  "log_sha256": "016e9ef5f163b261b5e9719d3b207c3bd7be82916f18428fcaa37ff5a73f2b3e",
+  "limits": [
+    "Opt-in installed and paid model tests are separate. Unix-specific updater and Windows symlink privilege skips remain explicit."
+  ]
+}

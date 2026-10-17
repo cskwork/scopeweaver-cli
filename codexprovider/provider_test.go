@@ -160,11 +160,27 @@ func fakeAppServer() {
 				data, _ := json.Marshal(map[string]any{"assistant_text": input[0].Text, "tool_calls": []any{}})
 				text = string(data)
 			}
+			text = fakeArgumentRepair(req.Params["input"], text)
+			if text == "fake-transport" {
+				os.Exit(31)
+			}
 			item := map[string]any{"type": "agentMessage", "id": "answer", "phase": "final_answer", "text": text}
+			if text == "fake-native" {
+				item["type"] = "commandExecution"
+			}
 			event("item/started", map[string]any{"threadId": thread, "turnId": turn, "item": map[string]any{"type": "agentMessage", "id": "answer", "text": ""}})
 			event("item/completed", map[string]any{"threadId": thread, "turnId": turn, "item": item})
 			for i := 0; i < 2; i++ {
 				event("thread/tokenUsage/updated", map[string]any{"threadId": thread, "turnId": turn, "tokenUsage": map[string]any{"total": map[string]any{"inputTokens": 100, "outputTokens": 10, "cachedInputTokens": 20, "cacheWriteInputTokens": 3}}})
+			}
+			if text == "fake-quota" {
+				event("error", map[string]any{"threadId": thread, "turnId": turn, "willRetry": false, "error": map[string]any{"codexErrorInfo": "usageLimitExceeded"}})
+				time.Sleep(time.Minute)
+				return
+			}
+			if text == "fake-hang" {
+				time.Sleep(time.Minute)
+				return
 			}
 			status := "completed"
 			if model == "failed" {

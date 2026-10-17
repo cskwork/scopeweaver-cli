@@ -81,6 +81,15 @@ func runPortableCLICodexEndToEnd(t *testing.T, binaryEnv, providerName, model, b
 		if _, err := execute(stopCtx, "runtime", "stop", "--yes"); err != nil {
 			t.Errorf("owned runtime cleanup: %v", err)
 		}
+		if baseURL != "" {
+			// Count only the fixed safe diagnostic; never expose raw prompts or model output.
+			log, err := os.ReadFile(filepath.Join(home, "private", "runtime.log"))
+			if err != nil {
+				t.Errorf("read owned GLM correction evidence: %v", err)
+			} else {
+				t.Logf("GLM argument-format correction attempts: %d", bytes.Count(log, []byte("codex: GLM argument-format correction started (attempt 2 of 2; prior response not executed)")))
+			}
+		}
 	}()
 	run := func(args ...string) map[string]any {
 		t.Helper()
