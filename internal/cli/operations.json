@@ -400,7 +400,7 @@
     "name": "agents update",
     "method": "PATCH",
     "path": "/api/agents/{key}",
-    "description": "Agents update.",
+    "description": "Replace a custom agent name and description. Omitted description becomes empty; built-in agents cannot be changed.",
     "response": "json",
     "effect": "write",
     "parameters": [
@@ -415,8 +415,8 @@
         "name": "name",
         "in": "body",
         "type": "string",
-        "required": false,
-        "description": "Name."
+        "required": true,
+        "description": "Required nonempty agent name."
       },
       {
         "name": "description",
@@ -636,14 +636,14 @@
         "in": "body",
         "type": "array",
         "required": false,
-        "description": "Task ids."
+        "description": "Ignored by this archive operation; supply archive_ids instead."
       },
       {
         "name": "archive_ids",
         "in": "body",
         "type": "array",
-        "required": false,
-        "description": "Archive ids."
+        "required": true,
+        "description": "JSON array of 1 to 100 positive numeric archive IDs, for example [1, 2]."
       }
     ],
     "body": true,
@@ -740,14 +740,14 @@
         "in": "body",
         "type": "array",
         "required": false,
-        "description": "Task ids."
+        "description": "Ignored by this archive operation; supply archive_ids instead."
       },
       {
         "name": "archive_ids",
         "in": "body",
         "type": "array",
-        "required": false,
-        "description": "Archive ids."
+        "required": true,
+        "description": "JSON array of 1 to 100 positive numeric archive IDs, for example [1, 2]."
       }
     ],
     "body": true,
@@ -1336,15 +1336,15 @@
         "name": "scope",
         "in": "query",
         "type": "string",
-        "required": false,
-        "description": "Scope."
+        "required": true,
+        "description": "Upload destination: task, session or staging."
       },
       {
         "name": "id",
         "in": "query",
         "type": "string",
-        "required": false,
-        "description": "Id."
+        "required": true,
+        "description": "Destination ID containing only letters, digits, underscores or hyphens."
       }
     ],
     "body": false,
@@ -2940,8 +2940,8 @@
         "name": "description",
         "in": "body",
         "type": "string",
-        "required": false,
-        "description": "Description."
+        "required": true,
+        "description": "Required nonempty follow-up description, at most 4000 Unicode characters."
       }
     ],
     "body": true,
@@ -4409,21 +4409,21 @@
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "Format."
+        "description": "Provider format: anthropic, openai, openai-responses, ollama or codex-cli. codex-cli uses the official Codex CLI for ChatGPT OAuth or the Z.AI Coding Plan."
       },
       {
         "name": "base_url",
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "Base url."
+        "description": "Provider API base URL. For codex-cli, leave empty for ChatGPT OAuth or use https://api.z.ai/api/v1 for the GLM Coding Plan."
       },
       {
         "name": "proxy",
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "LLM outbound proxy (http/https/socks5); empty uses environment variables."
+        "description": "HTTP provider outbound proxy. codex-cli does not support this field; leave empty."
       },
       {
         "name": "model",
@@ -4500,14 +4500,14 @@
         "in": "body",
         "type": "boolean",
         "required": false,
-        "description": "Streaming selects the wire protocol: true (default) = streaming (SSE);\nfalse = real non-streaming (stream:false, single JSON response via\nProvider.Complete). Non-streaming sidesteps flaky gateway SSE at the cost of\nlive in-run progress. Maps to agent.Config.Stream."
+        "description": "Use provider streaming. codex-cli buffers and validates each structured completion before emitting text and tool events."
       },
       {
         "name": "max_tokens",
         "in": "body",
         "type": "integer",
         "required": false,
-        "description": "MaxTokens caps a single reply's output in tokens. 0 = send no cap and let\nthe endpoint's own default apply (the historical behaviour). Unlike\nContextWindowK — the model's total capacity, used locally to size compaction\n— this value travels with every request."
+        "description": "Output-token limit for HTTP providers. For codex-cli this is an advisory model instruction, not an API-enforced cap."
       },
       {
         "name": "keep_alive",
@@ -4567,8 +4567,8 @@
         "name": "task",
         "in": "query",
         "type": "string",
-        "required": false,
-        "description": "Task ID; omitted selects the active task where supported."
+        "required": true,
+        "description": "Required task ID; no active-task fallback."
       }
     ],
     "body": false,
@@ -4586,8 +4586,8 @@
         "name": "task",
         "in": "query",
         "type": "string",
-        "required": false,
-        "description": "Task ID; omitted selects the active task where supported."
+        "required": true,
+        "description": "Required task ID; no active-task fallback."
       }
     ],
     "body": false,
@@ -4858,14 +4858,14 @@
         "in": "body",
         "type": "integer",
         "required": false,
-        "description": "Max tokens."
+        "description": "Output-token limit for HTTP providers. For codex-cli this is an advisory model instruction, not an API-enforced cap."
       },
       {
         "name": "provider",
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "Provider."
+        "description": "Provider format: anthropic, openai, openai-responses, ollama or codex-cli. codex-cli uses the official Codex CLI for ChatGPT OAuth or the Z.AI Coding Plan."
       },
       {
         "name": "model",
@@ -4879,14 +4879,14 @@
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "Base url."
+        "description": "Provider API base URL. For codex-cli, leave empty for ChatGPT OAuth or use https://api.z.ai/api/v1 for the GLM Coding Plan."
       },
       {
         "name": "proxy",
         "in": "body",
         "type": "string",
         "required": false,
-        "description": "Proxy."
+        "description": "HTTP provider outbound proxy. codex-cli does not support this field; leave empty."
       },
       {
         "name": "api_key",
@@ -4921,7 +4921,7 @@
         "in": "body",
         "type": "boolean",
         "required": false,
-        "description": "Omitted means streaming, matching profile-save defaults."
+        "description": "Use provider streaming. codex-cli buffers and validates each structured completion before emitting text and tool events."
       },
       {
         "name": "session_header_key",
@@ -6273,7 +6273,7 @@
         "in": "body",
         "type": "array",
         "required": true,
-        "description": "Task ids."
+        "description": "JSON array of task ID strings, for example [\"1\", \"2\"]."
       },
       {
         "name": "archive_ids",
@@ -6304,9 +6304,9 @@
       {
         "name": "asset_id",
         "in": "query",
-        "type": "string",
-        "required": false,
-        "description": "Asset id."
+        "type": "integer",
+        "required": true,
+        "description": "Positive asset ID whose related intents, facts and findings to list."
       }
     ],
     "body": false,
@@ -6391,14 +6391,14 @@
         "in": "body",
         "type": "array",
         "required": true,
-        "description": "Task ids."
+        "description": "JSON array of task ID strings, for example [\"1\", \"2\"]."
       },
       {
         "name": "category_id",
         "in": "body",
         "type": "integer",
         "required": true,
-        "description": "Category id."
+        "description": "Category ID, or explicit JSON null in --data to clear the category. Omission is rejected."
       }
     ],
     "body": true,
@@ -6424,7 +6424,7 @@
         "in": "body",
         "type": "integer",
         "required": true,
-        "description": "Category id."
+        "description": "Category ID, or explicit JSON null in --data to clear the category. Omission is rejected."
       }
     ],
     "body": true,
@@ -7467,7 +7467,7 @@
         "in": "body",
         "type": "array",
         "required": true,
-        "description": "Task ids."
+        "description": "JSON array of task ID strings, for example [\"1\", \"2\"]."
       },
       {
         "name": "action",
@@ -8664,7 +8664,7 @@
         "in": "body",
         "type": "string",
         "required": true,
-        "description": "command | script | http"
+        "description": "Tool kind: command, script, http or shell."
       },
       {
         "name": "exec",
@@ -8758,7 +8758,7 @@
         "in": "body",
         "type": "string",
         "required": true,
-        "description": "command | script | http"
+        "description": "Tool kind: command, script, http or shell."
       },
       {
         "name": "exec",
@@ -9105,7 +9105,7 @@
     "name": "triggers update",
     "method": "PATCH",
     "path": "/api/triggers/{id}",
-    "description": "Triggers update.",
+    "description": "Replace the complete trigger configuration; omitted settings reset. Include at least one interval or event condition. on_tool_call requires nonempty tool_names.",
     "response": "json",
     "effect": "write",
     "parameters": [

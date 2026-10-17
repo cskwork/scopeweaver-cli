@@ -1,0 +1,71 @@
+{
+  "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "source_dirty": true,
+  "source_hashes_sha256": "ee40406eaed7d4ef3096fad6bcc65071c0e5bb31b760d76f3ee5dd79e451727b",
+  "candidate_sha256": "871852ae5357efca260e919a75e6722b9dbf7658c6024c93fa25b8db45f00cfe",
+  "package_manifest_sha256": "99b4f5dc0ddc38a490e6f6a581b76bd39b48315a7271587e0519625c74eed7a1",
+  "archive_sha256": "521e6a8ec5e52a6867f56fdcf5d12a06a1c0252c1247768c3f13a7a92436f7a0",
+  "runtime_originally_absent": true,
+  "runtime_manifest_files": 0,
+  "runtime_mode": "download",
+  "target": "linux-amd64",
+  "prior_drvfs_failure": "../bootstrap-linux-final-20261017/verification/drvfs-failed-receipt.json",
+  "execution_package_path": "/tmp/scopeweaver-bootstrap-native-20261017-d19bidr7/scopeweaver-cli-linux-amd64",
+  "native_filesystem_execution": true,
+  "environment": "Existing Ubuntu WSL2, non-root uid 1000",
+  "windows_crosscompiled": true,
+  "cgo_enabled": false,
+  "no_native_linux_go": true,
+  "steps": [
+    {
+      "step": "native-runtimebundle-tests",
+      "exit_code": 0,
+      "duration_seconds": 0.182
+    },
+    {
+      "step": "cold-health",
+      "exit_code": 0,
+      "duration_seconds": 8.012,
+      "stdout": "{\"ok\":true,\"service\":\"artex\",\"version\":\"0.1.0\"}\n",
+      "stderr": ""
+    },
+    {
+      "step": "cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.861
+    },
+    {
+      "step": "portable-cli-e2e",
+      "exit_code": 0,
+      "duration_seconds": 11.515,
+      "installed_invocations": 62,
+      "passed": true
+    },
+    {
+      "step": "final-cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.082
+    }
+  ],
+  "limitations": [
+    "Windows cross-build executed in existing WSL2, not a clean Linux VM",
+    "No native macOS execution or full Linux engine/database suite",
+    "No model inference, external test targets or notification sends",
+    "Only known cross-built CLI and test binary require executable mode restoration; runtime extraction preserves its publisher modes",
+    "Windows-mounted WSL drvfs rejects RENAME_NOREPLACE with EINVAL; original failure retained and helpful Linux-only diagnostic verified. Run package from native Linux filesystem."
+  ],
+  "downloaded_runtime_present": true,
+  "postgres_version": "postgres (PostgreSQL) 17.11",
+  "passed": true,
+  "owned_processes_after": 0,
+  "owned_process_details": [],
+  "runtime_staging_after": [],
+  "test_binary_sha256": "19b70119c7d2736f22373277f4d55ebeee184b8053b5bec37399de6477c714cb",
+  "drvfs_diagnostic_verified": true,
+  "drvfs_diagnostic_exit_code": 3,
+  "owned_process_check": "All /proc/<pid>/exe paths beneath the native extracted package, including PostgreSQL child processes whose argv changes.",
+  "postgres_source_url": "https://repo.maven.apache.org/maven2/io/zonky/test/postgres/embedded-postgres-binaries-linux-amd64/17.11.0/embedded-postgres-binaries-linux-amd64-17.11.0.jar",
+  "postgres_archive_sha256": "0dd7b72b6f335b8ecfb355fa24c5781e8a93edd09880bb77eb52ebbf29b3e96d",
+  "download_success_requires_pinned_checksum_before_extraction": true,
+  "filesystem_probe": "filesystem-probe-corrected.json"
+}

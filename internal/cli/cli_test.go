@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -169,6 +170,91 @@ func TestStreamCancellation(t *testing.T) {
 		t.Fatal("stream ignored cancellation")
 	}
 }
+
+type cliTestWriteFunc func([]byte) (int, error)
+
+func (write cliTestWriteFunc) Write(p []byte) (int, error) { return write(p) }
+
+func TestStreamSignalCauseReturnsCancelledExitCode(t *testing.T) {
+	a, out, errout := testApp()
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/event-stream")
+		io.WriteString(w, "data: {\"fixture\":\"stream-open\"}\n\n")
+		w.(http.Flusher).Flush()
+		<-r.Context().Done()
+	}))
+	defer backend.Close()
+	a.Connect = func(context.Context, string) (*portable.Connection, error) {
+		return &portable.Connection{URL: backend.URL}, nil
+	}
+	signalCause := errors.New("interrupt signal received")
+	ctx, cancel := context.WithCancelCause(t.Context())
+	defer cancel(nil)
+	// Cancel only after a real HTTP event reaches stdout, as with a live signal.
+	a.Out = cliTestWriteFunc(func(p []byte) (int, error) {
+		n, err := out.Write(p)
+		cancel(signalCause)
+		return n, err
+	})
+	code := a.Run(ctx, []string{"logs", "watch", "--json"})
+	if !strings.Contains(out.String(), "stream-open") || ctx.Err() != context.Canceled || context.Cause(ctx) != signalCause {
+		t.Fatalf("stream cancellation fixture did not execute: stdout=%s ctx=%v cause=%v", out, ctx.Err(), context.Cause(ctx))
+	}
+	var result struct{ Error struct{ Code, Detail string } }
+	if err := json.Unmarshal(errout.Bytes(), &result); err != nil {
+		t.Fatalf("invalid stderr: %s; %v", errout, err)
+	}
+	if code != 130 || result.Error.Code != "cancelled" || !strings.Contains(result.Error.Detail, signalCause.Error()) {
+		t.Fatalf("signal cancellation exit=%d stderr=%s; want 130/cancelled with original cause", code, errout)
+	}
+}
+
+func TestStreamFailuresRemainDistinctFromUserCancellation(t *testing.T) {
+	for _, tc := range []struct {
+		name     string
+		deadline bool
+		wantCode string
+	}{
+		{name: "custom deadline cause", deadline: true, wantCode: "request_failed"},
+		{name: "backend HTTP failure", wantCode: "backend_error"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			a, _, errout := testApp()
+			backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if !tc.deadline {
+					http.Error(w, "fixture unavailable", http.StatusServiceUnavailable)
+					return
+				}
+				w.Header().Set("Content-Type", "text/event-stream")
+				io.WriteString(w, "data: {}\n\n")
+				w.(http.Flusher).Flush()
+				<-r.Context().Done()
+			}))
+			defer backend.Close()
+			a.Connect = func(context.Context, string) (*portable.Connection, error) {
+				return &portable.Connection{URL: backend.URL}, nil
+			}
+			ctx := t.Context()
+			if tc.deadline {
+				var cancel context.CancelFunc
+				ctx, cancel = context.WithTimeoutCause(ctx, 50*time.Millisecond, errors.New("fixture deadline reached"))
+				defer cancel()
+			}
+			code := a.Run(ctx, []string{"logs", "watch", "--json"})
+			var result struct{ Error struct{ Code string } }
+			if err := json.Unmarshal(errout.Bytes(), &result); err != nil {
+				t.Fatalf("invalid stderr: %s; %v", errout, err)
+			}
+			if code != 1 || result.Error.Code != tc.wantCode {
+				t.Fatalf("exit=%d stderr=%s; want 1/%s", code, errout, tc.wantCode)
+			}
+			if tc.deadline && ctx.Err() != context.DeadlineExceeded {
+				t.Fatalf("deadline fixture error=%v", ctx.Err())
+			}
+		})
+	}
+}
+
 func TestHelpAndDryRunNeverStartRuntime(t *testing.T) {
 	a, _, _ := testApp()
 	a.Connect = func(context.Context, string) (*portable.Connection, error) {

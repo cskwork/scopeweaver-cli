@@ -18,6 +18,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/cskwork/scopeweaver-cli/internal/runtimebundle"
 	"github.com/jackc/pgx/v5"
 )
 
@@ -29,6 +30,39 @@ type postgresProcess struct {
 	tools               postgresTools
 	data, dsn, adminDSN string
 	port                int
+}
+
+// The lock belongs to the executable folder, not a home: distinct private
+// homes share one portable runtime installation.
+func ensurePostgres(ctx context.Context) error {
+	exe, err := os.Executable()
+	if err != nil {
+		return err
+	}
+	return ensurePostgresAt(ctx, filepath.Dir(exe), runtime.GOOS+"-"+runtime.GOARCH)
+}
+func ensurePostgresAt(ctx context.Context, root, target string) error {
+	return ensurePostgresWith(ctx, root, target, runtimebundle.Ensure)
+}
+func ensurePostgresWith(ctx context.Context, root, target string, install func(context.Context, string, string) error) error {
+	// Refuse redirected binary directories before checking an existing runtime
+	// or creating the shared lock directory.
+	if err := runtimebundle.CheckParents(filepath.Join(root, "runtime", "postgres", "bin")); err != nil {
+		return err
+	}
+	if err := runtimebundle.Validate(root, target); err == nil {
+		return nil
+	}
+	dir := filepath.Join(root, "runtime")
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return fmt.Errorf("create portable runtime next to CLI (check folder permissions): %w", err)
+	}
+	lock, err := acquireLock(ctx, filepath.Join(dir, "install.lock"))
+	if err != nil {
+		return fmt.Errorf("lock portable runtime next to CLI (check folder permissions): %w", err)
+	}
+	defer lock.Close()
+	return install(ctx, root, target)
 }
 
 func postgresBinaries() (postgresTools, error) {
@@ -47,7 +81,7 @@ func postgresToolsAt(bin string) (postgresTools, error) {
 	for _, path := range []string{tools.initdb, tools.ctl, tools.postgres} {
 		info, err := os.Stat(path)
 		if err != nil || info.IsDir() {
-			return postgresTools{}, fmt.Errorf("bundled PostgreSQL is missing %s; unpack the complete portable release", path)
+			return postgresTools{}, fmt.Errorf("portable PostgreSQL is missing %s; run an operational command to download the pinned runtime", path)
 		}
 		if runtime.GOOS != "windows" && info.Mode()&0111 == 0 {
 			return postgresTools{}, fmt.Errorf("bundled PostgreSQL is not executable: %s", path)

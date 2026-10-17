@@ -29,15 +29,23 @@ import (
 var ErrNotRunning = errors.New("private runtime is not running")
 
 type Connection struct {
-	URL   string `json:"url"`
-	Token string `json:"-"`
-	PID   int    `json:"pid"`
+	URL                   string `json:"url"`
+	Token                 string `json:"-"`
+	PID                   int    `json:"pid"`
+	instance              string
+	shutdownResultVersion int
 }
 type runtimeRecord struct {
-	URL      string `json:"url"`
-	PID      int    `json:"pid"`
-	Instance string `json:"instance"`
+	URL                   string `json:"url"`
+	PID                   int    `json:"pid"`
+	Instance              string `json:"instance"`
+	ShutdownResultVersion int    `json:"shutdown_result_version,omitempty"`
 }
+type shutdownResult struct {
+	Instance string `json:"instance"`
+	Error    string `json:"error,omitempty"`
+}
+
 type fileLock struct{ file *os.File }
 
 func canonicalHome(home string) (string, error) {
@@ -170,10 +178,10 @@ func Status(ctx context.Context, home string) (*Connection, error) {
 	if got != rec {
 		return nil, errors.New("private runtime identity does not match its state")
 	}
-	return &Connection{URL: rec.URL, Token: token, PID: rec.PID}, nil
+	return &Connection{URL: rec.URL, Token: token, PID: rec.PID, instance: rec.Instance, shutdownResultVersion: rec.ShutdownResultVersion}, nil
 }
 
-// Ensure starts the bundled engine once and reuses it across CLI invocations.
+// Ensure starts the portable engine once and reuses it across CLI invocations.
 func Ensure(ctx context.Context, home string) (*Connection, error) {
 	home, err := canonicalHome(home)
 	if err != nil {
@@ -182,7 +190,7 @@ func Ensure(ctx context.Context, home string) (*Connection, error) {
 	if err = prepareHome(home); err != nil {
 		return nil, err
 	}
-	ctx, cancel := context.WithTimeout(ctx, 90*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 12*time.Minute)
 	defer cancel()
 	start, err := acquireLock(ctx, filepath.Join(privateDir(home), "start.lock"))
 	if err != nil {
@@ -197,6 +205,9 @@ func Ensure(ctx context.Context, home string) (*Connection, error) {
 		return nil, err
 	}
 	if !active {
+		if err = ensurePostgres(ctx); err != nil {
+			return nil, err
+		}
 		if _, err = postgresBinaries(); err != nil {
 			return nil, err
 		}
@@ -204,6 +215,9 @@ func Ensure(ctx context.Context, home string) (*Connection, error) {
 			return nil, err
 		}
 	}
+	readyCtx, readyCancel := context.WithTimeout(ctx, 90*time.Second)
+	defer readyCancel()
+	ctx = readyCtx
 	for {
 		if c, err := Status(ctx, home); err == nil {
 			return c, nil
@@ -298,7 +312,7 @@ func Stop(ctx context.Context, home string) error {
 			return err
 		}
 		if !active {
-			return nil
+			return readShutdownResult(home, c.instance, c.shutdownResultVersion > 0)
 		}
 		select {
 		case <-ctx.Done():
@@ -306,6 +320,32 @@ func Stop(ctx context.Context, home string) error {
 		case <-time.After(100 * time.Millisecond):
 		}
 	}
+}
+
+// A result belongs only to the instance Stop authenticated and asked to shut
+// down. Earlier startup failures and stale results must not poison a later stop.
+func readShutdownResult(home, instance string, required bool) error {
+	b, err := os.ReadFile(filepath.Join(privateDir(home), "shutdown-result.json"))
+	if os.IsNotExist(err) {
+		if required {
+			return errors.New("private runtime shutdown result is missing")
+		}
+		return nil
+	}
+	if err != nil {
+		return fmt.Errorf("read private shutdown result: %w", err)
+	}
+	var result shutdownResult
+	if err = json.Unmarshal(b, &result); err != nil {
+		return fmt.Errorf("invalid private shutdown result: %w", err)
+	}
+	if result.Instance != instance && required {
+		return errors.New("private runtime shutdown result does not match its authenticated instance")
+	}
+	if result.Instance == instance && result.Error != "" {
+		return fmt.Errorf("private runtime shutdown failed: %s", result.Error)
+	}
+	return nil
 }
 
 func isolatedEnv(env []string) []string {
@@ -320,7 +360,7 @@ func isolatedEnv(env []string) []string {
 			if !strings.HasPrefix(key, "ARTEX_LLM_") && !strings.HasPrefix(key, "SCOPEWEAVER_LLM_") &&
 				key != "ARTEX_LOCAL_LLM_ONLY" && key != "SCOPEWEAVER_LOCAL_LLM_ONLY" &&
 				key != "ARTEX_LOCAL_LLM_ALLOWED_CIDRS" && key != "SCOPEWEAVER_LOCAL_LLM_ALLOWED_CIDRS" &&
-				key != "SCOPEWEAVER_LANGUAGE" {
+				key != "SCOPEWEAVER_LANGUAGE" && key != "SCOPEWEAVER_CODEX_PATH" {
 				continue
 			}
 		}
@@ -360,6 +400,19 @@ func Run(ctx context.Context, home string) (retErr error) {
 		return fmt.Errorf("runtime already owned: %w", err)
 	}
 	defer owner.Close()
+	instance := ""
+	defer func() {
+		if instance == "" {
+			return
+		}
+		result := shutdownResult{Instance: instance}
+		if retErr != nil {
+			result.Error = retErr.Error()
+		}
+		if err := writeJSONFile(filepath.Join(privateDir(home), "shutdown-result.json"), result); err != nil {
+			retErr = errors.Join(retErr, fmt.Errorf("write private shutdown result: %w", err))
+		}
+	}()
 	_ = os.Remove(filepath.Join(privateDir(home), "startup-error.txt"))
 	action, state := selfupdate.Bootstrap()
 	server.SetBootUpdateState(state)
@@ -448,6 +501,14 @@ func Run(ctx context.Context, home string) (retErr error) {
 	if err != nil {
 		return err
 	}
+	defer func() {
+		cancel(agent.AbortShutdown)
+		drainCtx, drainCancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer drainCancel()
+		if err := srv.DrainChats(drainCtx); err != nil {
+			retErr = errors.Join(retErr, fmt.Errorf("drain background chats: %w", err))
+		}
+	}()
 	key, err := os.ReadFile(filepath.Join(privateDir(home), "jwt.key"))
 	if err != nil {
 		return err
@@ -461,7 +522,8 @@ func Run(ctx context.Context, home string) (retErr error) {
 	if _, err = rand.Read(nonce); err != nil {
 		return err
 	}
-	rec := runtimeRecord{URL: "http://" + listener.Addr().String(), PID: os.Getpid(), Instance: hex.EncodeToString(nonce)}
+	rec := runtimeRecord{URL: "http://" + listener.Addr().String(), PID: os.Getpid(), Instance: hex.EncodeToString(nonce), ShutdownResultVersion: 1}
+	instance = rec.Instance
 	httpSrv := &http.Server{Handler: runtimeHandler(srv.Handler(), []byte(strings.TrimSpace(string(key))), rec, func() { cancel(agent.AbortShutdown) }), ReadHeaderTimeout: 10 * time.Second}
 	served := make(chan error, 1)
 	go func() { served <- httpSrv.Serve(listener) }()

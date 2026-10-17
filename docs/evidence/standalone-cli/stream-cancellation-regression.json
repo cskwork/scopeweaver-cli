@@ -1,0 +1,41 @@
+{
+  "classification": "CLI failed to recognize signal cancellation with a custom context cause",
+  "go_version": "go version go1.26.3 windows/amd64",
+  "production_change": {
+    "path": "internal/cli/cli.go",
+    "line": 132,
+    "before": "if errors.Is(err, context.Canceled) {",
+    "after": "if errors.Is(err, context.Canceled) || errors.Is(ctx.Err(), context.Canceled) {"
+  },
+  "mechanism": "signal.NotifyContext cancels with a signal-specific cause; net/http returns that cause through the SSE scanner; ctx.Err remains context.Canceled but the custom error does not match it",
+  "regression": {
+    "test": "TestStreamSignalCauseReturnsCancelledExitCode",
+    "fixture": "real httptest SSE event reaches stdout, then WithCancelCause cancels with interrupt signal received",
+    "before": "failed: exit1/request_failed",
+    "after": "passed: exit130/cancelled and original signal detail retained"
+  },
+  "counterexamples": {
+    "custom_deadline": "exit1/request_failed; ctx.Err is context.DeadlineExceeded",
+    "HTTP503": "exit1/backend_error; ctx.Err is nil"
+  },
+  "focused_tests_passed": [
+    "TestStreamCancellation",
+    "TestStreamFailuresRemainDistinctFromUserCancellation",
+    "TestStreamFailuresRemainDistinctFromUserCancellation/backend_HTTP_failure",
+    "TestStreamFailuresRemainDistinctFromUserCancellation/custom_deadline_cause",
+    "TestStreamSignalCauseReturnsCancelledExitCode"
+  ],
+  "full_cli_suite": {
+    "passed": true,
+    "tests_and_subtests_passed": 35,
+    "skipped": [
+      "TestPortableCLICodexEndToEnd",
+      "TestPortableCLIEndToEnd",
+      "TestPortableCLIGLMEndToEnd"
+    ]
+  },
+  "vet": "passed",
+  "diff_check": "passed",
+  "scope": "request execution classification only; startup/Ensure/runtime command handling unchanged",
+  "native_installed_recheck": "pending root rebuild and codex_provider_review three-stream Ctrl+Break verification; no live model calls made by this slice"
+}

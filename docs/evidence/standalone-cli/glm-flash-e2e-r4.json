@@ -1,0 +1,33 @@
+{
+  "recorded_on": "2026-10-17",
+  "candidate": "r4",
+  "windows_binary_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+  "codex_version": "0.162.1",
+  "model": "glm-5.3-flash",
+  "reasoning_effort": "low",
+  "result": "PASS",
+  "installed_cli_invocations": 127,
+  "elapsed_seconds": 153.87,
+  "actual_assertions": [
+    "Norma Read result and final marker",
+    "positive billed model usage",
+    "branch and restart history",
+    "paused queue and resume",
+    "planner-created intent",
+    "worker WebFetch and observed response marker",
+    "synthetic LOW finding",
+    "goal completion",
+    "report with actual evidence",
+    "19 additional positive operations including byte-exact traffic bindings"
+  ],
+  "owned_loopback_GETs": 1,
+  "unexpected_target_requests": 0,
+  "cleanup": "runtime stop succeeded and disposable state was removed by the test",
+  "credentials": "environment only, not in profile payloads or receipts",
+  "source_log": "dist/candidate-r4-glm-flash-e2e.jsonl",
+  "limits": [
+    "GLM-5.3 flagship full workflow remains failed: final planner call exceeded the7-minute task E2E budget after chat/worker/finding succeeded",
+    "First R3 flagship chat failure cause is unknown because its original terminal detail was truncated; later diagnostic collection was improved",
+    "No all297-operation or all-platform success claim"
+  ]
+}

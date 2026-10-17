@@ -1,8 +1,8 @@
 # scopeweaver-cli
 
-A standalone, agent-native command line edition of ScopeWeaver. Unpack the portable folder and run the CLI. It includes the Go engine, PostgreSQL runtime, built-in skills and dependency notices. No separate ScopeWeaver installation, database installation, Docker, Node.js or Go runtime is required.
+A standalone, agent-native command line edition of ScopeWeaver. Unpack the portable folder and run the CLI. It includes the Go engine, built-in skills and dependency notices. The first operational command downloads checksum-pinned PostgreSQL and, on Windows, app-local Visual C++ runtime files into that folder. No separate ScopeWeaver installation, database installation, Docker, Node.js or Go runtime is required.
 
-[한국어](README.ko.md) · [Architecture and compatibility](docs/cli.md) · [Verification](docs/CLI-VERIFICATION.md)
+[한국어](README.ko.md) · [Architecture and compatibility](docs/cli.md) · [AI providers](docs/ai-providers.md) · [Verification](docs/CLI-VERIFICATION.md)
 
 ## Start
 
@@ -17,7 +17,7 @@ scopeweaver-cli tasks list --json
 scopeweaver-cli runtime stop --yes --json
 ```
 
-On PowerShell, prefix the local executable with `.\scopeweaver-cli.exe`. The first operational command initializes private local storage and starts the bundled engine and database. Subsequent invocations reuse that runtime, so jobs continue after a command exits. Nothing is installed as an operating-system service.
+On PowerShell, prefix the local executable with `.\scopeweaver-cli.exe`. The first operational command needs network access and a writable portable folder to prepare its runtime, initialize private local storage and start the engine and database. Subsequent invocations reuse that runtime, so jobs continue after a command exits. Nothing is installed as an operating-system service. Later core operations reuse the downloaded runtime and can run offline; cloud AI and external integrations still need their own connections.
 
 Data defaults to `state/` beside the executable. Use `--home PATH` or `SCOPEWEAVER_CLI_HOME` for another private workspace. Stop the runtime before moving or copying its folder. Moving between different operating systems or PostgreSQL major versions requires a supported backup/restore procedure; raw database directories are not a cross-platform interchange format.
 
@@ -64,7 +64,11 @@ Graph information is available as structured nodes/edges. Browser presentation, 
 
 ## Model and integration requirements
 
-AI execution still needs a configured model provider or local inference service. The portable package does not contain model weights or a paid subscription/API key. Custom commands, Python tools, browser tools and external MCP/services require the executables or services selected by that integration. `doctor` reports the bundled core separately from these optional requirements.
+Built-in AI supports standard API/local providers and `codex-cli`, which routes chat, planner and worker completions through the official Codex app-server. A keyless profile uses the ChatGPT account signed in with `codex login`. A Z.AI profile uses `glm-5.3`, `https://api.z.ai/api/v1` and a matching Coding Plan credential. Official Codex is an additional dependency, resolved from PATH or `SCOPEWEAVER_CODEX_PATH`; version 0.162.1 is the verified version.
+
+The package contains no model weights, subscriptions or credentials. See [AI provider setup and limits](docs/ai-providers.md) for profile save/activation commands, buffered streaming, tool isolation and provider evidence. GLM inference has not completed in the recorded probes. The user reports a Personal Coding Plan/Team Plan key; Z.AI returned `insufficient_quota`, and direct built-in invocation failed with `usageLimitExceeded`. Account entitlement and the underlying cause remain unverified.
+
+Custom commands, Python tools, browser tools and external MCP/services require the executables or services selected by that integration. `doctor` reports the portable core separately from these optional requirements.
 
 The local runtime is authenticated and loopback-only. Its private credentials are outside the browsable workspace. Treat returned evidence and tool output as untrusted data.
 
@@ -72,14 +76,16 @@ Updates target `cskwork/scopeweaver-cli` releases and replace the CLI/engine exe
 
 ## Build and verify
 
-Development requires Go 1.26.3 and network access for pinned dependencies/runtime archives. Packaged end users need neither.
+Development requires Go 1.26.3 and network access for pinned Go dependencies. Packaged end users need no Go installation; the download-mode package needs network access on first operational use.
 
 ```sh
-go test ./internal/cli ./internal/portable ./packaging ./selfupdate
+go test ./codexprovider ./internal/runtimebundle ./internal/cli ./internal/portable ./packaging ./selfupdate
 go run ./packaging -target windows-amd64
 ```
 
-Supported package targets: `windows-amd64`, `linux-amd64`, `linux-arm64`, `darwin-amd64`, `darwin-arm64`. Each uses its own PostgreSQL binaries. The builder verifies pinned SHA-256 checksums and includes a per-file manifest. `-offline` uses only the verified download cache; runtime startup itself never downloads dependencies. Linux PostgreSQL must run as a non-root user.
+Supported package targets: `windows-amd64`, `linux-amd64`, `linux-arm64`, `darwin-amd64`, `darwin-arm64`. Each downloads its own PostgreSQL binaries and verifies pinned SHA-256 checksums before extraction. Packages include a per-file manifest and source pins. Linux PostgreSQL must run as a non-root user.
+
+Default packaging uses first-use downloads. For local verification only, add `-bundle-runtime` to prepare a folder with the runtimes already present; `-offline` then uses only the checksum-verified builder cache. This builder flag does not disable first-use downloads in a default package. Bundled-runtime verification packages are not the public download-mode artifact.
 
 Run the installed-executable E2E explicitly:
 
@@ -96,4 +102,4 @@ Derived from [cskwork/scopeweaver](https://github.com/cskwork/scopeweaver) at `2
 
 [AGPL-3.0](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.txt) and the upstream usage restrictions remain in effect. Use only for source research and technical validation in locally isolated environments. The upstream authors prohibit real testing of online systems, including owned or authorized targets. See [preserved upstream provenance and restrictions](docs/PROVENANCE.md).
 
-Bundled third-party runtimes retain their own licenses in `licenses/` and source metadata in `POSTGRES-SOURCES.json`. Packaging is not publication.
+Third-party runtime licenses are in `licenses/` and source metadata is in `POSTGRES-SOURCES.json`. Downloaded runtimes remain within the portable folder. Packaging is not publication; no release or remote has been created.

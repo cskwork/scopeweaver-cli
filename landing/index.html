@@ -1,550 +1,836 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ScopeWeaver — self-hosted console for multi-agent security research</title>
-    <meta
-      name="description"
-      content="ScopeWeaver is a self-hosted console that coordinates goal planning, autonomous agents, asset scope, coverage and recorded findings for locally isolated security research. Go backend, embedded Next.js, PostgreSQL. Derived from ARTEX, AGPL-3.0."
-    />
-    <link rel="canonical" href="https://cskwork.github.io/scopeweaver/" />
-    <link rel="alternate" hreflang="en" href="https://cskwork.github.io/scopeweaver/" />
-    <link rel="alternate" hreflang="ko" href="https://cskwork.github.io/scopeweaver/ko/" />
-    <link rel="alternate" hreflang="x-default" href="https://cskwork.github.io/scopeweaver/" />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>scopeweaver-cli — Standalone Agent-Native CLI Edition of ScopeWeaver</title>
+  <meta name="description" content="A standalone portable-folder command line edition of ScopeWeaver for coding agents and terminal users. Includes Go engine, built-in skills and 297 named operations; downloads pinned PostgreSQL 17.11 runtime files on first use.">
+  <link rel="icon" type="image/svg+xml" href="scope-mark.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">
+    <span data-i18n="en">Skip to main content</span>
+    <span data-i18n="ko" lang="ko">본문으로 건너뛰기</span>
+  </a>
 
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="ScopeWeaver" />
-    <meta
-      property="og:title"
-      content="ScopeWeaver — self-hosted console for multi-agent security research"
-    />
-    <meta
-      property="og:description"
-      content="Coordinate goal planning, autonomous agents, asset scope, coverage and recorded findings in one self-hosted console for locally isolated research."
-    />
-    <meta property="og:url" content="https://cskwork.github.io/scopeweaver/" />
-    <meta property="og:image" content="https://cskwork.github.io/scopeweaver/assets/img/og-en.jpg" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="ko_KR" />
-    <meta name="twitter:card" content="summary_large_image" />
+  <!-- Top Use-Restriction & Unreleased Status Banner -->
+  <aside class="top-notice" aria-label="Release and usage notice">
+    <div class="container top-notice__inner">
+      <div class="top-notice__badges">
+        <span class="badge badge--warning">
+          <span data-i18n="en">UNRELEASED v0.1.0 CANDIDATE</span>
+          <span data-i18n="ko" lang="ko">미출시 v0.1.0 후보 빌드</span>
+        </span>
+        <span class="badge badge--restriction">
+          <span data-i18n="en">ISOLATED LOCAL RESEARCH ONLY</span>
+          <span data-i18n="ko" lang="ko">로컬 격리 연구·검증 전용</span>
+        </span>
+      </div>
+      <p class="top-notice__text">
+        <span data-i18n="en">No public release or repository is published yet. Upstream restrictions prohibit testing online systems (including owned or authorized targets).</span>
+        <span data-i18n="ko" lang="ko">아직 공개 배포판이나 저장소가 게시되지 않았습니다. 상위 프로젝트 제한에 따라 소유·허가된 대상을 포함한 온라인 시스템의 실제 테스트는 금지됩니다.</span>
+      </p>
+    </div>
+  </aside>
 
-    <link
-      rel="preload"
-      href="assets/fonts/schibsted-grotesk-latin-wght.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+  <!-- Site Header & Navigation -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top">
+        <img src="scope-mark.svg" alt="" width="34" height="34" class="brand__mark">
+        <div class="brand__text">
+          <span class="brand__name">scopeweaver-cli</span>
+          <span class="brand__meta">
+            <span data-i18n="en">Portable Engine + PostgreSQL 17.11</span>
+            <span data-i18n="ko" lang="ko">독립 실행형 엔진 + PostgreSQL 17.11</span>
+          </span>
+        </div>
+      </a>
 
-    <header class="site-header">
-      <div class="wrap site-header__inner">
-        <a class="brand" href="./" aria-label="ScopeWeaver home">
-          <img src="assets/img/scopeweaver.svg" alt="" width="30" height="30" />
-          ScopeWeaver
-        </a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <ul class="site-nav__list">
+          <li>
+            <a href="#workflow">
+              <span data-i18n="en">Workflow</span>
+              <span data-i18n="ko" lang="ko">실행 흐름</span>
+            </a>
+          </li>
+          <li>
+            <a href="#agent-usage">
+              <span data-i18n="en">Agent CLI</span>
+              <span data-i18n="ko" lang="ko">에이전트 사용</span>
+            </a>
+          </li>
+          <li>
+            <a href="#coverage">
+              <span data-i18n="en">297 Operations</span>
+              <span data-i18n="ko" lang="ko">297개 기능 범위</span>
+            </a>
+          </li>
+          <li>
+            <a href="#requirements">
+              <span data-i18n="en">Portability &amp; AI</span>
+              <span data-i18n="ko" lang="ko">이식성·모델 요구사항</span>
+            </a>
+          </li>
+          <li>
+            <a href="#verification">
+              <span data-i18n="en">Verification</span>
+              <span data-i18n="ko" lang="ko">검증 및 한계</span>
+            </a>
+          </li>
+          <li>
+            <a href="#provenance">
+              <span data-i18n="en">Provenance &amp; License</span>
+              <span data-i18n="ko" lang="ko">출처 및 사용 제한</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-        <button
-          class="nav-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="primary-nav"
-          aria-label="Menu"
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M3 6h18M3 12h18M3 18h18" />
-          </svg>
-        </button>
-
-        <nav class="primary-nav" id="primary-nav" aria-label="Primary">
-          <a href="#walkthrough">Walkthrough</a>
-          <a href="#bridge">Agent bridge</a>
-          <a href="#install">Install</a>
-          <a href="#requirements">Requirements</a>
-          <a href="#limits">Limits</a>
-        </nav>
-
-        <div class="header-tools has-nav">
-          <div class="lang-switch" role="group" aria-label="Language">
-            <span aria-current="true">EN</span>
-            <a href="ko/" lang="ko" hreflang="ko">한국어</a>
-          </div>
-          <a
-            class="ghlink"
-            href="https://github.com/cskwork/scopeweaver"
-            rel="noopener"
-          >
-            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z" />
-            </svg>
-            <span class="ghlink-text">GitHub</span>
-          </a>
+      <div class="header-controls">
+        <div class="lang-switch" role="group" aria-label="Language switch / 언어 선택">
+          <button type="button" class="lang-btn is-active" data-set-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="lang-btn" data-set-lang="ko" aria-pressed="false" lang="ko">한국어</button>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <main id="main">
-      <!-- ============ HERO ============ -->
-      <section class="hero">
-        <div class="wrap hero__inner">
-          <div class="hero__lede">
-            <h1>
-              A self-hosted console for
-              <span class="accent">multi-agent security exploration</span>.
-            </h1>
-            <p class="hero__offer">
-              ScopeWeaver coordinates goal planning, autonomous agents, asset
-              scope, coverage and recorded findings behind one review surface —
-              built to run on your own machine against locally isolated lab
-              targets.
-            </p>
-            <div class="hero__actions">
-              <a
-                class="btn btn--primary"
-                href="https://github.com/cskwork/scopeweaver/releases/tag/v0.1.0"
-                rel="noopener"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                  <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
-                </svg>
-                Download v0.1.0
-              </a>
-              <a class="btn btn--ghost" href="#install">Setup guide</a>
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero" id="top">
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <div class="eyebrow">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span data-i18n="en">Standalone Agent-Native Command Line Edition</span>
+            <span data-i18n="ko" lang="ko">에이전트 친화적 독립 실행형 명령줄 에디션</span>
+          </div>
+
+          <h1 class="hero__title">
+            <span data-i18n="en">Unpack the portable folder and run ScopeWeaver from the terminal.</span>
+            <span data-i18n="ko" lang="ko">배포 폴더의 압축을 풀고 터미널에서 바로 실행하는 ScopeWeaver.</span>
+          </h1>
+
+          <p class="hero__lead">
+            <span data-i18n="en">
+              <code>scopeweaver-cli</code> includes the Go engine, agent skills, command schemas, and notices. On first use it downloads pinned PostgreSQL/runtime files into the portable folder. Internet is needed once; no separate ScopeWeaver, database installation, Docker, Node.js, or Go runtime is required for the core.
+            </span>
+            <span data-i18n="ko" lang="ko">
+              <code>scopeweaver-cli</code>는 Go 엔진, 에이전트 스킬, 명령 스키마와 고지를 포함합니다. 처음 실행할 때 고정된 PostgreSQL·런타임 파일을 포터블 폴더에 내려받으므로 인터넷이 한 번 필요합니다. 코어 사용에 별도 ScopeWeaver, DB 설치, Docker, Node.js, Go 런타임은 필요하지 않습니다.
+            </span>
+          </p>
+
+          <dl class="hero__metrics" aria-label="Core architecture metrics">
+            <div class="metric-card">
+              <dt>
+                <span data-i18n="en">Named Operations</span>
+                <span data-i18n="ko" lang="ko">이름 있는 명령</span>
+              </dt>
+              <dd>297 <small>857 params</small></dd>
             </div>
-            <p class="hero__stack">
-              <strong>Go backend · embedded Next.js · PostgreSQL.</strong>
-              Derived from
-              <a href="https://github.com/Autumn-27/ARTEX" rel="noopener">ARTEX</a>,
-              licensed AGPL-3.0.
-            </p>
-          </div>
+            <div class="metric-card">
+              <dt>
+                <span data-i18n="en">Managed Database</span>
+                <span data-i18n="ko" lang="ko">자동 관리 데이터베이스</span>
+              </dt>
+              <dd>PostgreSQL 17.11</dd>
+            </div>
+            <div class="metric-card">
+              <dt>
+                <span data-i18n="en">Runtime Binding</span>
+                <span data-i18n="ko" lang="ko">런타임 바인딩</span>
+              </dt>
+              <dd>127.0.0.1 <small>Auth + Loopback</small></dd>
+            </div>
+            <div class="metric-card">
+              <dt>
+                <span data-i18n="en">Default Storage</span>
+                <span data-i18n="ko" lang="ko">기본 데이터 경로</span>
+              </dt>
+              <dd><code>state/</code> <small>Zero OS services</small></dd>
+            </div>
+          </dl>
 
-          <div class="hero__media">
-            <figure class="shot">
-              <div class="shot__frame">
-                <div class="shot__bar" aria-hidden="true">
-                  <i></i><i></i><i></i>
-                  <span>localhost:8787 · Dashboard</span>
-                </div>
-                <picture>
-                  <source
-                    media="(min-width: 700px)"
-                    srcset="assets/img/en-dashboard-1440.webp"
-                  />
-                  <img
-                    src="assets/img/en-dashboard-960.webp"
-                    width="1440"
-                    height="1000"
-                    alt="ScopeWeaver dashboard showing active tasks, agent activity and coverage summaries in the English interface."
-                    fetchpriority="high"
-                  />
-                </picture>
-              </div>
-              <figcaption class="demo">
-                Fictional demo data — not a scan of any live system.
-              </figcaption>
-            </figure>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#verification">
+              <span data-i18n="en">Preview Status: v0.1.0 Candidate (Unreleased)</span>
+              <span data-i18n="ko" lang="ko">프리뷰 상태: v0.1.0 후보 (미배포)</span>
+            </a>
+            <a class="btn btn--secondary" href="#provenance">
+              <span data-i18n="en">Planned Repo &amp; Permitted Use</span>
+              <span data-i18n="ko" lang="ko">예정 저장소 및 허용 사용 범위</span>
+            </a>
           </div>
+          <p class="hero__disclaimer">
+            <span data-i18n="en">
+              <strong>No public binary download exists yet.</strong> Planned repository target: <code>github.com/cskwork/scopeweaver-cli</code> (not yet created).
+            </span>
+            <span data-i18n="ko" lang="ko">
+              <strong>아직 공개 다운로드 배포판이 없습니다.</strong> 예정 저장소 경로: <code>github.com/cskwork/scopeweaver-cli</code> (미생성).
+            </span>
+          </p>
         </div>
-      </section>
 
-      <!-- ============ WALKTHROUGH ============ -->
-      <section class="section" id="walkthrough" aria-labelledby="walk-h">
-        <div class="wrap">
-          <div class="section__head">
-            <h2 id="walk-h">Walk one task across the real screens</h2>
-            <p>
-              ScopeWeaver splits <em>what the target is</em> from
-              <em>how far it has been tested</em> into two linked graphs: a
-              shared asset graph and a per-task exploration graph. Select a
-              screen to see where each stage lives.
-            </p>
-          </div>
-
-          <div class="walk">
-            <div class="walk__media">
-              <figure class="tabpanel" id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard" tabindex="0">
-                <div class="shot__frame">
-                  <div class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>Dashboard</span></div>
-                  <picture>
-                    <source media="(min-width: 700px)" srcset="assets/img/en-dashboard-1440.webp" />
-                    <img src="assets/img/en-dashboard-960.webp" width="1440" height="1000" alt="Dashboard with task overview and recent agent activity." />
-                  </picture>
-                </div>
-                <figcaption class="demo">Fictional demo data — not a scan of any live system.</figcaption>
-              </figure>
-
-              <figure class="tabpanel" id="panel-tasks" role="tabpanel" aria-labelledby="tab-tasks" tabindex="0" hidden>
-                <div class="shot__frame">
-                  <div class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>Tasks</span></div>
-                  <picture>
-                    <source media="(min-width: 700px)" srcset="assets/img/en-tasks-1440.webp" />
-                    <img src="assets/img/en-tasks-960.webp" width="1440" height="1000" alt="Task list with status, agent counts and the per-task exploration view." />
-                  </picture>
-                </div>
-                <figcaption class="demo">Fictional demo data — not a scan of any live system.</figcaption>
-              </figure>
-
-              <figure class="tabpanel" id="panel-findings" role="tabpanel" aria-labelledby="tab-findings" tabindex="0" hidden>
-                <div class="shot__frame">
-                  <div class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>Findings</span></div>
-                  <picture>
-                    <source media="(min-width: 700px)" srcset="assets/img/en-findings-1440.webp" />
-                    <img src="assets/img/en-findings-960.webp" width="1440" height="1000" alt="Findings list with recorded evidence and report detail." />
-                  </picture>
-                </div>
-                <figcaption class="demo">Fictional demo data — not a scan of any live system.</figcaption>
-              </figure>
-
-              <figure class="tabpanel" id="panel-settings" role="tabpanel" aria-labelledby="tab-settings" tabindex="0" hidden>
-                <div class="shot__frame">
-                  <div class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>System settings</span></div>
-                  <picture>
-                    <source media="(min-width: 700px)" srcset="assets/img/en-settings-1440.webp" />
-                    <img src="assets/img/en-settings-960.webp" width="1440" height="1000" alt="System settings including worker concurrency and version and updates." />
-                  </picture>
-                </div>
-                <figcaption class="demo">Fictional demo data — not a scan of any live system.</figcaption>
-              </figure>
-
-              <figure class="tabpanel" id="panel-llm" role="tabpanel" aria-labelledby="tab-llm" tabindex="0" hidden>
-                <div class="shot__frame">
-                  <div class="shot__bar" aria-hidden="true"><i></i><i></i><i></i><span>LLM · New</span></div>
-                  <picture>
-                    <source media="(min-width: 700px)" srcset="assets/img/en-llm-templates-1440.webp" />
-                    <img src="assets/img/en-llm-templates-960.webp" width="1440" height="1000" alt="LLM configuration form with GLM-5.3 provider templates." />
-                  </picture>
-                </div>
-                <figcaption class="demo">Fictional demo data — not a scan of any live system.</figcaption>
-              </figure>
+        <!-- Primary Visual Focus: Interactive CLI Command Session -->
+        <div class="hero__terminal" aria-label="Interactive CLI command showcase">
+          <div class="terminal-window">
+            <div class="terminal-header">
+              <div class="terminal-dots" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="terminal-tabs" role="tablist" aria-label="Shell environment">
+                <button type="button" role="tab" class="terminal-tab is-active" id="tab-posix" aria-selected="true" aria-controls="panel-posix" data-shell-tab="posix">
+                  POSIX (sh / bash / zsh)
+                </button>
+                <button type="button" role="tab" class="terminal-tab" id="tab-pwsh" aria-selected="false" aria-controls="panel-pwsh" data-shell-tab="pwsh">
+                  PowerShell (.\scopeweaver-cli.exe)
+                </button>
+              </div>
+              <button type="button" class="copy-btn" data-copy-target="active-hero-code">
+                <span class="copy-btn__label" data-i18n="en">Copy commands</span>
+                <span class="copy-btn__label" data-i18n="ko" lang="ko">명령 복사</span>
+              </button>
             </div>
 
-            <div class="tablist" role="tablist" aria-orientation="vertical" aria-label="Product screens">
-              <button class="tab" id="tab-dashboard" role="tab" aria-selected="true" aria-controls="panel-dashboard" tabindex="0">
-                <span class="tab__title"><span class="tab__step">survey</span> Dashboard</span>
-                <span class="tab__desc">Every task, its agents and recent activity gather in one overview, so you start from the current state of work rather than a blank screen.</span>
-              </button>
-              <button class="tab" id="tab-tasks" role="tab" aria-selected="false" aria-controls="panel-tasks" tabindex="-1">
-                <span class="tab__title"><span class="tab__step">explore</span> Tasks</span>
-                <span class="tab__desc">A planner reads the exploration graph and sends one intent at a time; a worker claims a single intent, runs real tools, and writes new assets, facts and findings back to both graphs.</span>
-              </button>
-              <button class="tab" id="tab-findings" role="tab" aria-selected="false" aria-controls="panel-findings" tabindex="-1">
-                <span class="tab__title"><span class="tab__step">review</span> Findings</span>
-                <span class="tab__desc">Findings keep their evidence and report. A human approves or intercepts, and the Retest tab runs a separate retest session that updates a finding’s status without restarting the original task.</span>
-              </button>
-              <button class="tab" id="tab-settings" role="tab" aria-selected="false" aria-controls="panel-settings" tabindex="-1">
-                <span class="tab__title"><span class="tab__step">configure</span> System settings</span>
-                <span class="tab__desc">Set the number of work agents per task (default three), the interface language, and the in-app version and update controls, all on the running backend.</span>
-              </button>
-              <button class="tab" id="tab-llm" role="tab" aria-selected="false" aria-controls="panel-llm" tabindex="-1">
-                <span class="tab__title"><span class="tab__step">providers</span> LLM templates</span>
-                <span class="tab__desc">The LLM → New form ships GLM-5.3 configuration templates. You add your own API key; selecting a template does not save, activate or contact any provider.</span>
-              </button>
+            <!-- POSIX Shell Panel -->
+            <div id="panel-posix" role="tabpanel" aria-labelledby="tab-posix" class="terminal-body" data-shell-panel="posix">
+              <pre class="code-block" id="hero-code-posix"><code>scopeweaver-cli doctor --json
+scopeweaver-cli commands --json
+scopeweaver-cli schema tasks create --json
+scopeweaver-cli health --json
+scopeweaver-cli tasks list --json
+scopeweaver-cli runtime stop --yes --json</code></pre>
+            </div>
+
+            <!-- PowerShell Panel -->
+            <div id="panel-pwsh" role="tabpanel" aria-labelledby="tab-pwsh" class="terminal-body" data-shell-panel="pwsh" hidden>
+              <pre class="code-block" id="hero-code-pwsh"><code>.\scopeweaver-cli.exe doctor --json
+.\scopeweaver-cli.exe commands --json
+.\scopeweaver-cli.exe schema tasks create --json
+.\scopeweaver-cli.exe health --lang ko --json
+.\scopeweaver-cli.exe tasks list --json
+.\scopeweaver-cli.exe runtime stop --yes --json</code></pre>
+            </div>
+
+            <div class="terminal-inspector">
+              <div class="terminal-inspector__bar">
+                <span class="terminal-inspector__title">
+                  <span data-i18n="en">Illustrative architecture summary</span>
+                  <span data-i18n="ko" lang="ko">아키텍처 구성 요약 (예시)</span>
+                </span>
+                <span class="terminal-inspector__meta">
+                  <span data-i18n="en">Catalog &amp; local runtime overview</span>
+                  <span data-i18n="ko" lang="ko">카탈로그 및 로컬 런타임 개요</span>
+                </span>
+              </div>
+              <pre class="code-block code-block--compact"><code>{
+  "catalog": {
+    "operations": 297,
+    "parameters": 857,
+    "responses": { "json": 287, "downloads": 5, "event_streams": 4, "text": 1 }
+  },
+  "runtime": {
+    "bind": "127.0.0.1 (authenticated loopback)",
+    "storage": "./state/",
+    "postgres": "17.11 (first-use download, no OS service)"
+  }
+}</code></pre>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ============ AGENT BRIDGE ============ -->
-      <section class="section band-dark" id="bridge" aria-labelledby="bridge-h">
-        <div class="wrap">
-          <div class="section__head">
-            <h2 id="bridge-h">Drive it from your coding agent</h2>
-            <p>
-              A local adapter lets Claude Code, Codex and Pi create tasks and
-              read progress, coverage and findings through ScopeWeaver’s own
-              authenticated API.
+    <!-- Section 1: Unpack / Discover / Act Workflow -->
+    <section class="section" id="workflow">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">Unpack, discover, and act with zero OS service pollution</span>
+            <span data-i18n="ko" lang="ko">운영체제 서비스 등록 없이 압축 해제·탐색·실행</span>
+          </h2>
+          <p class="section-desc">
+            <span data-i18n="en">The first operational command downloads and verifies the pinned runtime, initializes private storage in <code>state/</code>, and starts the engine and PostgreSQL. Later commands reuse that runtime. Once setup finishes, core operations need no further dependency downloads.</span>
+            <span data-i18n="ko" lang="ko">처음 기능 명령을 실행하면 고정된 런타임을 내려받아 검증하고 <code>state/</code>에 전용 저장소를 만든 뒤 엔진과 PostgreSQL을 시작합니다. 이후에는 같은 런타임을 재사용하며, 코어 실행을 위해 의존성을 다시 내려받을 필요가 없습니다.</span>
+          </p>
+        </div>
+
+        <div class="workflow-grid">
+          <article class="workflow-step">
+            <div class="workflow-step__header">
+              <span class="step-index">STEP 01</span>
+              <h3 class="workflow-step__title">
+                <span data-i18n="en">Unpack &amp; Verify Environment</span>
+                <span data-i18n="ko" lang="ko">압축 해제 및 환경 점검</span>
+              </h3>
+            </div>
+            <p class="workflow-step__body">
+              <span data-i18n="en">Run <code>scopeweaver-cli doctor --json</code> to inspect runtime readiness and external requirements. Discovery and diagnosis do not download files or start the engine.</span>
+              <span data-i18n="ko" lang="ko"><code>scopeweaver-cli doctor --json</code>으로 런타임 준비 상태와 외부 연동 요구 사항을 확인합니다. 명령 탐색과 진단은 파일을 내려받거나 엔진을 시작하지 않습니다.</span>
             </p>
+            <div class="step-code">
+              <code>scopeweaver-cli doctor --json</code>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="workflow-step__header">
+              <span class="step-index">STEP 02</span>
+              <h3 class="workflow-step__title">
+                <span data-i18n="en">Discover 297 Operations &amp; Schemas</span>
+                <span data-i18n="ko" lang="ko">297개 명령 카탈로그 및 스키마 탐색</span>
+              </h3>
+            </div>
+            <p class="workflow-step__body">
+              <span data-i18n="en">Inspect the embedded catalog with <code>commands --json</code> and <code>schema &lt;domain&gt; &lt;action&gt; --json</code>. Every command exposes parameter types, required fields, side-effect classification, response format, and source references.</span>
+              <span data-i18n="ko" lang="ko"><code>commands --json</code>과 <code>schema &lt;도메인&gt; &lt;동작&gt; --json</code>으로 내장 카탈로그를 조회합니다. 매개변수 형식, 필수 값, 실행 영향, 응답 형식과 근거 소스 위치를 즉시 반환합니다.</span>
+            </p>
+            <div class="step-code">
+              <code>scopeweaver-cli schema tasks create --json</code>
+            </div>
+          </article>
+
+          <article class="workflow-step">
+            <div class="workflow-step__header">
+              <span class="step-index">STEP 03</span>
+              <h3 class="workflow-step__title">
+                <span data-i18n="en">Validate, Mutate &amp; Stop Cleanly</span>
+                <span data-i18n="ko" lang="ko">사전 검증, 상태 변경 및 안전한 중지</span>
+              </h3>
+            </div>
+            <p class="workflow-step__body">
+              <span data-i18n="en">Preview mutations offline with <code>--dry-run</code>, execute confirmed state changes with <code>--yes</code>, and shut down the private database cleanly with <code>runtime stop --yes --json</code> before moving or archiving the folder.</span>
+              <span data-i18n="ko" lang="ko">런타임을 켜지 않고 <code>--dry-run</code>으로 요청을 검증하고, <code>--yes</code>로 변경 작업을 승인하며, 폴더를 이동·보관하기 전 <code>runtime stop --yes --json</code>으로 런타임을 안전하게 종료합니다.</span>
+            </p>
+            <div class="step-code">
+              <code>scopeweaver-cli runtime stop --yes --json</code>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Agent Workflow (JSON / Schema / Dry-Run / Exit Codes) -->
+    <section class="section section--alt" id="agent-usage">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">Deterministic CLI workflow for coding agents and scripts</span>
+            <span data-i18n="ko" lang="ko">코딩 에이전트와 자동화 스크립트를 위한 결정론적 CLI</span>
+          </h2>
+          <p class="section-desc">
+            <span data-i18n="en">Load <code>skills/scopeweaver-cli/SKILL.md</code> into your coding agent or point it at <code>scopeweaver-cli schema --json</code>. Command identifiers and JSON keys stay stable across <code>--lang en|ko|zh-Hans</code> while preserving raw evidence and technical diagnostics.</span>
+            <span data-i18n="ko" lang="ko">코딩 에이전트에 <code>skills/scopeweaver-cli/SKILL.md</code>를 로드하거나 <code>scopeweaver-cli schema --json</code>을 조회하게 하세요. <code>--lang en|ko|zh-Hans</code>로 메시지 언어를 바꿔도 명령 이름과 JSON 키는 고정되며 원본 증거와 기술 진단은 보존됩니다.</span>
+          </p>
+        </div>
+
+        <div class="agent-grid">
+          <!-- Left column: README Agent Commands & task.json -->
+          <div class="agent-code-column">
+            <div class="code-panel">
+              <div class="code-panel__header">
+                <span class="code-panel__title">
+                  <span data-i18n="en">Agent Command Sequence (from README)</span>
+                  <span data-i18n="ko" lang="ko">에이전트 명령 실행 예시 (README 기준)</span>
+                </span>
+                <button type="button" class="copy-btn" data-copy-target="agent-commands-code">
+                  <span class="copy-btn__label" data-i18n="en">Copy</span>
+                  <span class="copy-btn__label" data-i18n="ko" lang="ko">복사</span>
+                </button>
+              </div>
+              <pre class="code-block" id="agent-commands-code"><code>scopeweaver-cli tasks create --data @task.json --dry-run --json
+scopeweaver-cli tasks create --data @task.json --yes --json
+scopeweaver-cli tasks get --id 1 --json
+scopeweaver-cli tasks control --id 1 --action pause --yes --json
+scopeweaver-cli workspace upload --path fixtures --upload example.txt --yes --json
+scopeweaver-cli workspace download --path fixtures/example.txt --output downloaded.txt --json
+scopeweaver-cli logs watch --json</code></pre>
+            </div>
+
+            <div class="code-panel">
+              <div class="code-panel__header">
+                <span class="code-panel__title">
+                  <span data-i18n="en">Example <code>task.json</code> (Isolated Synthetic Fixture)</span>
+                  <span data-i18n="ko" lang="ko"><code>task.json</code> 예시 (격리된 가상 테스트 자료)</span>
+                </span>
+                <button type="button" class="copy-btn" data-copy-target="active-task-json">
+                  <span class="copy-btn__label" data-i18n="en">Copy JSON</span>
+                  <span class="copy-btn__label" data-i18n="ko" lang="ko">JSON 복사</span>
+                </button>
+              </div>
+              <pre class="code-block" id="task-json-en" data-i18n="en"><code>{
+  "name": "Isolated fixture",
+  "description": "Local isolated fixture only. Do not contact online targets.",
+  "goal": "Inspect the approved synthetic fixture."
+}</code></pre>
+              <pre class="code-block" id="task-json-ko" data-i18n="ko" lang="ko"><code>{
+  "name": "격리된 테스트 자료",
+  "description": "로컬 격리 환경의 가상 자료만 사용합니다. 온라인 대상에 접속하지 않습니다.",
+  "goal": "승인된 가상 자료를 확인합니다."
+}</code></pre>
+            </div>
           </div>
 
-          <div class="bridge">
-            <div class="bridge__body">
-              <p class="agent-line">
-                <strong>It is a control interface, not a replacement.</strong>
-                The adapter keeps ScopeWeaver’s internal planner, workers and
-                model configuration intact, and it does not turn a coding-agent
-                subscription into a model API key. Reads are on by default; task
-                creation and pause/resume are opt-in with
-                <code>SCOPEWEAVER_ALLOW_WRITES=true</code>.
-              </p>
-
-              <div class="agent-tabs" role="tablist" aria-label="Coding agent">
-                <button class="agent-tab" id="at-claude" role="tab" aria-selected="true" aria-controls="ap-claude" tabindex="0">Claude Code</button>
-                <button class="agent-tab" id="at-codex" role="tab" aria-selected="false" aria-controls="ap-codex" tabindex="-1">Codex</button>
-                <button class="agent-tab" id="at-pi" role="tab" aria-selected="false" aria-controls="ap-pi" tabindex="-1">Pi</button>
-              </div>
-
-              <div class="agent-panel" id="ap-claude" role="tabpanel" aria-labelledby="at-claude" tabindex="0">
-                <div class="codeblock">
-                  <button class="copy-btn" type="button" data-copy-target="#code-claude" aria-label="Copy">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                    <span class="copy-btn__text">Copy</span>
-                  </button>
-                  <code id="code-claude"><span class="tok-cmd">claude</span> mcp add <span class="tok-flag">--transport</span> stdio scopeweaver \
-  -- node /absolute/path/scopeweaver/adapters/agent/src/mcp.js</code>
-                </div>
-              </div>
-
-              <div class="agent-panel" id="ap-codex" role="tabpanel" aria-labelledby="at-codex" tabindex="0" hidden>
-                <div class="codeblock">
-                  <button class="copy-btn" type="button" data-copy-target="#code-codex" aria-label="Copy">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                    <span class="copy-btn__text">Copy</span>
-                  </button>
-                  <code id="code-codex"><span class="tok-cmd">codex</span> mcp add scopeweaver \
-  -- node /absolute/path/scopeweaver/adapters/agent/src/mcp.js</code>
-                </div>
-              </div>
-
-              <div class="agent-panel" id="ap-pi" role="tabpanel" aria-labelledby="at-pi" tabindex="0" hidden>
-                <div class="codeblock">
-                  <button class="copy-btn" type="button" data-copy-target="#code-pi" aria-label="Copy">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                    <span class="copy-btn__text">Copy</span>
-                  </button>
-                  <code id="code-pi"><span class="tok-cmd">pi</span> <span class="tok-flag">-e</span> /absolute/path/scopeweaver/adapters/agent/pi-extension.js</code>
-                </div>
-              </div>
-
-              <ul class="tool-list">
-                <li><code>health</code> Backend and LLM readiness</li>
-                <li><code>list_tasks</code> Status, counts, pagination</li>
-                <li><code>get_task</code> One task’s persisted state</li>
-                <li><code>get_coverage</code> Task asset coverage</li>
-                <li><code>list_findings</code> Filtered, paginated findings</li>
-                <li><code>get_finding</code> Detail, evidence and report</li>
-                <li><code>create_task</code> Schedule a task (writes)</li>
-                <li><code>control_task</code> Pause / resume (writes)</li>
+          <!-- Right column: Guardrails & Exit Code Contract -->
+          <div class="agent-rules-column">
+            <div class="contract-card">
+              <h3 class="contract-card__title">
+                <span data-i18n="en">Safety Guardrails &amp; Input Contract</span>
+                <span data-i18n="ko" lang="ko">안전 장치 및 입출력 규칙</span>
+              </h3>
+              <ul class="contract-list">
+                <li>
+                  <span data-i18n="en"><strong>Explicit mutation consent (<code>--yes</code>):</strong> Reads run directly. Operations that change state, execute tools, contact configured integrations, send notifications, or install updates require <code>--yes</code>.</span>
+                  <span data-i18n="ko" lang="ko"><strong>명시적 변경 승인 (<code>--yes</code>):</strong> 조회는 바로 실행됩니다. 상태 변경, 도구 실행, 외부 연동 호출, 알림 전송, 업데이트는 <code>--yes</code>가 필요합니다.</span>
+                </li>
+                <li>
+                  <span data-i18n="en"><strong>Offline validation (<code>--dry-run</code>):</strong> Validates and shows a request without starting the runtime. Known credential fields are automatically redacted.</span>
+                  <span data-i18n="ko" lang="ko"><strong>오프라인 사전 검증 (<code>--dry-run</code>):</strong> 런타임을 시작하지 않고 요청을 검증·출력하며 알려진 인증 정보 필드는 자동으로 가립니다.</span>
+                </li>
+                <li>
+                  <span data-i18n="en"><strong>Structured payloads:</strong> <code>--data @FILE</code> reads a JSON object; <code>--data -</code> reads stdin. Named body flags and repeatable <code>--field key=value</code> support small edits; repeatable <code>--query key=value</code> preserves backend query options.</span>
+                  <span data-i18n="ko" lang="ko"><strong>구조화된 입력:</strong> <code>--data @FILE</code>은 JSON 파일, <code>--data -</code>는 표준 입력을 읽습니다. 이름 있는 옵션과 반복 가능한 <code>--field key=value</code>, <code>--query key=value</code>를 지원합니다.</span>
+                </li>
+                <li>
+                  <span data-i18n="en"><strong>No silent overwrites or retries:</strong> Downloads require <code>--output</code> and refuse to overwrite existing files. Task submission means acceptance—inspect status, activity, and findings for completion. Uncertain mutations are never auto-retried.</span>
+                  <span data-i18n="ko" lang="ko"><strong>파일 덮어쓰기 및 자동 재시도 금지:</strong> 다운로드는 <code>--output</code>이 필수이며 기존 파일을 덮어쓰지 않습니다. 작업 생성 성공은 접수 성공을 뜻하며, 불확실한 변경 요청은 자동 재시도하지 않습니다.</span>
+                </li>
+                <li>
+                  <span data-i18n="en"><strong>Interactive shell (<code>repl</code>):</strong> Runs the same command catalog interactively with zero shell command substitution. <code>exit</code> closes the shell; <code>runtime stop --yes</code> stops background work.</span>
+                  <span data-i18n="ko" lang="ko"><strong>대화형 셸 (<code>repl</code>):</strong> 셸 명령 치환 없이 동일한 명령을 대화형으로 실행합니다. <code>exit</code>는 셸만 닫고, <code>runtime stop --yes</code>는 백그라운드 작업을 중지합니다.</span>
+                </li>
               </ul>
-
-              <p class="note">
-                Requires Node.js 22+, a running backend and an existing admin
-                login. Evidence returned by tools is untrusted target content,
-                never instructions. Credentials stay in your environment and are
-                redacted from errors.
-              </p>
             </div>
 
-            <div class="bridge__aside">
-              <figure class="shot">
-                <div class="phone">
-                  <img
-                    src="assets/img/en-mobile-390.webp"
-                    width="390"
-                    height="844"
-                    alt="ScopeWeaver running in a mobile browser, showing the task overview at a narrow width."
-                    loading="lazy"
-                  />
-                </div>
-                <figcaption class="demo">Mobile view · fictional demo data.</figcaption>
-              </figure>
+            <div class="contract-card">
+              <h3 class="contract-card__title">
+                <span data-i18n="en">Exit Codes &amp; Stream Separation</span>
+                <span data-i18n="ko" lang="ko">종료 코드 및 스트림 분리 규격</span>
+              </h3>
+              <p class="contract-card__subtitle">
+                <span data-i18n="en">JSON results go to <code>stdout</code>; errors and diagnostics go to <code>stderr</code>. Streaming commands emit one JSON event per line and stop cleanly on <code>Ctrl+C</code>.</span>
+                <span data-i18n="ko" lang="ko">JSON 결과는 표준 출력(<code>stdout</code>), 오류·진단은 표준 오류(<code>stderr</code>)로 분리됩니다. 스트림 명령은 한 줄에 JSON 이벤트 하나를 출력하고 <code>Ctrl+C</code>로 중지합니다.</span>
+              </p>
+              <div class="exit-table-wrap">
+                <table class="exit-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        <span data-i18n="en">Code</span>
+                        <span data-i18n="ko" lang="ko">코드</span>
+                      </th>
+                      <th scope="col">
+                        <span data-i18n="en">Meaning</span>
+                        <span data-i18n="ko" lang="ko">의미</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>0</code></td>
+                      <td>
+                        <span data-i18n="en">Success</span>
+                        <span data-i18n="ko" lang="ko">성공</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>1</code></td>
+                      <td>
+                        <span data-i18n="en">Operation failure</span>
+                        <span data-i18n="ko" lang="ko">작업 실패</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>2</code></td>
+                      <td>
+                        <span data-i18n="en">Invalid input or confirmation needed (<code>--yes</code>)</span>
+                        <span data-i18n="ko" lang="ko">잘못된 입력 또는 확인(<code>--yes</code>) 필요</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>3</code></td>
+                      <td>
+                        <span data-i18n="en">Runtime unavailable</span>
+                        <span data-i18n="ko" lang="ko">런타임 사용 불가</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>4</code></td>
+                      <td>
+                        <span data-i18n="en">Authentication / authorization error</span>
+                        <span data-i18n="ko" lang="ko">인증·권한 오류</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><code>130</code></td>
+                      <td>
+                        <span data-i18n="en">Cancellation (<code>Ctrl+C</code>)</span>
+                        <span data-i18n="ko" lang="ko">취소 (<code>Ctrl+C</code>)</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- ============ INSTALL ============ -->
-      <section class="section" id="install" aria-labelledby="install-h">
-        <div class="wrap install">
-          <div class="section__head">
-            <h2 id="install-h">Install and run locally</h2>
-            <p>
-              ScopeWeaver is self-hosted and runs on your own machine. Pick a
-              path, then open <code>http://localhost:8787</code> — the first
-              visit lands on <code>/setup</code> to set the admin password.
+    <!-- Section 3: Concise Feature Map -->
+    <section class="section" id="coverage">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">297 named operations across every backend route</span>
+            <span data-i18n="ko" lang="ko">모든 백엔드 경로와 채팅 제어를 포괄하는 297개 명령</span>
+          </h2>
+          <p class="section-desc">
+            <span data-i18n="en">The command catalog covers every registered API route, generated side-question routes, and both chat-control dispatch trees: 287 JSON responses, 5 file downloads, 4 line-delimited JSON event streams, and 1 text response.</span>
+            <span data-i18n="ko" lang="ko">내장 명령 카탈로그는 등록된 모든 API 경로, 부가 질문 경로, 채팅 제어 분기 트리를 포함합니다(JSON 응답 287개, 다운로드 5개, 이벤트 스트림 4개, 텍스트 응답 1개).</span>
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3 class="feature-card__title">
+              <span data-i18n="en">Tasks, Workers &amp; Scope</span>
+              <span data-i18n="ko" lang="ko">작업·워커·목표·범위</span>
+            </h3>
+            <p class="feature-card__body">
+              <span data-i18n="en">Tasks and worker lifecycles, goals, constraints, scope definitions, categories, reusable templates, and task archive/restore batches.</span>
+              <span data-i18n="ko" lang="ko">작업 및 워커 수명 주기, 목표·제약·범위 정의, 분류·템플릿, 작업 보관(Archive) 및 복원 일괄 처리를 제어합니다.</span>
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3 class="feature-card__title">
+              <span data-i18n="en">Assets, Graphs &amp; Evidence</span>
+              <span data-i18n="ko" lang="ko">자산·그래프·발견 사항·증거</span>
+            </h3>
+            <p class="feature-card__body">
+              <span data-i18n="en">Companies, assets, and sync routes; exploration and coverage graphs returned as structured nodes/edges; findings, retests, HTTP traffic evidence, and reports.</span>
+              <span data-i18n="ko" lang="ko">회사·자산·동기화, 구조화된 노드·간선 데이터로 제공되는 탐색·커버리지 그래프, 발견 사항·재검증·트래픽 증거·보고서를 다룹니다.</span>
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3 class="feature-card__title">
+              <span data-i18n="en">Conversations, Agents &amp; Tools</span>
+              <span data-i18n="ko" lang="ko">대화·에이전트·도구·스킬</span>
+            </h3>
+            <p class="feature-card__body">
+              <span data-i18n="en">Workspace files (Unicode/binary upload &amp; download), conversations, expanded chat controls, side questions, agents, prompts, triggers, tools, skills, and MCP configs.</span>
+              <span data-i18n="ko" lang="ko">작업 공간 파일(유니코드·바이너리 업로드/다운로드), 대화·확장 채팅 제어·별도 질문, 에이전트·프롬프트·트리거, 도구·스킬·MCP 설정을 제공합니다.</span>
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <h3 class="feature-card__title">
+              <span data-i18n="en">LLM Profiles, Approvals &amp; Ops</span>
+              <span data-i18n="ko" lang="ko">LLM 프로필·승인·통계·유지보수</span>
+            </h3>
+            <p class="feature-card__body">
+              <span data-i18n="en">LLM profiles, retry policies, pool and usage records, approvals and request interception, notifications, system settings, statistics/tokens/logs, maintenance, and updates.</span>
+              <span data-i18n="ko" lang="ko">LLM 프로필·재시도·풀·사용 기록, 승인·차단(Interception), 알림, 설정, 통계·토큰·로그 스트리밍, 정리와 업데이트를 지원합니다.</span>
+            </p>
+          </article>
+        </div>
+
+        <div class="scope-note">
+          <strong>
+            <span data-i18n="en">CLI Scope Boundary:</span>
+            <span data-i18n="ko" lang="ko">CLI 범위 경계:</span>
+          </strong>
+          <span data-i18n="en">Portable builds compile only the Go engine and do not build the web UI. Graph information is delivered as structured nodes and edges; browser presentation, visual themes, and GUI keyboard preferences are outside this CLI's scope.</span>
+          <span data-i18n="ko" lang="ko">배포 빌드는 Go 엔진만 사용하며 웹 UI를 빌드하지 않습니다. 그래프는 구조화된 노드·간선 데이터로 제공하며, 브라우저 화면 배치·테마·웹 키보드 설정은 CLI 범위에 포함하지 않습니다.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Portability, Workspace Relocation & Model/Integration Requirements -->
+    <section class="section section--alt" id="requirements">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">A portable core, with the model provider you choose</span>
+            <span data-i18n="ko" lang="ko">포터블 코어와 직접 선택하는 모델 제공자</span>
+          </h2>
+          <p class="section-desc">
+            <span data-i18n="en"><code>scopeweaver-cli doctor --json</code> reports the self-contained core runtime separately from optional model providers and external tool binaries.</span>
+            <span data-i18n="ko" lang="ko"><code>scopeweaver-cli doctor --json</code>은 패키지 내부의 핵심 실행 환경과 선택적 모델·외부 연동 요구 사항을 명확히 구분해 보고합니다.</span>
+          </p>
+        </div>
+
+        <div class="split-cards">
+          <div class="info-card info-card--bundled">
+            <div class="info-card__badge">
+              <span data-i18n="en">KEPT IN THE PORTABLE FOLDER</span>
+              <span data-i18n="ko" lang="ko">포터블 폴더 안에 보관</span>
+            </div>
+            <h3 class="info-card__title">
+              <span data-i18n="en">Zero-Install Core Engine &amp; Database</span>
+              <span data-i18n="ko" lang="ko">별도 설치가 필요 없는 코어 엔진 및 데이터베이스</span>
+            </h3>
+            <ul class="info-list">
+              <li>
+                <span data-i18n="en"><strong>Go Engine &amp; CLI:</strong> Single binary driving all 297 operations over an authenticated <code>127.0.0.1</code> loopback runtime. Private credentials stay outside the browsable workspace.</span>
+                <span data-i18n="ko" lang="ko"><strong>Go 엔진 및 CLI:</strong> 인증된 <code>127.0.0.1</code> 루프백 런타임 위에서 297개 명령을 수행합니다. 전용 인증 정보는 탐색 가능한 작업 공간 밖에 보관됩니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>PostgreSQL 17.11:</strong> Downloaded from pinned sources on first use, with SHA-256 verification before extraction. The runtime stays beside the CLI. No OS service is installed. Linux requires a non-root user.</span>
+                <span data-i18n="ko" lang="ko"><strong>PostgreSQL 17.11:</strong> 처음 실행할 때 고정된 출처에서 내려받고 SHA-256을 검증한 뒤 압축을 풉니다. 런타임은 CLI 옆에 보관하며 OS 서비스를 설치하지 않습니다. Linux에서는 비-root 사용자로 실행해야 합니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Relocatable Private Storage:</strong> Defaults to <code>state/</code> beside the executable, or custom <code>--home PATH</code> / <code>SCOPEWEAVER_CLI_HOME</code>. Stop the runtime before moving or copying the folder. Moving across OSes or PostgreSQL major versions requires backup/restore—raw DB directories are not cross-platform.</span>
+                <span data-i18n="ko" lang="ko"><strong>분리·이동 가능한 저장소:</strong> 기본 위치는 실행 파일 옆 <code>state/</code>이며 <code>--home PATH</code> 또는 <code>SCOPEWEAVER_CLI_HOME</code>으로 분리할 수 있습니다. 폴더 이동·복사 전에는 런타임을 중지해야 하며, 다른 OS나 PostgreSQL 주 버전 간 이동에는 백업·복원이 필요합니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Built-in Agent Skill &amp; Notices:</strong> Includes <code>skills/scopeweaver-cli/SKILL.md</code>, provenance records,verification receipts, and verbatim third-party licenses in <code>licenses/</code>.</span>
+                <span data-i18n="ko" lang="ko"><strong>기본 에이전트 스킬 및 라이선스 고지:</strong> <code>skills/scopeweaver-cli/SKILL.md</code>, 출처 문서, 검증 기록, <code>licenses/</code> 폴더의 제3자 라이선스를 포함합니다.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="info-card info-card--optional">
+            <div class="info-card__badge info-card__badge--amber">
+              <span data-i18n="en">EXTERNAL / USER-SUPPLIED</span>
+              <span data-i18n="ko" lang="ko">외부 설정 및 사용자 준비 항목</span>
+            </div>
+            <h3 class="info-card__title">
+              <span data-i18n="en">Model Providers &amp; Optional Integrations</span>
+              <span data-i18n="ko" lang="ko">모델 제공자 및 선택적 외부 연동</span>
+            </h3>
+            <ul class="info-list">
+              <li>
+                <span data-i18n="en"><strong>No Bundled Model Weights or API Keys:</strong> AI execution requires a configured model provider or local inference service. The portable package does not contain model weights, paid subscriptions, or API keys.</span>
+                <span data-i18n="ko" lang="ko"><strong>모델 가중치·API 키 미포함:</strong> AI 실행에는 모델 제공자 또는 로컬 추론 서비스 설정이 필요합니다. 패키지에는 모델 가중치, 유료 구독, API 키가 포함되지 않습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Built-in Subscription AI:</strong> The planner, workers, and chat use <code>codex-cli</code> profiles through official Codex CLI <code>0.162.1</code>. Windows R3 ChatGPT OAuth and R4 GLM-5.3-Flash/low passed live built-in workflows. Flagship GLM-5.3 timed out at final planning and is not accepted end to end. Codex and provider account access are additional requirements.</span>
+                <span data-i18n="ko" lang="ko"><strong>내장 구독형 AI:</strong> 플래너·워커·채팅은 공식 Codex CLI <code>0.162.1</code>의 <code>codex-cli</code> 프로필을 사용합니다. Windows R3 ChatGPT OAuth와 R4 GLM-5.3-Flash/low의 내장 흐름이 통과했습니다. 대표 모델 GLM-5.3은 최종 플래너에서 시간 초과해 전체 흐름 통과로 인정하지 않습니다. Codex와 제공자 계정 접근 권한이 별도로 필요합니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>External Tool Binaries:</strong> Custom commands, Python tools, browser automation tools, ScopeSentry, notifications, and external MCP servers require the executables or services selected by those integrations.</span>
+                <span data-i18n="ko" lang="ko"><strong>외부 도구 실행 파일:</strong> 사용자 지정 명령, Python 도구, 브라우저 도구, 외부 MCP·알림 서비스는 해당 연동에서 선택한 실행 파일이나 서비스를 요구합니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Untrusted Evidence Handling &amp; Updates:</strong> Treat all returned evidence and tool output as untrusted data. Self-update targets <code>cskwork/scopeweaver-cli</code> releases while preserving data and user skills; until a release is published, update checks report that no stable release is available.</span>
+                <span data-i18n="ko" lang="ko"><strong>비신뢰 데이터 취급 및 업데이트:</strong> 반환된 증거와 도구 출력은 신뢰할 수 없는 데이터로 취급하세요. 업데이트는 데이터와 사용자 수정 스킬을 보존하지만, 첫 공개 배포 전까지는 안정 버전이 없다는 오류를 표시합니다.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Verification & Honest Limitations -->
+    <section class="section" id="verification">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">Recorded standalone CLI evidence and open v0.1.0 release gates</span>
+            <span data-i18n="ko" lang="ko">독립 실행형 CLI 검증 기록 및 v0.1.0 공개 전 남은 과제</span>
+          </h2>
+          <p class="section-desc">
+            <span data-i18n="en">Recorded 2026-10-17 against engine source pinned to ScopeWeaver commit <code>2df0b307dcb817a459abebd3a4c240a2019598db</code> using disposable local state and managed PostgreSQL 17.11. <strong>The first public v0.1.0 release is not ready.</strong></span>
+            <span data-i18n="ko" lang="ko">2026-10-17 기준, ScopeWeaver 커밋 <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>에 고정된 엔진 소스와 임시 로컬 저장소·PostgreSQL 17.11로 기록한 결과입니다. <strong>첫 공개 v0.1.0 릴리스는 아직 준비되지 않았습니다.</strong></span>
+          </p>
+        </div>
+
+        <div class="verification-grid">
+          <!-- Verified Column -->
+          <div class="ver-card ver-card--passed">
+            <h3 class="ver-card__heading">
+              <span class="ver-indicator ver-indicator--pass" aria-hidden="true"></span>
+              <span data-i18n="en">Verified in Standalone CLI &amp; Core Suites</span>
+              <span data-i18n="ko" lang="ko">검증 완료된 독립 실행형 CLI 및 코어 테스트</span>
+            </h3>
+            <ul class="ver-list">
+              <li>
+                <span data-i18n="en"><strong>Windows amd64 &amp; Ubuntu WSL2 Packaged E2E:</strong> R3 core E2E passed 62 installed CLI calls on Windows in 34.39 seconds and 62 on Linux in 10.579 seconds. Linux first-use download/start took 6.679 seconds on WSL2 native ext4. No native macOS runtime E2E is recorded.</span>
+                <span data-i18n="ko" lang="ko"><strong>Windows amd64 및 Ubuntu WSL2 패키지 E2E:</strong> R3 코어 E2E는 Windows에서 설치형 CLI 62회가 34.39초, Linux에서 62회가 10.579초에 통과했습니다. WSL2 네이티브 ext4의 첫 다운로드·시작은 6.679초였습니다. 실제 macOS 런타임 E2E 기록은 없습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Live OAuth &amp; Flash Workflows:</strong> Windows R3 ChatGPT OAuth passed 125 installed calls in 161.24 seconds. R4 GLM-5.3-Flash/low passed 127 in 153.87 seconds. Both exercised chat tools, queue/resume, planner/worker, one owned loopback GET, a synthetic finding and report.</span>
+                <span data-i18n="ko" lang="ko"><strong>OAuth 및 Flash 실사용 흐름:</strong> Windows R3 ChatGPT OAuth는 설치형 호출 125회가 161.24초, R4 GLM-5.3-Flash/low는 127회가 153.87초에 통과했습니다. 두 흐름 모두 채팅 도구, 대기열·재개, 플래너·워커, 소유 루프백 GET 1회, 합성 발견 사항과 보고서를 확인했습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Lifecycle &amp; Context Compaction:</strong> R3 lifecycle checked active chat/task and side-question drain, restart, steering, edits, retry and branches with 130 calls plus 3 preflights. R4 compaction passed 33 calls and 2 new completions with persisted summaries and per-call paid records. Aggregate usage did not increase.</span>
+                <span data-i18n="ko" lang="ko"><strong>수명주기 및 문맥 압축:</strong> R3 수명주기는 호출 130회와 사전 점검 3회로 실행 중 채팅·작업 및 보조 질문의 종료 대기, 재시작, 진행 방향 지시, 편집·재시도·분기를 확인했습니다. R4 압축은 33회와 새 요청 2회로 통과했으며 요약·요청별 유료 기록을 보존했습니다. 집계 사용량은 늘지 않았습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Earlier Focused &amp; Core Engine Suites:</strong> Focused CLI/runtime/packaging/selfupdate suites passed 62 tests/subtests (0 failures, 10 Unix-specific updater skips on Windows). Original DB suite: 336 passed; Agent suite: 534 passed; fresh-DB <code>llmrec</code> suite: 23/23 passed; <code>evidence</code> suite: 17/17 passed.</span>
+                <span data-i18n="ko" lang="ko"><strong>이전 집중 테스트 및 코어 스위트:</strong> CLI·런타임·패키징·업데이터 집중 테스트 62개 통과(실패 0, Windows에서 Unix 전용 업데이터 10개 건너뜀). DB 스위트 336개, 에이전트 스위트 534개, 신규 DB <code>llmrec</code> 23개 및 <code>evidence</code> 17개 전체 통과.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Open Limits & Release Blockers Column -->
+          <div class="ver-card ver-card--limits">
+            <h3 class="ver-card__heading">
+              <span class="ver-indicator ver-indicator--warn" aria-hidden="true"></span>
+              <span data-i18n="en">Open Limitations &amp; v0.1.0 Release Blockers</span>
+              <span data-i18n="ko" lang="ko">미해결 한계 및 v0.1.0 배포 차단 요소</span>
+            </h3>
+            <ul class="ver-list">
+              <li>
+                <span data-i18n="en"><strong>Not an All-Features-Pass Result:</strong> The 2026-10-17T06:45:31Z catalog union snapshot invokes 284 of 297 named operations: 283 positive, 1 error-only, 13 untested. It combines earlier candidates and verifies at least one behavior per positive operation, not every option/state or the final public package.</span>
+                <span data-i18n="ko" lang="ko"><strong>전체 기능 통과가 아님:</strong> 2026-10-17T06:45:31Z 누적 스냅샷은 297개 명령 중 284개를 호출했습니다. 성공 동작 283개, 오류 경로만 1개, 미검증 13개입니다. 이전 후보들을 합친 기록으로, 성공은 하나 이상의 동작 확인이며 모든 옵션·상태나 최종 공개 패키지 통과를 뜻하지 않습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>Subscription AI Evidence:</strong> The replacement Coding Plan key works for the accepted R4 Flash workflow. Flagship GLM-5.3 reached worker evidence and a finding but its final planner call exceeded the seven-minute E2E budget. Its full workflow is not accepted. Earlier quota errors are historical; their cause remains unconfirmed.</span>
+                <span data-i18n="ko" lang="ko"><strong>구독형 AI 검증:</strong> 교체한 Coding Plan 키로 R4 Flash 흐름이 통과했습니다. 대표 모델 GLM-5.3은 워커 근거·발견 사항까지 완료했지만 최종 플래너 호출이 E2E 제한 시간 7분을 넘겼습니다. 전체 흐름 통과로 인정하지 않습니다. 이전 할당량 오류는 과거 기록이며 원인은 확인되지 않았습니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>OS Host Baselines &amp; Server Symlink Privilege:</strong> Tested on current host + Ubuntu WSL2, not a clean Windows/Linux VM or native macOS runtime E2E (macOS arm64 was checked for archive extraction and cross-compile only). Hosted CI has not run. The Windows server suite reports 492 passed, <strong>1 failed</strong> (Windows symlink privilege), and 4 skipped.</span>
+                <span data-i18n="ko" lang="ko"><strong>클린 VM·macOS E2E 미실행 및 심볼릭 링크 권한:</strong> 클린 Windows/Linux VM이나 실제 macOS 런타임 E2E는 아직 실행되지 않았으며(macOS arm64는 교차 컴파일·압축 해제만 확인), 호스팅 CI도 실행 전입니다. Windows 서버 스위트는 492개 통과, <strong>1개 실패</strong>(Windows 심볼릭 링크 생성 권한 부족), 4개 건너뜀 상태입니다.</span>
+              </li>
+              <li>
+                <span data-i18n="en"><strong>First-Use Runtime Setup:</strong> The public package uses approved first-use pinned downloads with no separate application/database installer. The newest final-flush write-error/localization fix is source-tested and newer than tested R4, so a rebuilt candidate is required. External integrations, online updater release-cycle evidence, hosted CI and human review remain open. No public release exists.</span>
+                <span data-i18n="ko" lang="ko"><strong>첫 실행 시 런타임 준비:</strong> 공개 패키지는 승인된 첫 실행 다운로드 방식이며 별도 앱·DB 설치 프로그램은 필요하지 않습니다. 최신 최종 출력 오류·다국어 수정은 소스 검증만 완료했고 R4보다 나중에 반영돼 후보 재빌드가 필요합니다. 외부 연동, 온라인 업데이트 릴리스 주기, 호스팅 CI와 사람의 검토는 남아 있으며 공개 릴리스는 없습니다.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Build & Verify Reproduction Commands -->
+        <div class="repro-panel">
+          <div class="repro-panel__header">
+            <div>
+              <h3 class="repro-panel__title">
+                <span data-i18n="en">Build &amp; Verify from Source (Developers Only)</span>
+                <span data-i18n="ko" lang="ko">소스 빌드 및 E2E 재현 명령 (개발자용)</span>
+              </h3>
+              <p class="repro-panel__sub">
+                <span data-i18n="en">Source builds require Go 1.26.3 and network access for pinned archives (or <code>-offline</code> with verified cache). Packaged users do not need Go; first operational use still downloads the pinned runtime. Package targets: <code>windows-amd64</code>, <code>linux-amd64</code>, <code>linux-arm64</code>, <code>darwin-amd64</code>, <code>darwin-arm64</code>.</span>
+                <span data-i18n="ko" lang="ko">소스 빌드는 Go 1.26.3과 네트워크 연결(또는 검증된 캐시를 쓰는 <code>-offline</code>)이 필요합니다. 패키지 사용자는 Go가 필요 없지만 첫 기능 실행 때 런타임을 내려받습니다. 지원 패키지 대상: <code>windows-amd64</code>, <code>linux-amd64</code>, <code>linux-arm64</code>, <code>darwin-amd64</code>, <code>darwin-arm64</code>.</span>
+              </p>
+            </div>
+            <button type="button" class="copy-btn" data-copy-target="repro-code">
+              <span class="copy-btn__label" data-i18n="en">Copy build &amp; E2E</span>
+              <span class="copy-btn__label" data-i18n="ko" lang="ko">빌드·E2E 명령 복사</span>
+            </button>
+          </div>
+          <pre class="code-block" id="repro-code"><code>go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
+go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+go run ./packaging -target windows-amd64
+$env:SCOPEWEAVER_CLI_E2E_BINARY = (Resolve-Path .\dist\scopeweaver-cli-windows-amd64\scopeweaver-cli.exe).Path
+go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Provenance, License & Mandatory Use Restrictions -->
+    <section class="section section--alt" id="provenance">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span data-i18n="en">Upstream lineage, AGPL-3.0 licensing, and strict local-isolation rules</span>
+            <span data-i18n="ko" lang="ko">상위 프로젝트 출처, AGPL-3.0 라이선스 및 로컬 격리 사용 제한</span>
+          </h2>
+        </div>
+
+        <div class="restriction-banner" role="region" aria-label="Mandatory Permitted Use Restriction">
+          <div class="restriction-banner__icon" aria-hidden="true">!</div>
+          <div class="restriction-banner__content">
+            <h3 class="restriction-banner__title">
+              <span data-i18n="en">Mandatory Upstream Usage Restriction — Local Isolated Environments Only</span>
+              <span data-i18n="ko" lang="ko">필수 상위 프로젝트 사용 제한 — 로컬 격리 환경에서의 연구·기술 검증 전용</span>
+            </h3>
+            <p class="restriction-banner__text">
+              <span data-i18n="en">
+                <strong>Use only for source research and technical validation in locally isolated environments.</strong> The upstream authors explicitly prohibit real testing of online systems, <strong>including systems you own or have authorization to test</strong>. Packaging is not publication; all AGPL-3.0 terms, third-party notices, and upstream usage restrictions remain in full effect.
+              </span>
+              <span data-i18n="ko" lang="ko">
+                <strong>소스 연구와 로컬 격리 환경의 기술 검증에만 사용하세요.</strong> 상위 프로젝트 저작자는 <strong>소유하거나 허가받은 대상을 포함해 온라인 시스템에 대한 실제 테스트를 엄격히 금지</strong>합니다. 패키지 생성은 공개 배포를 뜻하지 않으며, AGPL-3.0 및 제3자 고지와 상위 사용 제한이 그대로 유지됩니다.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div class="provenance-grid">
+          <div class="prov-card">
+            <h3 class="prov-card__title">
+              <span data-i18n="en">Lineage &amp; Command Design</span>
+              <span data-i18n="ko" lang="ko">파생 출처 및 명령 설계</span>
+            </h3>
+            <p class="prov-card__body">
+              <span data-i18n="en">
+                Derived from <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> at commit <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>, which itself is derived from ARTEX. The original source tree and tests are retained for traceability. Command discovery, structured JSON output, and real-application verification follow <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>.
+              </span>
+              <span data-i18n="ko" lang="ko">
+                ARTEX에서 파생된 <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">cskwork/scopeweaver</a> 커밋 <code>2df0b307dcb817a459abebd3a4c240a2019598db</code>를 기반으로 하며, 추적성을 위해 원본 소스와 테스트를 보존합니다. 명령 탐색·구조화 출력·실제 앱 검증 방식은 <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">HKUDS/CLI-Anything</a>을 참고했습니다.
+              </span>
             </p>
           </div>
 
-          <div class="paths">
-            <article class="path">
-              <span class="path__tag">recommended</span>
-              <h3>One-click script</h3>
-              <p>Clone the repository and run the installer; it detects Docker and offers an all-in-Docker or local build.</p>
-              <div class="code-light">
-                <button class="copy-btn" type="button" data-copy-target="#inst-script" aria-label="Copy">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                  <span class="copy-btn__text">Copy</span>
-                </button>
-                <code id="inst-script"><span class="tok-cmd">git</span> clone https://github.com/cskwork/scopeweaver.git
-<span class="tok-cmd">cd</span> scopeweaver
-<span class="tok-cmd">./install.sh</span></code>
-              </div>
-            </article>
-
-            <article class="path">
-              <span class="path__tag">docker</span>
-              <h3>Docker Compose</h3>
-              <p>Set a Postgres password in <code>.env</code>; Compose builds the image from source and starts Postgres alongside it.</p>
-              <div class="code-light">
-                <button class="copy-btn" type="button" data-copy-target="#inst-docker" aria-label="Copy">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                  <span class="copy-btn__text">Copy</span>
-                </button>
-                <code id="inst-docker"><span class="tok-cmd">cp</span> .env.example .env
-<span class="tok-cmd">docker</span> compose up -d --build</code>
-              </div>
-            </article>
-
-            <article class="path">
-              <span class="path__tag">prebuilt</span>
-              <h3>Release archive</h3>
-              <p>Download a platform archive, fill in the database connection, and start through the supervisor script.</p>
-              <div class="code-light">
-                <button class="copy-btn" type="button" data-copy-target="#inst-bin" aria-label="Copy">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>
-                  <span class="copy-btn__text">Copy</span>
-                </button>
-                <code id="inst-bin"><span class="tok-cmd">cp</span> config.example.json config.json
-<span class="tok-cmd">./start.sh</span></code>
-              </div>
-              <div class="archive" aria-label="Release archives">
-                <span class="chip">linux amd64</span>
-                <span class="chip">linux arm64</span>
-                <span class="chip">macos amd64</span>
-                <span class="chip">macos arm64</span>
-                <span class="chip">windows amd64</span>
-                <span class="chip">ghcr docker image</span>
-              </div>
-            </article>
+          <div class="prov-card">
+            <h3 class="prov-card__title">
+              <span data-i18n="en">Runtime Licenses &amp; Metadata</span>
+              <span data-i18n="ko" lang="ko">라이선스 및 로컬 런타임 명세</span>
+            </h3>
+            <p class="prov-card__body">
+              <span data-i18n="en">
+                Covered by <code>AGPL-3.0</code> (<code>LICENSE</code>), <code>THIRD_PARTY_NOTICES.txt</code>, and <code>docs/PROVENANCE.md</code>. Downloaded third-party runtimes retain their publisher licenses in <code>licenses/</code> and source checksums/metadata in <code>POSTGRES-SOURCES.json</code>.
+              </span>
+              <span data-i18n="ko" lang="ko">
+                <code>AGPL-3.0</code>(<code>LICENSE</code>), <code>THIRD_PARTY_NOTICES.txt</code>, <code>docs/ko/PROVENANCE.md</code>가 적용됩니다. 내려받은 실행 환경의 라이선스는 <code>licenses/</code>에, PostgreSQL 소스 및 체크섬 명세는 <code>POSTGRES-SOURCES.json</code>에 보존됩니다.
+              </span>
+            </p>
           </div>
 
-          <p class="hero__stack" style="margin-top:1.75rem">
-            Every archive bundles the embedded web interface, supervisor,
-            skills, a config example and the agent adapter.
-            <a href="https://github.com/cskwork/scopeweaver/releases/tag/v0.1.0" rel="noopener">See release v0.1.0 and SHA256SUMS →</a>
-          </p>
-        </div>
-      </section>
-
-      <!-- ============ REQUIREMENTS ============ -->
-      <section class="section" id="requirements" aria-labelledby="req-h">
-        <div class="wrap">
-          <div class="section__head">
-            <h2 id="req-h">What you need first</h2>
-            <p>ScopeWeaver carries the application; you supply the database and a model provider.</p>
-          </div>
-          <div class="req-grid">
-            <div class="req">
-              <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" /></svg>
-                PostgreSQL
-              </h3>
-              <p>A reachable Postgres database. The schema is embedded and created idempotently on every start.</p>
-            </div>
-            <div class="req">
-              <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2a7 7 0 00-4 12.7V18h8v-3.3A7 7 0 0012 2zM9 22h6M10 18v4M14 18v4" /></svg>
-                Model provider
-              </h3>
-              <p>A separately configured LLM — set <code>ANTHROPIC_API_KEY</code> or <code>OPENAI_API_KEY</code>, or enter it in the UI. Exploration will not run without one.</p>
-            </div>
-            <div class="req">
-              <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 17l6-6-6-6M12 19h8" /></svg>
-                Node.js 22+ (adapter)
-              </h3>
-              <p>Only for the coding-agent adapter. Install its dependencies with <code>npm ci</code> in <code>adapters/agent</code>.</p>
-            </div>
-            <div class="req">
-              <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="14" rx="2" /><path d="M8 20h8M12 18v2" /></svg>
-                A local lab target
-              </h3>
-              <p>Use only against systems you own or run in isolation. ScopeWeaver is for locally isolated research, not online testing.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============ LIMITS & CREDITS ============ -->
-      <section class="section" id="limits" aria-labelledby="limits-h">
-        <div class="wrap">
-          <div class="section__head">
-            <h2 id="limits-h">Honest limits</h2>
-            <p>What this release is, and what it is not. These are checkable against the repository.</p>
-          </div>
-
-          <div class="limits-layout">
-            <ul class="limit-list">
-              <li><strong>Locally isolated research only.</strong> The inherited usage restrictions prohibit scanning, probing or attacking any online service — authorized or not. Use it against systems you own, in isolation.</li>
-              <li><strong>No production or effectiveness claims.</strong> This does not assert production penetration-testing readiness or independently validated security results.</li>
-              <li><strong>Unverified runtimes.</strong> Docker image execution and Windows batch execution were not verified. Packaging fixtures do not claim a real Windows runtime test.</li>
-              <li><strong>Dependencies need work.</strong> Targeted tooling updates do not resolve every audit finding. See the verification notes for the current audit command and remaining limitations.</li>
-              <li><strong>Adapter tests use local fixtures.</strong> They prove the local request/response contract only; live coding-agent-to-provider execution is not independently verified. See <a href="https://github.com/cskwork/scopeweaver/blob/main/docs/VERIFICATION.md" rel="noopener">verification details</a>.</li>
+          <div class="prov-card">
+            <h3 class="prov-card__title">
+              <span data-i18n="en">Repository &amp; Reference Links</span>
+              <span data-i18n="ko" lang="ko">저장소 및 참조 링크</span>
+            </h3>
+            <ul class="prov-links">
+              <li>
+                <span class="link-tag link-tag--preview">
+                  <span data-i18n="en">PLANNED / UNPUBLISHED</span>
+                  <span data-i18n="ko" lang="ko">예정 경로 / 미게시</span>
+                </span>
+                <span class="prov-link-Disabled">https://github.com/cskwork/scopeweaver-cli</span>
+              </li>
+              <li>
+                <span class="link-tag">UPSTREAM</span>
+                <a href="https://github.com/cskwork/scopeweaver" rel="noopener noreferrer">https://github.com/cskwork/scopeweaver</a>
+              </li>
+              <li>
+                <span class="link-tag">DESIGN REF</span>
+                <a href="https://github.com/HKUDS/CLI-Anything" rel="noopener noreferrer">https://github.com/HKUDS/CLI-Anything</a>
+              </li>
             </ul>
-
-            <div>
-              <div class="aside-card">
-                <span class="tagline-mark">Owner workflow · deidentified</span>
-                <h3>Observed orchestration</h3>
-                <p>
-                  Observed in the owner’s workspace: chat-to-task creation,
-                  worker-trace inspection, and Korean progress updates.
-                  Identifying details and security findings are omitted.
-                </p>
-                <p>
-                  This is evidence of orchestration, not an independent security
-                  assessment, validated findings or production readiness.
-                </p>
-              </div>
-
-              <div class="aside-card">
-                <h3>Provenance &amp; credits</h3>
-                <p>
-                  ScopeWeaver is a standalone derivative of
-                  <a href="https://github.com/Autumn-27/ARTEX" rel="noopener">ARTEX</a>
-                  at upstream commit <code>160fe13</code>, licensed AGPL-3.0.
-                  Agent capabilities use the
-                  <a href="https://github.com/Autumn-27/norma" rel="noopener">norma</a>
-                  SDK; asset sync draws on
-                  <a href="https://github.com/Autumn-27/ScopeSentry" rel="noopener">ScopeSentry</a>.
-                </p>
-                <p class="credits">
-                  Screenshots show the bundled fictional demo fixtures, labelled
-                  as demo data, and are not scans of live targets. Display type
-                  is self-hosted Schibsted Grotesk and JetBrains Mono (SIL Open
-                  Font License). Korean text uses the reader’s system Hangul
-                  typeface.
-                </p>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="wrap">
-        <div class="footer-top">
-          <a class="brand" href="./" aria-label="ScopeWeaver home">
-            <img src="assets/img/scopeweaver.svg" alt="" width="30" height="30" />
-            ScopeWeaver
-          </a>
-          <nav class="footer-links" aria-label="Footer">
-            <a href="https://github.com/cskwork/scopeweaver" rel="noopener">GitHub</a>
-            <a href="https://github.com/cskwork/scopeweaver/releases/tag/v0.1.0" rel="noopener">Release v0.1.0</a>
-            <a href="https://github.com/cskwork/scopeweaver/tree/main/docs" rel="noopener">Docs</a>
-            <a href="https://github.com/cskwork/scopeweaver/blob/main/adapters/agent/README.md" rel="noopener">Agent adapter</a>
-            <a href="https://github.com/cskwork/scopeweaver/blob/main/docs/PROVENANCE.md" rel="noopener">Provenance</a>
-            <a href="https://github.com/cskwork/scopeweaver/blob/main/docs/VERIFICATION.md" rel="noopener">Verification</a>
-          </nav>
-        </div>
-        <div class="footer-bottom">
-          <p>
-            ScopeWeaver is a derivative of ARTEX, licensed under AGPL-3.0.
-            Network-hosted modifications must publish their source. Use only for
-            locally isolated study and validation.
-          </p>
-          <p>This static page is an introduction, not a live scanning or chat service.</p>
         </div>
       </div>
-    </footer>
+    </section>
+  </main>
 
-    <script src="assets/js/app.js" defer></script>
-  </body>
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__left">
+        <img src="scope-mark.svg" alt="" width="24" height="24">
+        <span>
+          <strong>scopeweaver-cli</strong> ·
+          <span data-i18n="en">Unreleased v0.1.0 candidate · Engine pinned to <code>2df0b307dcb8</code></span>
+          <span data-i18n="ko" lang="ko">미출시 v0.1.0 후보 · 엔진 고정 커밋 <code>2df0b307dcb8</code></span>
+        </span>
+      </div>
+      <div class="site-footer__right">
+        <span data-i18n="en">AGPL-3.0 · Local isolated research and technical validation only.</span>
+        <span data-i18n="ko" lang="ko">AGPL-3.0 · 로컬 격리 환경의 소스 연구 및 기술 검증 전용.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Live polite region for screen-reader copy announcements -->
+  <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="script.js"></script>
+</body>
 </html>

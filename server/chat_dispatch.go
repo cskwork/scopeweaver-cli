@@ -10,12 +10,12 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/Autumn-27/norma/transcript"
 	"github.com/cskwork/scopeweaver-cli/agent"
 	"github.com/cskwork/scopeweaver-cli/chatstate"
 	"github.com/cskwork/scopeweaver-cli/db"
 	"github.com/cskwork/scopeweaver-cli/intercept"
 	"github.com/cskwork/scopeweaver-cli/locale"
-	"github.com/Autumn-27/norma/transcript"
 )
 
 func (s *Server) recoverChatControls() error {
@@ -85,6 +85,10 @@ func (s *Server) dispatchChatInput(gate, selected string) error {
 		return err
 	}
 	s.chatMu.Lock()
+	if s.chatClosing || s.ctx.Err() != nil {
+		s.chatMu.Unlock()
+		return context.Canceled
+	}
 	ref, err := s.m.pg.ChatGateSession(s.ctx, gate)
 	if err != nil {
 		s.chatMu.Unlock()
@@ -119,8 +123,10 @@ func (s *Server) dispatchChatInput(gate, selected string) error {
 	ctx, cancel := context.WithCancelCause(s.ctx)
 	s.chatBusy[key] = true
 	s.chatCancel[key] = cancel
+	s.chatWG.Add(1)
 	s.chatMu.Unlock()
 	go func() {
+		defer s.chatWG.Done()
 		status := "failed"
 		defer func() {
 			if problem := recover(); problem != nil {

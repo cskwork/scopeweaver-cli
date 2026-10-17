@@ -1,0 +1,90 @@
+{
+  "proof_level": "Confirmed for dispatcher finalization ordering and local Stop propagation; installed model shutdown recheck pending parent",
+  "original_failure": {
+    "conversation_id": 2,
+    "run_id": "764cee16ff014cb0d4bccdaca1f4bf80",
+    "input_id": "c987b5fd2992b74520f7bcca8a993e62",
+    "observed_at": "2026-10-17T14:21:52+09:00",
+    "error": "sql: database is closed",
+    "affected_layers": [
+      "llmusage",
+      "llmrec",
+      "conversation activity",
+      "chat transcript persistence",
+      "FinishChatRun"
+    ],
+    "recovery": "unknown, paused, no active run; retained 48995 input /115 output tokens"
+  },
+  "fresh_db": {
+    "result": "pass",
+    "tests": [
+      "TestChatQueueAcceptedLocaleSurvivesDispatch",
+      "TestChatQueuePreflightFailureVisibleAndEditable",
+      "TestChatQueuePreflightLocale",
+      "TestChatDispatcherCancellationAndQueue",
+      "TestChatQueueDrainsAfterExternalRun",
+      "TestChatShutdownDrainsSideAnswerAndCheckpointPublisher",
+      "TestChatShutdownDrainsFinalizationBeforeDatabaseClose",
+      "TestChatShutdownWithNoRunsAndRepeatedDrain",
+      "TestRetestActiveStatusLifecycle"
+    ],
+    "run_id": "81d21bc972cd98799d0c60f1b0f3dd76",
+    "before_close": "unknown",
+    "after_reopen": "unknown",
+    "final_activity_markers": 1,
+    "remaining_queued_followups": 1,
+    "late_chat_http": 503,
+    "deadline": "20ms uncooperative fixture returns DeadlineExceeded; final drain bounded5s"
+  },
+  "regressions": {
+    "no_drain_overlay": "fails: blocked drain <nil>",
+    "old_stop_overlay": "fails: stop lost shutdown error <nil>",
+    "chat_only_drain_overlay": "fails: incomplete side drain returned <nil>",
+    "optional_result_overlay": "fails advertised missing and stale result cases: stop lost shutdown error <nil>"
+  },
+  "unit": {
+    "portable": "pass",
+    "server_passed": 261,
+    "server_skipped": 187,
+    "server_failed": [
+      "TestChatBranchCopyRejectsDestinationSymlink"
+    ],
+    "inherited_failure": "existing TestChatBranchCopyRejectsDestinationSymlink: Windows required symlink privilege missing at chat_history_test.go270; not weakened or skipped"
+  },
+  "vet": "go vet ./server ./internal/portable passed",
+  "diff_check": "passed",
+  "cleanup": "four fresh scopeweaver_test_* DBs dropped by helper; owned chat-shutdown-tests-home runtime stopped after both passes; no real models invoked",
+  "shutdown_bound_seconds": {
+    "http": 5,
+    "admitted_chats": 5,
+    "postgres": 60,
+    "client_stop": 75
+  },
+  "limitations": [
+    "timeout is an explicit shutdown error, not a guarantee uncooperative work finishes",
+    "legacy version0 runtimes retain missing-receipt compatibility; new version1 fails missing or mismatched receipt",
+    "unrelated background producers were not broadened into this fix"
+  ],
+  "side_regression": {
+    "id": "03323ade-4bd5-4abf-9fa5-4a749fbdda5a",
+    "status": "cancelled",
+    "answer": "shutdown side marker",
+    "input_tokens": 19,
+    "checkpoint_version": 2,
+    "after_close_and_reopen": "all asserted",
+    "blocked_publisher_and_blocked_side_timeouts": "each20ms returnsDeadlineExceeded",
+    "late_admission": 503
+  },
+  "terminal_result_protocol": {
+    "new_version": 1,
+    "identity": "authenticated random Instance nonce, health equality checked",
+    "required_receipt": "missing, malformed or mismatched receipt returns error",
+    "legacy_version0": "missing/stale absence compatibility retained",
+    "tests": "6 local authenticated HTTP cases pass"
+  },
+  "review": {
+    "agent": "codex_provider_review",
+    "result": "R3 narrow review closes both P2 findings; no remaining concrete issue within these fixes",
+    "tests_rerun_by_reviewer": false
+  }
+}

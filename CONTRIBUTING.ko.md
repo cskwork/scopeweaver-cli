@@ -10,8 +10,8 @@ dev에서 기능·수정 브랜치를 만들고 dev로 PR을 제출합니다. ma
 
 README·docs는 영어·한국어를 함께 유지합니다. 인터페이스 요약은 en·ko·zh-Hans를 지원하며 원본 증거·기술 진단을 보존합니다.
 
-    go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
-    go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+    go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1
+    go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider
     go run ./packaging -target windows-amd64
 
 SCOPEWEAVER_CLI_E2E_BINARY를 패키지 실행 파일 경로로 지정한 뒤 실행합니다.

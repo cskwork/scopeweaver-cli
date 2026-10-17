@@ -21,8 +21,8 @@ jobs:
           cache: true
       - name: Focused tests and static checks
         run: |
-          go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
-          go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+          go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1
+          go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider
       - name: Build native portable folder
         run: go run ./packaging
       - name: Installed portable workflows
@@ -32,4 +32,8 @@ jobs:
           executable=scopeweaver-cli
           if [ "$(go env GOOS)" = windows ]; then executable=scopeweaver-cli.exe; fi
           export SCOPEWEAVER_CLI_E2E_BINARY="$PWD/dist/scopeweaver-cli-$target/$executable"
+          bootstrap_home="$RUNNER_TEMP/scopeweaver-cli-bootstrap"
+          trap '"$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" runtime stop --yes --json' EXIT
+          "$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" health --json
+          "$SCOPEWEAVER_CLI_E2E_BINARY" --home "$bootstrap_home" runtime stop --yes --json
           go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v

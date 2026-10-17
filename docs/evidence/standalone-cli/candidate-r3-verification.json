@@ -1,0 +1,54 @@
+{
+  "candidate": "r3",
+  "windows_binary_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+  "tests_and_subtests_passed": 128,
+  "failed": 0,
+  "skipped": [
+    "TestVerifyStagedRejectsTamperedBinary",
+    "TestVerifyStagedRejectsUnrunnableBinary",
+    "TestApplyStagedHappyPath",
+    "TestApplyStagedKeepsCurrentWhenVerifyFails",
+    "TestSwapOverwritesPreviousBackup",
+    "TestConfirmCountsAttemptsThenRollsBack",
+    "TestManualRollbackIsReversible",
+    "TestExtractBinaryFindsNestedEntry",
+    "TestSettleClearsMarkerAndStopsRollback",
+    "TestSettleIsNoopWithoutMarker",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/runtime",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/postgres",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/bin",
+    "TestRuntimeInstallRejectsCompleteSymlinkBeforeFastPath",
+    "TestPortableCLICodexEndToEnd",
+    "TestPortableCLIGLMEndToEnd",
+    "TestPortableCLIEndToEnd"
+  ],
+  "vet": "passed",
+  "windows_installed_core": {
+    "invocations": 62,
+    "elapsed_seconds": 34.39,
+    "result": "passed"
+  },
+  "windows_native_streams": {
+    "result": "passed",
+    "exit_codes": [
+      130,
+      130,
+      130
+    ],
+    "events": [
+      20,
+      1,
+      3
+    ],
+    "forced_terminations": 0,
+    "owned_processes_remaining": 0
+  },
+  "oauth": {
+    "result": "passed",
+    "invocations": 125,
+    "elapsed_seconds": 161.24,
+    "owned_loopback_GETs": 1
+  },
+  "glm": "first run failed; diagnostic rerun in progress, no full pass claimed",
+  "test_source_note": "Only failure diagnostics in codex_e2e_test.go changed after compilation; passing paths and production sources unchanged."
+}

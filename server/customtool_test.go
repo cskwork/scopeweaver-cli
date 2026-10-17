@@ -217,3 +217,24 @@ func TestHTTPToolTruncatesLargeBody(t *testing.T) {
 		t.Fatalf("oversized http body was not truncated: len=%d", len(out))
 	}
 }
+
+// The manager returns a complete URL for either its recording proxy or global
+// egress proxy. The HTTP tool must use that URL without adding another scheme.
+func TestHTTPToolUsesManagerProxyURL(t *testing.T) {
+	proxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.String() != "http://fixture.invalid/recorded" {
+			t.Errorf("unexpected proxied request: %s", r.URL)
+		}
+		_, _ = w.Write([]byte("captured-fixture"))
+	}))
+	defer proxy.Close()
+	s := &Server{m: &Manager{globalProxy: proxy.URL}}
+	raw, err := json.Marshal(httpExec{Method: "GET", URL: "http://fixture.invalid/recorded", UseRecordingProxy: true, TimeoutMs: 1000})
+	if err != nil {
+		t.Fatal(err)
+	}
+	result, err := s.runHTTPTool(t.Context(), raw, nil, nil)
+	if err != nil || result.IsError || !strings.Contains(result.Flatten(), "captured-fixture") {
+		t.Fatalf("manager proxy request failed: result=%+v err=%v", result, err)
+	}
+}

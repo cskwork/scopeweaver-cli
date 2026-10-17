@@ -2,7 +2,65 @@
 
 [English](../CLI-VERIFICATION.md)
 
-2026-10-17 Windows amd64에서 기록했습니다. 엔진 기준은 ScopeWeaver 커밋2df0b307dcb817a459abebd3a4c240a2019598db입니다. 임시 로컬 상태와 PostgreSQL17.11을 사용했고 실제 대상·유료 모델·외부 알림을 호출하지 않았습니다.
+2026-10-17 Windows amd64에서 기록했습니다. 엔진 기준은 ScopeWeaver 커밋2df0b307dcb817a459abebd3a4c240a2019598db입니다. 임시 로컬 상태와 PostgreSQL17.11을 사용했습니다. 실제 OAuth 검증은 설정된 구독을 사용했으며 합성 파일과 직접 만든 루프백 HTTP 서버만 대상으로 삼았습니다. 온라인 대상 테스트나 외부 알림 전송은 하지 않았습니다.
+
+## 현재 후보 검증 (2026-10-17)
+
+첫 공개 버전 v0.1.0은 **보류**입니다. 아래 R3/R4 기록은 이전 상태를 대체하지만 최종 공개 패키지의 검증 완료를 뜻하지 않습니다.
+
+- 내장 채팅·플래너·워커는 공식 Codex CLI 0.162.1의 `codex-cli` 프로필을 사용합니다. ChatGPT OAuth와 Z.AI Coding Plan은 서로 분리된 제공자 경로입니다. [설정과 한계](ai-providers.md)를 참조하세요.
+- Windows R3에서 실제 OAuth CLI 호출 **125회가 161.24초**에 통과했습니다. 실제 채팅 도구, 대기열·재개, 플래너·워커 완료, 소유한 루프백 GET 1회, 합성 발견 사항과 보고서를 확인했습니다. Windows 코어 E2E도 **62회가 34.39초**에 통과했습니다. [R3 기록](../evidence/standalone-cli/candidate-r3-verification.json).
+- Windows R4에서 교체된 Coding Plan 키로 **GLM-5.3-Flash/low 호출 127회가 153.87초**에 통과했습니다. 채팅·도구 결과, 분기·재시작, 대기열·재개, 플래너 인텐트, 워커 WebFetch, 합성 LOW 발견 사항, 목표 완료와 보고서를 확인했습니다. 테스트 서버는 GET 1회와 예상 밖 대상 요청 0회를 기록했습니다. 대표 모델 GLM-5.3은 워커 근거 수집·발견 사항 등록까지 완료했지만 최종 플래너 호출이 작업 E2E 제한 시간 7분을 넘겨 **전체 흐름 통과로 인정하지 않습니다**. 이전 키 오류와 도구 인자 오류는 현재 Flash 결과와 구분하는 과거 기록입니다. [R4 Flash 기록](../evidence/standalone-cli/glm-flash-e2e-r4.json).
+- R3 OAuth 수명주기 검증은 **CLI 호출 130회와 별도 사전 점검 3회**입니다. 실행 중인 채팅·작업 및 보조 질문의 종료 대기, 재시작, 진행 방향 지시, 편집, 재시도와 분기를 확인했습니다. 보조 질문은 실행 중인 상태와 취소 저장을 확인했으며 유료 추론 완료까지 증명하지는 않습니다. 잔여 소유 프로세스는 0개였습니다. R3의 문맥 압축 문제는 별도 R4 검증에서 해결했습니다. [수명주기 기록](../evidence/standalone-cli/oauth-lifecycle-r3.json).
+- R4 OAuth 문맥 압축은 **CLI 호출 33회와 새 모델 요청 2회**로 통과했습니다. 대화·작업 문맥이 줄었으며 합성 이력 표식, 게시된 요약과 유료 요청별 사용 기록이 재시작 후에도 유지됐습니다. 기존 대시보드·집계 사용량은 늘지 않았으므로 압축 비용이 해당 집계에 반영됐다고 주장하지 않습니다. [압축 기록](../evidence/standalone-cli/oauth-compaction-r4.json).
+- Linux R3는 기존 Ubuntu WSL2의 네이티브 ext4 파일시스템에서 비-root 사용자로 실행했습니다. 첫 다운로드·시작은 **6.679초**, 설치형 E2E **62회는 10.579초**에 통과했습니다. Windows에서 교차 컴파일한 실행 파일을 Linux에서 실행한 결과이며 네이티브 Linux 빌드나 클린 VM 검증은 아닙니다. 실제 macOS 런타임 E2E 기록은 없습니다. [Linux 기록](../evidence/standalone-cli/candidate-r3-linux.json).
+- **2026-10-17T06:45:31Z**에 기록한 정확한 명령명 기준 누적 스냅샷에서 **297개 중 284개를 호출**했습니다. **성공 동작 283개, 오류 경로만 확인한 1개, 미검증 13개**입니다. 여러 버전의 결과를 합친 기록이며 성공은 하나 이상의 동작 확인을 뜻합니다. 모든 옵션·상태 또는 최종 후보 검증 완료를 뜻하지 않습니다. [검증 범위 스냅샷](../evidence/standalone-cli/catalog-coverage-union-20261017.json).
+- R4 잔여 로컬 검증은 **35개 명령에 대한 CLI 호출 346회**로 **이전에 성공 동작을 확인하지 못한 명령 10개**를 추가 확인했습니다. 실제 OAuth 응답, 기존 채팅 접수 경로, 실제 실행 중 도구의 허용·거부 이력과 작업 인텐트 제어를 검증했습니다. 잔여 소유 프로세스는 0개였습니다. 탐색 중 테스트 준비·기대값 오류도 보존했으므로 모든 시도한 검증이 통과했다는 주장은 아닙니다. [검증 기록](../evidence/standalone-cli/remaining-local-r4.json).
+- 최신 최종 출력 쓰기 오류 전파·다국어 수정은 소스 테스트를 통과했지만 검증한 R4 실행 파일보다 나중에 반영됐습니다. 공개 후보 재빌드와 설치형 검증이 필요합니다. 이전 Windows 스트림 중단은 이제 130을 반환하며 R3 설치형 검증은 강제 종료 없이 통과했습니다. [R3 기록](../evidence/standalone-cli/candidate-r3-verification.json).
+- 공개 패키지는 승인된 첫 실행 다운로드 방식으로 체크섬이 고정된 PostgreSQL·런타임을 쓰기 가능한 포터블 폴더에 준비합니다. 별도 앱·DB 설치 프로그램이나 OS 서비스가 필요하지 않습니다. 이전 동봉형 압축 파일은 로컬 테스트 산출물이며 공개 패키지가 아닙니다.
+- 요청한 agy `gemini-4-argon-medium` 랜딩 디자인을 유지하고 영·한 내용을 맞췄습니다. 최초 브라우저 확인은 6개 레이아웃에서 148개 검증이 통과했습니다. 이후 사실관계 수정은 별도 범위의 QA이며 이 수치를 그대로 승계하지 않습니다.
+- 원격 저장소·호스팅 CI 실행·사람의 검토·공개 태그·릴리스는 없습니다. 최종 재빌드 패키지, 필요한 외부 연동, 온라인 업데이트 릴리스 주기와 배포 대상별 검증은 남아 있습니다. 명령 검증 범위나 후보 통과가 공개 조건을 대신하지 않습니다.
+
+## 이전 구독형 AI·첫 실행 검증 (현재 상태는 위 참조)
+
+첫 공개 v0.1.0 릴리스는 **보류 중**입니다. 이 절이 아래 과거 준비 상태보다 우선합니다.
+
+- 플래너·워커·채팅에 codex-cli 지원을 구현했습니다. 공식 Codex CLI0.162.1이 ChatGPT OAuth를 관리하며, Z.ai 경로는 문서에 명시된 Responses 엔드포인트와 GLM-5.3을 사용합니다. [설정과 제한](ai-providers.md)을 참조하세요.
+- Windows 후보 패키지에서 실제 CLI 호출79회가145.04초에 통과했습니다. 채팅 도구 결과와 사용량, 분기·재시작 이력, 일시정지 중 대기 메시지와 재개, 플래너의 의도 생성, 워커 WebFetch, 합성 LOW 발견 사항과 보고서를 확인했습니다. 직접 만든 루프백 서버의 GET은 정확히1회, 잔여 소유 프로세스는0개였습니다. [기록](../evidence/standalone-cli/codex-oauth-e2e-initial.json). 이 후보는 마지막 제공자 격리 수정 전이므로 최종 패키지 재검증이 필요합니다.
+- 독립 재검토에서 엔드포인트 덮어쓰기 차단, 인증 환경 변수 격리, 할당량·호출 속도 제한 구분, 복구 가능한 재시도 처리의 네 문제를 해결했음을 확인했습니다. 제공자 테스트·vet와 새 일회용 DB의 프로필·스키마마이그레이션 테스트가 통과했습니다. 설치된32비트 Windows C 컴파일러 때문에 race 계측 빌드를 실행하지 못했습니다.
+- 첫 번째 제공 키의 GLM-5.3/max 재시도는 insufficient_quota를 반환했으며 추론이 성공한 것은 아닙니다. 사용자는 Coding Plan 키라고 확인했습니다. 진단 중계 없이 내장 제공자를 직접 호출해도 usageLimitExceeded와 사용량0을 반환했습니다. Z.ai는10월16일부터 키 관리를 분리했으며 Standard 키는 Coding Plan 할당량을 사용하지 않습니다. [비밀값 없는 기록](../evidence/standalone-cli/glm-53-recheck.json), [공식 키 안내](https://docs.z.ai/devpack/notice/api-key-management).
+- 사용자는 PostgreSQL·런타임 파일을 처음 실행할 때 검증 후 포터블 폴더에 내려받는 방식을 승인했습니다. 공개 압축 파일에는 해당 실행 파일을 동봉하지 않습니다. 이전 동봉형 패키지는 과거 로컬 테스트 산출물이며, 재배포 권한 미해결 상태로 공개하면 안 됩니다.
+- 사용자가 준비된 문서 공유를 승인한 뒤 정확한 gemini-4-argon-medium, medium 추론 설정의 agy로 랜딩 페이지를 생성했습니다. 두 호출 모두 파일을 생성했지만 최종 요약 전 시간 제한에 도달했고, 조정 에이전트가 남은 기술적 수정을 마쳤습니다. 최초 확인은 EN/KO6개 레이아웃에서 브라우저 검증148개가 통과했습니다. 이후 사실관계 수정과 통합은 별도로 확인합니다.
+- 이후 교체된 키로 내장 GLM-5.3/max 추론과 공식 Codex의 GLM-5.3-Flash/low 독립 호출이 성공했습니다. 이전 키 실패와 구분하며, 전체 GLM 워크플로 검증은 별도입니다. [호출 기록](../evidence/standalone-cli/glm-replacement-key-success.json).
+- 최종 Windows 다운로드 방식 후보64ba8d29에서 독립 CLI 호출93회, 두 home의 동시 첫 실행, 클라이언트4개 동시 시작, 인증, 비정상 종료 후 DB 복구, 전체 폴더 오프라인 이동, 파일1608개 해시 보존, 실제 정션 차단을 통과했습니다. 잔여 소유 프로세스는0개였습니다. [기록](../evidence/standalone-cli/bootstrap-agent-e2e.json).
+- Linux 네이티브 파일시스템의 WSL에서는 실제 첫 다운로드·시작이8.012초, 설치형 E2E62회가11.515초에 통과했습니다. 잔여 프로세스는0개였습니다. Windows 드라이브를 마운트한 drvfs는 필요한 원자적 덮어쓰기 금지 rename을 지원하지 않아 명확한 오류를 반환하며 안전장치를 완화하지 않습니다. [기록](../evidence/standalone-cli/linux-first-use-e2e.json).
+- 다음 OAuth 실행에서는 IP만 있는 자산이 엄격한 URL 허용 목록을 만족하지 못하는 테스트 준비 오류를 발견했습니다. 플래너 시작 전 실제 소유 엔드포인트 자산을 등록·연결하도록 수정했고 원래 실패 및 범위 제한을 보존했습니다. [설명과 반례](../evidence/standalone-cli/subscription-e2e-scope-fixture.md).
+- 최종 구독형 워크플로 재검증, 운영체제별·호스팅 CI, 외부 연동, 사람의 검토가 공개 전 남은 조건입니다. 원격 저장소·공개 태그·릴리스는 만들지 않았습니다.
+
+- 이후 독립 검증에서 비-AI CLI54회와 고급 OAuth CLI146회를 실행했습니다. 인증 변경, 발송 없는 알림 메타데이터,400,011바이트 트래픽 다운로드, 작업 채팅·보조 질문·새 요청을 통한 발견 사항 재검증을 확인했습니다. 심화 분석 워커는 완료했지만 기존 제약 때문에 재요청하지 않았습니다. 특정 버전의 기록이며 최종 후보 통과를 의미하지 않습니다. [로컬 기능](../evidence/standalone-cli/local-feature-e2e.json), [고급 OAuth](../evidence/standalone-cli/advanced-oauth-e2e.json).
+- 이 검증에서 Windows 스트림 중단이130 대신1을 반환하는 문제와, 백그라운드 채팅 마무리 전에 DB를 닫는 문제를 발견했습니다. 스트림 회귀 테스트는 소스에서 통과했으며, 제한 시간 내 채팅 종료를 기다리는 수정 및 새 패키지 검증은 진행 중입니다. [스트림 회귀](../evidence/standalone-cli/stream-cancellation-regression.json).
+- GLM 전체 흐름은 실제 채팅 도구와 목표 설정을 통과한 뒤, 필수 입력 객체 대신 배열을 인코딩한 플래너 호출을 거부했습니다. 엄격한 거부를 유지하면서 완전한 객체 형식 계약을 명시했습니다. 합성 GLM 테스트는 스키마 제약을 받아들여2.96초에 유효한 객체를 반환했습니다. 전체 플래너 검증은 남아 있습니다. [합성 형식 테스트](../evidence/standalone-cli/glm-argument-pattern-probe.json).
+
+## 이전 릴리스 준비 검증 (위 현재 상태 참조)
+
+첫 공개 버전 v0.1.0은 **아직 릴리스할 수 없습니다**. 아래 내용은 기존 검증 기록에 추가한 결과입니다. 원격 저장소나 공개 릴리스를 만들지 않았습니다.
+
+- 독립 에이전트가 c86c7e4 실행 파일로 실제 CLI 명령 321회를 수행했습니다. 전체 297개 작업 중 205개를 호출했으며, 성공 동작 193개와 오류 경로만 확인한 12개를 포함합니다. 8개는 기존 테스트 참조, 84개는 실행하지 못한 이유를 기록했습니다. 전체 기능 통과를 뜻하지 않습니다.
+- 작업 보관·복원, 일괄 처리, 데이터 생성·조회·수정·삭제, 유니코드·바이너리 파일, 보고서, 재시작, 로컬 HTTP 트래픽 수집을 확인했습니다. 자동 기록 프록시가 완성된 URL에 스킴을 중복 추가하는 오류를 발견해 수정했습니다. 회귀 검증은 수정 전 실패, 수정 후 통과했으며 직접 연결과 명시적 프록시 연결도 대조했습니다.
+- 실제 핸들러와 실행 결과에 맞춰 자산 참조, LLM 기록, 업로드 목적지, 에이전트 수정, 발견 사항 후속 작업, 보관 일괄 작업의 필수 인자와 설명을 보완했습니다. 조건부 필드를 무조건 필수로 만들지 않았으며 트리거·에이전트 수정의 전체 교체 동작을 설명했습니다.
+- Windows에서 대화 기록 경로가 파일이어도 시작하던 문제를 수정했습니다. 기존 회귀 테스트가 통과했습니다. 설치형 실행 파일로도 잘못된 경로에서 시작을 거부하고 파일 내용을 보존하며, 해당 파일을 옮기면 정상 시작함을 확인했습니다.
+- 사용량 테스트 준비 과정에 운영 시작과 같은 원장 테이블 초기화를 추가했습니다. 새 일회용 DB에서 llmrec 23개 테스트가 모두 통과했습니다. 시작 오류 수정 후 Windows 서버 테스트는 492개 통과, 1개 실패, 4개 건너뜀이었습니다. 남은 실패는 Windows 심볼릭 링크 권한 부족이며 통과로 처리하지 않았습니다.
+- 최종 카탈로그·기록 프록시 수정 전 빌드한 Linux amd64 패키지를 Ubuntu WSL2에서 실제 PostgreSQL17.11로 E2E 명령 62회가 모두 통과했습니다. 동일한 심볼릭 링크 회귀 테스트도 건너뛰지 않고 통과했고 소유 프로세스는 0개였습니다. Windows에서 만든 Linux 파일에는 실행 권한을 복원했습니다. 깨끗한 Linux VM이나 전체 Linux 엔진 테스트를 수행한 것은 아닙니다.
+- ChatGPT로 로그인되어 있던 공식 Codex CLI0.162.1에서 gpt-6.1-sol 합성 프롬프트 인증 검증이 도구 호출 없이 성공했습니다. 로그인 경로만 검증했으며 ScopeWeaver 내장 AI에는 구독 어댑터가 아직 없습니다. Z.ai의 [Codex용 Coding Plan 문서](https://docs.z.ai/devpack/tool/codex)는 확인했지만 현재 ZAI_API_KEY로 공식 Codex 경로를 호출했으나 Z.ai가 HTTP200 응답 안에 JSON 오류 코드401, "token expired or incorrect"를 반환했습니다. Codex는 이를 불완전한 스트림으로 보고했고 GLM 추론은 완료되지 않았습니다. [비밀값을 제외한 공급자 검증 기록](../evidence/standalone-cli/glm-coding-plan-probe.json)을 보존했습니다.
+- 휴대용 폴더에 양쪽 언어의 출처 문서와 README가 참조하는 검증 자료 디렉터리를 포함하도록 수정했습니다.
+
+수정된 Windows 패키지는 독립 에이전트의 회귀 명령 43회가 모두 통과했습니다. 필수 인자 누락 9건은 런타임 생성 전에 거부했고 프록시 요청 2건을 수집·조회했습니다. 집중 검증은 설치형 E2E를 포함해 테스트·하위 테스트 62개 통과, 0개 실패, Unix 전용 업데이트 테스트 10개 건너뜀이었으며 변경 패키지 vet도 통과했습니다. [현재 검증 수치](../evidence/standalone-cli/release-followup-tests.json), [기존 작업별 검증 범위](../evidence/standalone-cli/agent-e2e-baseline.md), [수정 패키지 회귀 결과](../evidence/standalone-cli/agent-e2e-regression.md)를 보존했습니다.
+
+최종 카탈로그·기록 프록시 수정까지 포함한 Linux 후보 패키지도 E2E 명령 62회와 파일시스템·HTTP 회귀 테스트 4개가 모두 통과했습니다. 실패·건너뜀은 0개였으며 소유 프로세스도 0개였습니다. [최종 WSL 검증 기록](../evidence/standalone-cli/wsl-final-summary.json)을 보존했습니다. WSL과 깨끗한 호스트 검증의 차이는 그대로 남습니다.
+
+공개 전에는 구독 AI 적용 범위 확정·구현·실제 E2E, 요청한 agy 랜딩 페이지와 QA, 운영체제별·호스팅 CI 검증, 사람의 검토, 의존성 재배포 근거가 필요합니다. Windows CRT의 재배포 권한과 LGPL 라이브러리에 정확히 대응하는 소스·빌드 입력은 미해결입니다. [Microsoft 재배포 요구사항](https://learn.microsoft.com/en-us/cpp/windows/redistributing-visual-cpp-files?view=msvc-170)을 참조하세요. 로컬 테스트 패키지에 들어 있다는 사실은 공개 배포 권한을 뜻하지 않습니다.
+
+이전 단계에서 자동 승인 검토는 agy 문서 공유를 거절했습니다. 이후 사용자가 정확한 준비 파일의 공유를 승인했고, 위에 기록한 호출을 실행했습니다.
 
 ## 통과
 
@@ -36,8 +94,8 @@ LLM·ScopeSentry·알림·사용자 도구·MCP는 설정된 외부 의존성입
 
 [근거 폴더](../evidence/standalone-cli/)에 E2E 로그·런타임·전체 이동 기록·핵심 테스트 수·독립 검토 기록을 보존합니다. 자세한 로컬 로그는 dist/core-*-test.jsonl, dist/baseline-core-server-test.jsonl, dist/focused-tests.jsonl에 있습니다.
 
-    go test ./internal/cli ./internal/portable ./packaging ./selfupdate -count=1
-    go vet ./internal/cli ./internal/portable ./packaging ./selfupdate
+    go test ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1
+    go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider
     go run ./packaging -target windows-amd64
     # SCOPEWEAVER_CLI_E2E_BINARY를 패키지 실행 파일로 지정하세요.
     go test ./internal/cli -run '^TestPortableCLIEndToEnd$' -count=1 -v

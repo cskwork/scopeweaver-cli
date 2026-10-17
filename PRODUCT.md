@@ -1,4 +1,4 @@
-# ScopeWeaver product
+# scopeweaver-cli product
 
 <!-- impeccable:product-schema 1 -->
 
@@ -6,31 +6,31 @@
 web
 
 ## Stack
-The application uses a Go backend, embedded Next.js frontend and PostgreSQL. The approved separate GitHub Pages landing page uses plain HTML, CSS and JavaScript; it must run without the application backend.
+The product is a Go command line application with its own engine and managed PostgreSQL. Its introduction is a static HTML/CSS/JavaScript page in landing/, with no backend or external assets.
 
 ## Users
-Developers and security researchers evaluating AI-assisted workflows for locally isolated research and validation. This audience and the English/Korean landing-page scope were approved by the owner.
+Developers and coding agents performing source research and technical validation in locally isolated environments. The public introduction supports English and Korean.
 
 ## Product Purpose
-Coordinate goal planning, agents, asset scope, coverage, recorded findings and human review in one self-hosted research console. The landing page helps visitors understand the product, inspect honest evidence and reach download/setup documentation.
+Make ScopeWeaver's backend features discoverable and executable through named CLI commands, JSON output, schemas, explicit mutation confirmation, and persistent local state.
 
 ## Positioning
-Shared asset and per-task exploration graphs link targets to agent directions, observations and evidence. An external agent-control adapter exposes task and findings workflows to Claude Code, Codex and Pi.
+A separate standalone repository and portable folder. The first operational command downloads pinned runtime dependencies; subsequent core use needs no separate ScopeWeaver, PostgreSQL installation or OS service.
 
 ## Operating Context
-Self-hosted application requiring PostgreSQL and a separately configured model provider for agent execution. GitHub Pages hosts a public static introduction, not a live security-testing service or backend.
+Users unpack a folder they can write to. Model inference needs configured provider access. Subscription profiles use the official Codex CLI alongside the portable core. External integrations retain their own requirements.
 
 ## Capabilities and Constraints
-Features and setup are grounded in README.md, adapters/agent/README.md and code. Release v0.1.0 provides five platform archives and a multi-architecture Docker image. The adapter is a control interface, not a replacement for internal agents and not a coding-subscription-to-API-key conversion. Repository usage restrictions allow locally isolated research/validation and prohibit online target testing. One inherited backend scope-overview test remains failing; do not claim complete test success or production readiness.
+The catalog contains 297 named operations and 857 parameters. Catalog parity is not evidence that every integration passed live testing. ChatGPT OAuth has passed built-in workflows in a Windows candidate; Windows R3 OAuth passed 125 installed calls; Windows R4 GLM-5.3-Flash/low passed 127 calls through chat, planner, worker, finding and report with a replacement Coding Plan key. Flagship GLM-5.3 timed out at the final planner call and its full workflow is not accepted. The dated catalog union snapshot is 284 invoked / 283 positive / 297 total, not all-feature acceptance. Final rebuilt-package checks remain pending. No public CLI release exists yet. See docs/CLI-VERIFICATION.md for dated evidence and limits. Usage restrictions prohibit online target testing, including owned or authorized targets.
 
 ## Brand Commitments
-Preserve the ScopeWeaver name and existing scope-grid logo. The application screenshots establish a precise, neutral console identity with restrained blue accents. English is the default with a Korean choice. Respect ARTEX authorship and AGPL-3.0.
+Retain ScopeWeaver's scope-grid mark, precise console language, restrained blue accents and English/Korean parity. Credit ARTEX and upstream ScopeWeaver under AGPL-3.0. The landing page uses the user-requested agy Gemini 4 Argon Medium design.
 
 ## Evidence on Hand
-Repository-owned screenshots under screenshots/en and screenshots/ko show fictional demo data and must be labeled as demo screenshots. Existing logo: web/public/scopeweaver.svg. README, provenance, verification notes, adapter documentation and release artifacts are primary evidence. A real owner-run conversation was inspected in the signed-in local UI. It records task creation, inspection of the exploration graph and worker traces, and Korean progress updates. The public page may use this privacy-safe workflow summary only; no target names, raw messages, vulnerability claims, token counts or private screenshots. This is evidence of orchestration, not independent security validation. No verified customer testimonials, adoption statistics, performance benchmarks or externally audited security claims are supplied.
+Source and schema, installed CLI and lifecycle receipts, independent agent checks, built-in OAuth E2E, and browser QA reports. Historical upstream GUI materials are preserved in docs/upstream-landing and are not the CLI landing surface. No testimonials, adoption metrics or independent security-effectiveness claims are supplied.
 
 ## Product Principles
-Keep product claims checkable. Distinguish public introduction, demo fixtures and actual runtime. Put setup and model requirements near the entry path. Preserve scope/approval mechanisms. Never publish credentials, target details or private conversations.
+Show real commands and clearly labeled examples. State first-use networking and provider requirements near setup. Distinguish completed evidence, historical tests and open release gates. Do not publish secrets, private targets or user conversations.
 
 ## Accessibility & Inclusion
-Responsive desktop and mobile web, keyboard-operable controls, readable contrast, reduced-motion support and full English/Korean copy.
+Responsive desktop/mobile layout, keyboard tabs and copy controls, visible focus, reduced motion and local fonts. English and Korean share one page and persist the language choice.

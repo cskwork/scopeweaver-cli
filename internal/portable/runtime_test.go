@@ -112,7 +112,7 @@ func TestRuntimeLockPreventsConcurrentOwnersAndReleases(t *testing.T) {
 	next.Close()
 }
 func TestIsolatedEnvironmentPreservesProviderOnly(t *testing.T) {
-	input := []string{"PATH=tools", "ARTEX_PG_DSN=live", "SCOPEWEAVER_CONFIG=source", "ARTEX_CONFIG=source", "ARTEX_SKILL_DIR=source", "PGOPTIONS=bad", "SCOPEWEAVER_TOKEN=secret", "ARTEX_LLM_API_KEY=provider", "SCOPEWEAVER_LLM_BASE_URL=local", "SCOPEWEAVER_LANGUAGE=ko"}
+	input := []string{"PATH=tools", "ARTEX_PG_DSN=live", "SCOPEWEAVER_CONFIG=source", "ARTEX_CONFIG=source", "ARTEX_SKILL_DIR=source", "PGOPTIONS=bad", "SCOPEWEAVER_TOKEN=secret", "ARTEX_LLM_API_KEY=provider", "SCOPEWEAVER_LLM_BASE_URL=local", "SCOPEWEAVER_LANGUAGE=ko", "SCOPEWEAVER_CODEX_PATH=official-codex.exe"}
 	got := isolatedEnv(input)
 	joined := strings.Join(got, "\n")
 	for _, entry := range input[1:7] {
@@ -120,7 +120,7 @@ func TestIsolatedEnvironmentPreservesProviderOnly(t *testing.T) {
 			t.Fatalf("inherited %s", entry)
 		}
 	}
-	for _, entry := range []string{input[0], input[7], input[8], input[9]} {
+	for _, entry := range []string{input[0], input[7], input[8], input[9], input[10]} {
 		if !strings.Contains(joined, entry) {
 			t.Fatalf("lost %s", entry)
 		}
@@ -142,7 +142,7 @@ func TestDatabaseMajorMismatchPreservesCluster(t *testing.T) {
 }
 func TestMissingBundleIsActionable(t *testing.T) {
 	_, err := postgresToolsAt(t.TempDir())
-	if err == nil || !strings.Contains(err.Error(), "complete portable release") {
+	if err == nil || !strings.Contains(err.Error(), "download the pinned runtime") {
 		t.Fatalf("missing bundle: %v", err)
 	}
 }
@@ -222,5 +222,66 @@ func TestRestartLauncherHonorsCapturedExecutablePath(t *testing.T) {
 	captured := filepath.Join(home, "captured-executable-that-does-not-exist")
 	if err := spawnRuntimeAt(captured, home); err == nil {
 		t.Fatal("restart substituted the current executable for the captured launch path")
+	}
+}
+
+func TestStopReportsOnlyItsAuthenticatedInstanceShutdownError(t *testing.T) {
+	for _, tc := range []struct {
+		name, resultInstance, resultError, wantError string
+		version                                      int
+		missing                                      bool
+	}{
+		{name: "drain timeout", resultInstance: strings.Repeat("a", 32), resultError: "drain background chats: context deadline exceeded", wantError: "drain background chats: context deadline exceeded", version: 1},
+		{name: "advertised missing result fails", version: 1, missing: true, wantError: "shutdown result is missing"},
+		{name: "advertised stale result fails", resultInstance: strings.Repeat("b", 32), version: 1, wantError: "does not match its authenticated instance"},
+		{name: "legacy stale failure ignored", resultInstance: strings.Repeat("b", 32), resultError: "stale failure"},
+		{name: "legacy missing result ignored", missing: true},
+		{name: "successful instance ignores startup marker", resultInstance: strings.Repeat("a", 32), version: 1},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			home := t.TempDir()
+			if err := prepareHome(home); err != nil {
+				t.Fatal(err)
+			}
+			key := []byte(strings.Repeat("s", 32))
+			if err := os.WriteFile(filepath.Join(privateDir(home), "jwt.key"), key, 0600); err != nil {
+				t.Fatal(err)
+			}
+			if err := os.WriteFile(filepath.Join(privateDir(home), "startup-error.txt"), []byte("stale startup failure"), 0600); err != nil {
+				t.Fatal(err)
+			}
+			owner, err := tryLock(filepath.Join(privateDir(home), "runtime.lock"))
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer owner.Close()
+			srv := httptest.NewUnstartedServer(nil)
+			rec := runtimeRecord{URL: "http://" + srv.Listener.Addr().String(), PID: os.Getpid(), Instance: strings.Repeat("a", 32), ShutdownResultVersion: tc.version}
+			srv.Config.Handler = runtimeHandler(http.NotFoundHandler(), key, rec, func() {
+				if !tc.missing {
+					if err := writeJSONFile(filepath.Join(privateDir(home), "shutdown-result.json"), shutdownResult{Instance: tc.resultInstance, Error: tc.resultError}); err != nil {
+						t.Error(err)
+					}
+				}
+				if err := owner.Close(); err != nil {
+					t.Error(err)
+				}
+			})
+			srv.Start()
+			defer srv.Close()
+			if err := writeJSONFile(filepath.Join(privateDir(home), "runtime.json"), rec); err != nil {
+				t.Fatal(err)
+			}
+			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+			defer cancel()
+			err = Stop(ctx, home)
+			if tc.wantError != "" {
+				if err == nil || !strings.Contains(err.Error(), tc.wantError) {
+					t.Fatalf("stop lost shutdown error: %v", err)
+				}
+			} else if err != nil {
+				t.Fatalf("stale failure affected stop: %v", err)
+			}
+		})
 	}
 }

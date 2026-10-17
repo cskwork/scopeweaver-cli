@@ -1,0 +1,73 @@
+{
+  "test": "TestPortableCLICodexEndToEnd",
+  "passed": true,
+  "elapsed_seconds": 145.04,
+  "cli_invocations": 79,
+  "owned_loopback_gets": 1,
+  "candidate": "D:\\Git\\scopeweaver-cli\\dist\\codex-candidate-20261017\\scopeweaver-cli.exe",
+  "candidate_sha256": "75306984e6164dd90673755417b6281510d9e49deea98b0e4647f9516a757924",
+  "test_source": "internal\\cli\\codex_e2e_test.go",
+  "test_source_sha256": "a8120e67a26205e5f5c06cc019afef3cd6fb0d49ad02c963d5b10b132690c5c1",
+  "source_head": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "dirty": true,
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "low",
+  "authentication": "official Codex ChatGPT OAuth; test did not inspect auth files",
+  "chat_1_billed_usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 53096,
+    "output_tokens": 122,
+    "turns": 2
+  },
+  "branched_followup_billed_usage": {
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "input_tokens": 26739,
+    "output_tokens": 45,
+    "turns": 1
+  },
+  "verified": [
+    "installed executable from unrelated cwd",
+    "disposable bundled PostgreSQL and runtime",
+    "keyless codex-cli profile persistence",
+    "paired Norma Read call and random tool-result marker",
+    "real exact marker answer",
+    "positive authoritative conversation usage",
+    "distinct branch and deleted source file",
+    "runtime stop/restart",
+    "paused queued input and explicit resume",
+    "history-only follow-up with no tool calls",
+    "planner-created add_intent without seeded intent",
+    "worker paired WebFetch tool-result and unknown marker",
+    "exactly one owned synthetic HTTP GET",
+    "worker synthetic-only LOW report_finding",
+    "task terminal done",
+    "positive planner and worker usage",
+    "standard report contains actual synthetic marker"
+  ],
+  "cleanup": {
+    "owned_process_count": 0,
+    "disposable_test_directory_exists": false,
+    "checked_utc": "2026-10-17T04:31:26.4199359Z"
+  },
+  "limits": [
+    "Windows amd64 existing machine",
+    "candidate runtime predates later provider security/catalog changes",
+    "no live GLM inference in this test",
+    "first attempt failed because test incorrectly used send rather than queue on paused gate; preserved separately"
+  ],
+  "receipts": [
+    "chat-1-activities.json",
+    "chat-1-control.json",
+    "chat-2-activities.json",
+    "chat-2-control.json",
+    "cleanup.json",
+    "conversation-usage.json",
+    "installed-oauth-attempt-1.jsonl",
+    "installed-oauth-test.jsonl",
+    "task-progress-activity.json",
+    "task-progress-usage.json",
+    "task-progress.json"
+  ]
+}

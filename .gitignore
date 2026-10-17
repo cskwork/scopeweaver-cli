@@ -73,3 +73,6 @@ Thumbs.db
 /scopeweaver-cli.old*
 /scopeweaver-cli.failed*
 /scopeweaver-cli.upgrade.json
+
+# First-use runtime beside a locally built CLI
+/runtime/

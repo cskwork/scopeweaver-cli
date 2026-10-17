@@ -14,12 +14,14 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/cskwork/scopeweaver-cli/internal/portable"
+	"github.com/cskwork/scopeweaver-cli/internal/runtimebundle"
 	"github.com/cskwork/scopeweaver-cli/locale"
 )
 
@@ -127,7 +129,7 @@ func (a *App) Run(ctx context.Context, args []string) int {
 				exit = 4
 			}
 		}
-		if errors.Is(err, context.Canceled) {
+		if errors.Is(err, context.Canceled) || errors.Is(ctx.Err(), context.Canceled) {
 			code = "cancelled"
 			exit = 130
 		}
@@ -689,17 +691,28 @@ func (a *App) doctor(ctx context.Context, o options) int {
 		suffix = ".exe"
 	}
 	for _, name := range []string{"postgres", "initdb", "pg_ctl"} {
-		if _, e := os.Stat(filepath.Join(root, "runtime", "postgres", "bin", name+suffix)); e != nil {
+		if info, e := os.Stat(filepath.Join(root, "runtime", "postgres", "bin", name+suffix)); e != nil || !info.Mode().IsRegular() {
 			missing = append(missing, name)
 		}
 	}
 	c, err := portable.Status(ctx, o.home)
-	result := map[string]any{"version": Version, "home": o.home, "portable_root": root, "missing_runtime_files": missing, "running": err == nil, "external_requirements": []string{"Configured LLM provider or local inference service for AI operations", "Executables/services selected by custom tools and MCP integrations"}}
+	result := map[string]any{"version": Version, "home": o.home, "portable_root": root, "missing_runtime_files": missing, "running": err == nil, "external_requirements": []string{"Configured LLM provider or local inference service for AI operations", "Official Codex CLI with app-server support (verified with 0.162.1) and a ChatGPT login or Z.AI Coding Plan key for codex-cli profiles", "Executables/services selected by custom tools and MCP integrations"}}
+	validationErr := runtimebundle.Validate(root, runtime.GOOS+"-"+runtime.GOARCH)
+	result["runtime_setup"] = "ready"
+	if validationErr != nil {
+		result["runtime_validation_error"] = validationErr.Error()
+		result["runtime_setup"] = "download_required"
+		result["setup_hint"] = "Run runtime start to download and verify pinned dependencies inside the portable folder; internet and a writable folder are needed on first use."
+		if _, e := os.Lstat(filepath.Join(root, "runtime", "postgres")); !os.IsNotExist(e) {
+			result["runtime_setup"] = "incomplete"
+			result["setup_hint"] = "Existing runtime is incomplete; preserve it and restore matching runtime files. Automatic setup will not replace it."
+		}
+	}
 	if c != nil {
 		result["pid"] = c.PID
 	}
 	a.print(o, result)
-	if len(missing) > 0 {
+	if validationErr != nil {
 		return 3
 	}
 	return 0

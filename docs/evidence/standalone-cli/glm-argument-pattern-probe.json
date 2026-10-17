@@ -1,0 +1,46 @@
+{
+  "activity": {
+    "agent_delta_bytes": 99,
+    "elapsed_ms": 2883,
+    "error_codes": {},
+    "last_notification_ms": 2883,
+    "notification_counts": {
+      "account/rateLimits/updated": 1,
+      "item/agentMessage/delta": 18,
+      "item/completed": 2,
+      "item/started": 2,
+      "thread/status/changed": 2,
+      "thread/tokenUsage/updated": 1,
+      "turn/completed": 1,
+      "turn/started": 1
+    },
+    "reasoning_delta_bytes": 0,
+    "turn_started_ms": 960
+  },
+  "calls": [
+    {
+      "argument_string_bytes": 28,
+      "argument_string_trimmed_empty": false,
+      "decoded_argument_json_type": "object",
+      "decoded_argument_unambiguous": true,
+      "outer_argument_bytes": 34,
+      "outer_argument_type": "string",
+      "tool": "echo"
+    }
+  ],
+  "mode": "pattern-smoke",
+  "model": "glm-5.3",
+  "outer_json_valid": true,
+  "raw_output_bytes": 99,
+  "raw_output_sha256": "54c904d6e408c337f91f9e39dba80e6a28a13c20a01cbcb317dfdc5add5abd0f",
+  "reasoning_effort": "low",
+  "stop_reason": "tool_use",
+  "timeout_seconds": 600,
+  "tools_executed": 0,
+  "usage": {
+    "input_tokens": 10102,
+    "output_tokens": 24,
+    "cache_read_tokens": 1152,
+    "cache_write_tokens": 0
+  }
+}

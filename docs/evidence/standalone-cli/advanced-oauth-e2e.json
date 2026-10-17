@@ -1,0 +1,644 @@
+{
+  "recorded_at": "2026-10-17T14:29:12.644740+09:00",
+  "binary_sha256": "64ba8d29e2632c7fbbb320ebc622a7fcc327c3359fb745fd7008488c798c887f",
+  "binary_sha256_after": "64ba8d29e2632c7fbbb320ebc622a7fcc327c3359fb745fd7008488c798c887f",
+  "persisted_cli_invocations": 146,
+  "unique_operation_names": 50,
+  "unique_catalog_operations": 49,
+  "http_fixture": {
+    "target": "http://127.0.0.1:59891/synthetic-debug",
+    "marker": "SYNTHETIC_ADVANCED_b08f0d61e78f4f968b4b3dca6ac3fa6b"
+  },
+  "allowed_http_hits": [
+    {
+      "method": "GET",
+      "path": "/synthetic-debug",
+      "allowed": true
+    },
+    {
+      "method": "GET",
+      "path": "/synthetic-debug",
+      "allowed": true
+    }
+  ],
+  "real_oauth_model": "gpt-6.1-sol",
+  "reasoning": "low",
+  "results": {
+    "task_main_chat": "completed; exact assistant marker reply; actualattempt/prompt/activityreadbacks",
+    "task_sidequestion": "actualanswer/terminalwatch/clearreadback",
+    "conversation_sidequestion": "actualanswer/terminalwatch; authenticrunningrequestcancelpersisted; clearreadback",
+    "intent_sidequestion": "actualworkercontextmarkerreply/terminalwatch/clearreadback",
+    "task_chat_controls": "pause; queuedinputedit/readback, reorder, cancel with noexecution; attempts/activities/turnpromptread",
+    "planner_worker_seed": "task1done; actualworkerWebFetch/report_finding; independentfinding1/node4",
+    "finding_retest": "retest1/conversation3 completed reproduced; onefreshallowlistedGET; verdict/evidencepersistafterrestart",
+    "finding_deepen": "linkedhumanintent6done; actualworkerrecord_fact; repeatfetchexplicitlydeclinedduetoexistingexactlyonceconstraint; freshHTTPdeepeningNOTproven"
+  },
+  "usage_workers": [
+    {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "input_tokens": 27137,
+      "output_tokens": 52,
+      "worker": "mainagent"
+    },
+    {
+      "cache_read_tokens": 32896,
+      "cache_write_tokens": 0,
+      "input_tokens": 197501,
+      "output_tokens": 1086,
+      "worker": "planner"
+    },
+    {
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0,
+      "input_tokens": 164616,
+      "output_tokens": 1031,
+      "worker": "work#1"
+    }
+  ],
+  "task_llm_records_returned": 17,
+  "findings": [
+    {
+      "severity": "P2",
+      "summary": "Portable shutdown closes the database before background model-turn finalization completes",
+      "affected_conversation_id": 2,
+      "affected_run_id": "764cee16ff014cb0d4bccdaca1f4bf80",
+      "observed_at": "2026-10-17T14:21:52+09:00",
+      "evidence": "shutdown-observation.log and shutdown-recovery.json",
+      "sources": [
+        "internal/portable/runtime.go:449",
+        "internal/portable/runtime.go:494",
+        "server/manager.go:841",
+        "server/chat_dispatch.go:123"
+      ],
+      "recovery": "Reportercontext/historyand48995input/115outputtokens retained; pausedunknown input/noactivejob afterrestart. Unknownstatusisintentionalforservershutdown; no dataloss claim."
+    }
+  ],
+  "not_proven": [
+    "FreshHTTPfetchduringdeepening (workerpreservedexistingexactly-onceconstraint).",
+    "Unknown-run discard: noauthenticunknownuserinputcreated.",
+    "Taskchatretry/edit/compact/branch/followup additionalmodelworknotattempted.",
+    "Everyexternalintegration/platform/model/releaseoperation."
+  ],
+  "harness_corrections": [
+    "findings list --task returnsrawnodearray andfinding_id mustbeusedforfindingdetail/retest/deepen, notnodeid.",
+    "Inputedit/cancel usesinputrevision; pause/reorder usesgaterevision. Earlyinvalid/staleattemptsarenotproductfailures.",
+    "Earlygenericredactionmaskedusagefieldnamescontaining token; freshusage-evidence.json/unmasked-activity.json preserve numeric usage while exactcredentialfieldsremainredacted.",
+    "Readbackinitiallyrequestednonexistentconversationsgetandthenassumedlatest_turn_idonunknownshutdownstate; finalreadbackusesconversationslistandactualstatefields.",
+    "Earlyharnessparserexceptionsstopped/pausedownruntime; sameownedfixtureport/markerandpersistedstatewererestored. NoDBfixtureinjection."
+  ],
+  "operations": [
+    {
+      "operation": "agents config set",
+      "successful_invocations": 6,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:5",
+        "calls.jsonl:6",
+        "calls.jsonl:7",
+        "calls.jsonl:8",
+        "calls.jsonl:9",
+        "calls.jsonl:10"
+      ],
+      "source": "server/server.go:888"
+    },
+    {
+      "operation": "assets insert",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:13"
+      ],
+      "source": "server/server.go:788"
+    },
+    {
+      "operation": "assets list",
+      "successful_invocations": 2,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:14",
+        "calls.jsonl:16"
+      ],
+      "source": "server/server.go:785"
+    },
+    {
+      "operation": "companies create",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:12"
+      ],
+      "source": "server/server.go:793"
+    },
+    {
+      "operation": "conversations controls inputs send",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:39"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "conversations controls state",
+      "successful_invocations": 5,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:40",
+        "calls.jsonl:41",
+        "calls.jsonl:42",
+        "derived-calls.jsonl:19",
+        "readback-calls.jsonl:2"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "conversations create",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:38"
+      ],
+      "source": "server/server.go:873"
+    },
+    {
+      "operation": "conversations list",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "readback-calls.jsonl:1"
+      ],
+      "source": "server/server.go:872"
+    },
+    {
+      "operation": "conversations messages list",
+      "successful_invocations": 3,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:43",
+        "derived-calls.jsonl:20",
+        "readback-calls.jsonl:3"
+      ],
+      "source": "server/server.go:878"
+    },
+    {
+      "operation": "conversations side-questions ask",
+      "successful_invocations": 2,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:44",
+        "calls.jsonl:49"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "conversations side-questions clear",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:52"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "conversations side-questions list",
+      "successful_invocations": 5,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:45",
+        "calls.jsonl:46",
+        "calls.jsonl:47",
+        "calls.jsonl:51",
+        "calls.jsonl:53"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "exploration activity get",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "intent-calls.jsonl:12"
+      ],
+      "source": "server/server.go:822"
+    },
+    {
+      "operation": "exploration activity list",
+      "successful_invocations": 5,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:24",
+        "calls.jsonl:85",
+        "derived-calls.jsonl:27",
+        "intent-calls.jsonl:11",
+        "readback-calls.jsonl:4"
+      ],
+      "source": "server/server.go:817"
+    },
+    {
+      "operation": "exploration graph get",
+      "successful_invocations": 7,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "derived-calls.jsonl:10",
+        "derived-calls.jsonl:22",
+        "derived-calls.jsonl:23",
+        "derived-calls.jsonl:24",
+        "derived-calls.jsonl:25",
+        "derived-calls.jsonl:26",
+        "intent-calls.jsonl:1"
+      ],
+      "source": "server/server.go:815"
+    },
+    {
+      "operation": "exploration main-sessions create",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:17"
+      ],
+      "source": "server/server.go:820"
+    },
+    {
+      "operation": "exploration tokens get",
+      "successful_invocations": 4,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:86",
+        "derived-calls.jsonl:28",
+        "intent-calls.jsonl:13",
+        "readback-calls.jsonl:5"
+      ],
+      "source": "server/server.go:823"
+    },
+    {
+      "operation": "findings deepen",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "derived-calls.jsonl:21"
+      ],
+      "source": "server/server.go:808"
+    },
+    {
+      "operation": "findings get",
+      "successful_invocations": 2,
+      "nonzero_invocations": 1,
+      "evidence": [
+        "calls.jsonl:88",
+        "derived-calls.jsonl:9",
+        "readback-calls.jsonl:7"
+      ],
+      "source": "server/server.go:806"
+    },
+    {
+      "operation": "findings list",
+      "successful_invocations": 14,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:33",
+        "calls.jsonl:62",
+        "calls.jsonl:64",
+        "calls.jsonl:66",
+        "calls.jsonl:68",
+        "calls.jsonl:70",
+        "calls.jsonl:72",
+        "calls.jsonl:74",
+        "calls.jsonl:76",
+        "calls.jsonl:78",
+        "calls.jsonl:80",
+        "calls.jsonl:82",
+        "calls.jsonl:84",
+        "derived-calls.jsonl:8"
+      ],
+      "source": "server/server.go:800"
+    },
+    {
+      "operation": "findings retests list",
+      "successful_invocations": 8,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "derived-calls.jsonl:12",
+        "derived-calls.jsonl:13",
+        "derived-calls.jsonl:14",
+        "derived-calls.jsonl:15",
+        "derived-calls.jsonl:16",
+        "derived-calls.jsonl:17",
+        "derived-calls.jsonl:18",
+        "readback-calls.jsonl:8"
+      ],
+      "source": "server/server.go:809"
+    },
+    {
+      "operation": "findings retests start",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "derived-calls.jsonl:11"
+      ],
+      "source": "server/server.go:811"
+    },
+    {
+      "operation": "health",
+      "successful_invocations": 3,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:1",
+        "calls.jsonl:36",
+        "derived-calls.jsonl:1"
+      ],
+      "source": "server/server.go:703"
+    },
+    {
+      "operation": "llm profiles activate",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:4"
+      ],
+      "source": "server/server.go:949"
+    },
+    {
+      "operation": "llm profiles save",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:3"
+      ],
+      "source": "server/server.go:947"
+    },
+    {
+      "operation": "llm records list",
+      "successful_invocations": 4,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:87",
+        "derived-calls.jsonl:29",
+        "intent-calls.jsonl:14",
+        "readback-calls.jsonl:6"
+      ],
+      "source": "server/server.go:839"
+    },
+    {
+      "operation": "runtime stop",
+      "successful_invocations": 4,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:35",
+        "calls.jsonl:90",
+        "derived-calls.jsonl:31",
+        "readback-calls.jsonl:9"
+      ],
+      "source": null
+    },
+    {
+      "operation": "settings set",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:2"
+      ],
+      "source": "server/server.go:845"
+    },
+    {
+      "operation": "side-questions cancel",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:50"
+      ],
+      "source": "server/side_questions.go:311"
+    },
+    {
+      "operation": "side-questions watch",
+      "successful_invocations": 3,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:29",
+        "calls.jsonl:48",
+        "intent-calls.jsonl:6"
+      ],
+      "source": "server/side_questions.go:310"
+    },
+    {
+      "operation": "tasks chat controls attempts activities",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "intent-calls.jsonl:10"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls attempts list",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:22"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls inputs cancel",
+      "successful_invocations": 1,
+      "nonzero_invocations": 1,
+      "evidence": [
+        "calls.jsonl:58",
+        "derived-calls.jsonl:6"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls inputs discard",
+      "successful_invocations": 0,
+      "nonzero_invocations": 1,
+      "evidence": [
+        "calls.jsonl:59"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls inputs send",
+      "successful_invocations": 2,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:18",
+        "calls.jsonl:56"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls inputs update",
+      "successful_invocations": 1,
+      "nonzero_invocations": 2,
+      "evidence": [
+        "calls.jsonl:57",
+        "derived-calls.jsonl:3",
+        "supplement-calls.jsonl:2"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls pause",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:55"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls queue order",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "derived-calls.jsonl:5"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls state",
+      "successful_invocations": 10,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:19",
+        "calls.jsonl:20",
+        "calls.jsonl:21",
+        "calls.jsonl:54",
+        "calls.jsonl:60",
+        "derived-calls.jsonl:2",
+        "derived-calls.jsonl:4",
+        "derived-calls.jsonl:7",
+        "intent-calls.jsonl:9",
+        "supplement-calls.jsonl:1"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat controls turns prompt",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:23"
+      ],
+      "source": "server/chat_controls.go:98"
+    },
+    {
+      "operation": "tasks chat side-questions ask",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:25"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tasks chat side-questions clear",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:30"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tasks chat side-questions list",
+      "successful_invocations": 4,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:26",
+        "calls.jsonl:27",
+        "calls.jsonl:28",
+        "calls.jsonl:31"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tasks control",
+      "successful_invocations": 2,
+      "nonzero_invocations": 2,
+      "evidence": [
+        "calls.jsonl:34",
+        "calls.jsonl:37",
+        "calls.jsonl:89",
+        "derived-calls.jsonl:30"
+      ],
+      "source": "server/server.go:771"
+    },
+    {
+      "operation": "tasks create",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:15"
+      ],
+      "source": "server/server.go:717"
+    },
+    {
+      "operation": "tasks get",
+      "successful_invocations": 13,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:32",
+        "calls.jsonl:61",
+        "calls.jsonl:63",
+        "calls.jsonl:65",
+        "calls.jsonl:67",
+        "calls.jsonl:69",
+        "calls.jsonl:71",
+        "calls.jsonl:73",
+        "calls.jsonl:75",
+        "calls.jsonl:77",
+        "calls.jsonl:79",
+        "calls.jsonl:81",
+        "calls.jsonl:83"
+      ],
+      "source": "server/server.go:727"
+    },
+    {
+      "operation": "tasks intents side-questions ask",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "intent-calls.jsonl:2"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tasks intents side-questions clear",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "intent-calls.jsonl:7"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tasks intents side-questions list",
+      "successful_invocations": 4,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "intent-calls.jsonl:3",
+        "intent-calls.jsonl:4",
+        "intent-calls.jsonl:5",
+        "intent-calls.jsonl:8"
+      ],
+      "source": "server/side_questions.go:302"
+    },
+    {
+      "operation": "tools list",
+      "successful_invocations": 1,
+      "nonzero_invocations": 0,
+      "evidence": [
+        "calls.jsonl:11"
+      ],
+      "source": "server/server.go:905"
+    }
+  ],
+  "cleanup": {
+    "checked_at": "2026-10-17T14:27:35.2785409+09:00",
+    "remaining_owned_processes": [],
+    "count": 0,
+    "fixture_server_closed": true
+  }
+}

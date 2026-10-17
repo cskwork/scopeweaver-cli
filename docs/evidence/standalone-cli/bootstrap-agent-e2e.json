@@ -1,0 +1,123 @@
+{
+  "source_package": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-final-20261017",
+  "dirty_candidate": true,
+  "checks": {
+    "cold_package_runtime_absent": true,
+    "two_distinct_homes_cold_bootstrap": {
+      "clients": 2,
+      "health_passed": true,
+      "shared_runtime_present": true,
+      "postgres_version": "postgres (PostgreSQL) 17.11"
+    },
+    "cold_homes_stopped": {
+      "owned_process_count": 0,
+      "processes": []
+    },
+    "four_clients_one_runtime": {
+      "clients": 4,
+      "unique_pids": 1,
+      "persisted_after_client_exit": true
+    },
+    "unauthenticated_health_init": {
+      "/__portable/health": 401,
+      "/api/auth/init": 401
+    },
+    "runtime_crash_authenticated_database_adoption": {
+      "surviving_database_processes": 6,
+      "adopted_database_processes": 6,
+      "persisted_readback": true
+    },
+    "before_full_folder_move": {
+      "owned_process_count": 0,
+      "processes": []
+    },
+    "after_offline_relocation_stop": {
+      "owned_process_count": 0,
+      "processes": []
+    },
+    "full_folder_offline_relocation": {
+      "default_home": true,
+      "blocked_http_https_proxies": true,
+      "workspace_and_custom_skill_readback": true,
+      "immutable_package_and_runtime_files_verified": 1608,
+      "passed": true
+    },
+    "source_package_unchanged": {
+      "files": 126,
+      "passed": true
+    },
+    "final_lifecycle_cleanup": {
+      "owned_process_count": 0,
+      "processes": []
+    },
+    "per_home_skills_isolated_after_relocation": true,
+    "final_all_process_cleanup": {
+      "owned_process_count": 0,
+      "processes": []
+    },
+    "source_final_package_runtime_absent": true,
+    "app_local_vc_dlls_present": {
+      "msvcp140.dll": true,
+      "vcruntime140.dll": true,
+      "vcruntime140_1.dll": true
+    },
+    "runtime_download_source_pins": {
+      "postgres_sha256": "98040fae18dd9633ff95932125b0cecf0a45a1a9312e216e2a33ad03a31d4251",
+      "vc_sha256": "b56a9101f706f9d95f815f5b7fa6efbac972e86573d378b96a07cff5540c5961",
+      "no_installer": true,
+      "verification": "Successful real cold bootstrap invokes pinned SHA-256 verification before extraction; archives are temporary and not retained."
+    }
+  },
+  "limitations": [
+    "Windows current host, not a clean VM.",
+    "No provider inference, external targets, notifications, installer or publication.",
+    "Only unauthenticated HTTP health/init probes bypass CLI, solely to test required runtime authorization."
+  ],
+  "manifest_source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "manifest_source_dirty": true,
+  "binary_sha256": "64ba8d29e2632c7fbbb320ebc622a7fcc327c3359fb745fd7008488c798c887f",
+  "harness_corrections": [
+    "Normalize Windows PostgreSQL forward slashes and case, include child processes for accurate crash and cleanup inventory.",
+    "Redirect fixture cleanup is scoped per fixture while lifecycle runner is active."
+  ],
+  "move_safety": {
+    "source": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-agent-e2e-20261017\\cold-clone",
+    "destination": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-agent-e2e-20261017\\relocated 전체 폴더",
+    "both_under_owned_scratch": true,
+    "destination_absent": true
+  },
+  "final_clone": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-agent-e2e-20261017\\relocated 전체 폴더",
+  "core_packaged_e2e": {
+    "exit": 0,
+    "seconds": 28.276,
+    "binary": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-agent-e2e-20261017\\relocated 전체 폴더\\scopeweaver-cli.exe",
+    "offline_blocked_proxies": true,
+    "log": "portable-e2e.log",
+    "cli_invocations": 62
+  },
+  "manual_cli_invocations": 31,
+  "total_cli_invocations": 93,
+  "redirect_parent_guards": [
+    {
+      "case": "runtime-parent",
+      "kind": "Windows directory junction (reparse-point symlink parent)",
+      "exit": 3,
+      "target_files_unchanged": true,
+      "target_file_count": 1,
+      "no_download_or_target_write": true
+    },
+    {
+      "case": "bin-parent",
+      "kind": "Windows directory junction (reparse-point symlink parent)",
+      "exit": 3,
+      "target_files_unchanged": true,
+      "target_file_count": 1,
+      "no_download_or_target_write": true
+    }
+  ],
+  "verdict": "PASS",
+  "cold_download_seconds": [
+    26.393,
+    26.601
+  ]
+}

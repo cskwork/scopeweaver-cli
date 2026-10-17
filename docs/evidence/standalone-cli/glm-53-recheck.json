@@ -1,0 +1,52 @@
+{
+  "recorded": "2026-10-17",
+  "model": "glm-5.3",
+  "endpoint": "https://api.z.ai/api/v1/responses",
+  "reasoning_effort": "max",
+  "official_codex_version": "0.162.1",
+  "successful_inference": false,
+  "responses": [
+    {
+      "request_path": "/api/v1/responses",
+      "model": "glm-5.3",
+      "reasoning": {
+        "effort": "max"
+      },
+      "request_body_bytes": 51467,
+      "event_types": [
+        "response.failed",
+        "error"
+      ],
+      "http_status": 200,
+      "content_type": "text/event-stream",
+      "errors": [
+        {
+          "type": "response.failed"
+        },
+        {
+          "code": "insufficient_quota",
+          "message": "Insufficient balance or no resource package. Please recharge.",
+          "type": "error"
+        }
+      ]
+    }
+  ],
+  "credentials_recorded": false,
+  "global_configuration_changed": false,
+  "key_classification": "Coding Plan (user-confirmed; not independently inspected)",
+  "documentation": "https://docs.z.ai/devpack/notice/api-key-management",
+  "direct_builtin_provider": {
+    "error": "codex: quota exhausted (usageLimitExceeded)",
+    "model": "glm-5.3",
+    "passed": false,
+    "provider": "codex-cli",
+    "stop": "",
+    "text": "",
+    "usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "candidate": "D:\\Git\\scopeweaver-cli\\dist\\bootstrap-candidate-20261017",
+  "runtime_mode": "download",
+  "runtime_absent_before_first_use": true,
+  "runtime_files_in_manifest": 0,
+  "commands": [
+    {
+      "command": [
+        "commands",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.953
+    },
+    {
+      "command": [
+        "schema",
+        "tasks",
+        "create",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.078
+    },
+    {
+      "command": [
+        "runtime",
+        "status",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.079
+    },
+    {
+      "command": [
+        "health",
+        "--json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 20.218,
+      "stdout": "{\"ok\":true,\"service\":\"artex\",\"version\":\"0.1.0\"}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "runtime",
+        "stop",
+        "--yes",
+        "--json"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"home\":\"D:\\\\Git\\\\scopeweaver-cli\\\\dist\\\\bootstrap-first-use-state-20261017\",\"running\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "installed_runtime_present": true,
+  "dlls_present": true,
+  "staging_directories_after_run": []
+}

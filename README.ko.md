@@ -1,8 +1,8 @@
 # scopeweaver-cli
 
-ScopeWeaver 기능을 에이전트가 명령줄에서 사용할 수 있는 독립 실행형 CLI입니다. 배포 폴더에 Go 엔진, PostgreSQL 실행 파일, 기본 스킬과 의존성 고지가 포함됩니다. 별도의 ScopeWeaver·데이터베이스·Docker·Node.js·Go 설치 없이 실행합니다.
+ScopeWeaver 기능을 에이전트가 명령줄에서 사용할 수 있는 독립 실행형 CLI입니다. 배포 폴더에 Go 엔진, 기본 스킬과 의존성 고지가 포함됩니다. 처음 기능 명령을 실행하면 체크섬이 고정된 PostgreSQL과 Windows용 Visual C++ 실행 파일을 같은 폴더 안에 내려받습니다. 별도의 ScopeWeaver·데이터베이스·Docker·Node.js·Go 설치 없이 실행합니다.
 
-[English](README.md) · [구조와 호환성](docs/ko/cli.md) · [검증](docs/ko/CLI-VERIFICATION.md)
+[English](README.md) · [구조와 호환성](docs/ko/cli.md) · [AI 제공자](docs/ko/ai-providers.md) · [검증](docs/ko/CLI-VERIFICATION.md)
 
 ## 시작
 
@@ -17,7 +17,7 @@ PowerShell에서는 현재 폴더의 실행 파일을 다음과 같이 실행합
 .\scopeweaver-cli.exe runtime stop --yes --json
 ```
 
-처음 기능 명령을 실행하면 전용 로컬 저장소를 초기화하고 포함된 엔진과 데이터베이스를 시작합니다. 이후 명령은 같은 런타임을 사용하므로 명령이 끝나도 진행 중인 작업은 계속됩니다. 운영체제 서비스는 등록하지 않습니다.
+처음 기능 명령을 실행할 때는 네트워크 연결과 배포 폴더 쓰기 권한이 필요합니다. 실행 환경을 준비하고 전용 로컬 저장소를 초기화한 뒤 엔진과 데이터베이스를 시작합니다. 이후 명령은 같은 런타임을 사용하므로 명령이 끝나도 진행 중인 작업은 계속됩니다. 운영체제 서비스는 등록하지 않습니다. 이후 핵심 기능은 내려받은 실행 환경을 재사용하며 오프라인에서도 동작합니다. 클라우드 AI와 외부 연동은 각각 네트워크 연결이 필요합니다.
 
 기본 데이터 위치는 실행 파일 옆 `state/`입니다. `--home PATH` 또는 `SCOPEWEAVER_CLI_HOME`으로 작업 공간을 분리할 수 있습니다. 폴더를 이동하거나 복사하기 전에 런타임을 중지하세요. 다른 운영체제나 PostgreSQL 주 버전으로 옮길 때는 지원되는 백업·복원이 필요합니다. 데이터베이스 디렉터리를 그대로 복사하는 방식은 이식용 교환 형식이 아닙니다.
 
@@ -64,7 +64,11 @@ scopeweaver-cli logs watch --json
 
 ## 모델과 연동 요구 사항
 
-AI 실행에는 모델 제공자 또는 로컬 추론 서비스 설정이 필요합니다. 모델 가중치, 유료 구독과 API 키는 포함하지 않습니다. 사용자 지정 명령, Python 도구, 브라우저 도구, 외부 MCP·서비스는 해당 연동에서 선택한 실행 파일이나 서비스를 요구합니다. `doctor`는 포함된 핵심 실행 환경과 선택적 연동 요구 사항을 구분합니다.
+내장 AI는 일반 API·로컬 제공자와 `codex-cli`를 지원합니다. `codex-cli`는 채팅·플래너·워커의 모델 요청을 공식 Codex app-server로 보냅니다. 키 없는 프로필은 `codex login`으로 로그인한 ChatGPT 계정을 사용합니다. Z.AI 프로필은 `glm-5.3`, `https://api.z.ai/api/v1`과 해당 Coding Plan 인증 정보를 사용합니다. 공식 Codex는 별도 의존성이며 PATH 또는 `SCOPEWEAVER_CODEX_PATH`에서 찾습니다. 검증한 버전은 0.162.1입니다.
+
+모델 가중치, 구독과 인증 정보는 포함하지 않습니다. 프로필 저장·활성화 명령, 응답 버퍼링, 도구 격리와 제공자 검증 결과는 [AI 제공자 설정과 한계](docs/ko/ai-providers.md)를 확인하세요. 기록된 GLM 호출은 추론을 완료하지 못했습니다. 사용자는 Personal Coding Plan·Team Plan 키라고 확인했습니다. Z.AI는 `insufficient_quota`를 반환했고 직접 내장 호출은 `usageLimitExceeded`로 실패했습니다. 계정 권한과 실제 원인은 별도로 검증하지 못했습니다.
+
+사용자 지정 명령, Python 도구, 브라우저 도구, 외부 MCP·서비스는 해당 연동에서 선택한 실행 파일이나 서비스를 요구합니다. `doctor`는 이식 가능한 핵심 실행 환경과 선택적 연동 요구 사항을 구분합니다.
 
 로컬 런타임은 인증을 요구하며 루프백 주소만 사용합니다. 전용 인증 정보는 파일 탐색이 가능한 작업 공간 밖에 둡니다. 증거와 도구 출력은 신뢰할 수 없는 데이터로 취급하세요.
 
@@ -72,14 +76,16 @@ AI 실행에는 모델 제공자 또는 로컬 추론 서비스 설정이 필요
 
 ## 빌드와 검증
 
-개발에는 Go 1.26.3과 고정된 의존성·실행 파일을 내려받을 네트워크 연결이 필요합니다. 배포본 사용자에게는 필요하지 않습니다.
+개발에는 Go 1.26.3과 고정된 Go 의존성을 내려받을 네트워크 연결이 필요합니다. 배포본 사용자는 Go를 설치할 필요가 없으며, 다운로드 방식 패키지의 첫 기능 실행에는 네트워크 연결이 필요합니다.
 
 ```sh
-go test ./internal/cli ./internal/portable ./packaging ./selfupdate
+go test ./codexprovider ./internal/runtimebundle ./internal/cli ./internal/portable ./packaging ./selfupdate
 go run ./packaging -target windows-amd64
 ```
 
-패키지 대상은 `windows-amd64`, `linux-amd64`, `linux-arm64`, `darwin-amd64`, `darwin-arm64`입니다. 대상별 PostgreSQL 실행 파일을 사용하고 고정 SHA-256 및 파일별 명세를 검증합니다. `-offline`은 검증된 캐시만 사용합니다. 실행 시에는 의존성을 내려받지 않습니다. Linux PostgreSQL은 root가 아닌 사용자로 실행해야 합니다.
+패키지 대상은 `windows-amd64`, `linux-amd64`, `linux-arm64`, `darwin-amd64`, `darwin-arm64`입니다. 대상별 PostgreSQL 실행 파일을 내려받고 압축 해제 전에 고정 SHA-256을 검증합니다. 패키지에는 파일별 명세와 고정 소스 정보가 포함됩니다. Linux PostgreSQL은 root가 아닌 사용자로 실행해야 합니다.
+
+기본 패키지는 첫 실행 때 실행 환경을 내려받습니다. 로컬 검증용으로만 `-bundle-runtime`을 추가하면 실행 환경이 미리 들어 있는 폴더를 만듭니다. 이때 `-offline`은 체크섬이 검증된 빌더 캐시만 사용합니다. 이 빌더 옵션은 기본 패키지의 첫 실행 다운로드를 차단하지 않습니다. 실행 환경을 동봉한 검증용 패키지는 공개용 다운로드 방식 산출물과 다릅니다.
 
 설치된 실행 파일 E2E:
 
@@ -96,4 +102,4 @@ ScopeWeaver 커밋 `2df0b307dcb817a459abebd3a4c240a2019598db`를 기반으로 �
 
 [AGPL-3.0](LICENSE), [제3자 고지](THIRD_PARTY_NOTICES.txt), 상위 프로젝트 사용 제한이 유지됩니다. 소스 연구와 로컬 격리 환경의 기술 검증에만 사용하세요. 소유하거나 허가받은 대상도 포함해 온라인 시스템에 대한 실제 테스트는 상위 프로젝트에서 금지합니다. [보존된 출처 문서](docs/ko/PROVENANCE.md)를 확인하세요.
 
-동봉된 실행 환경의 라이선스는 `licenses/`, 소스 정보는 `POSTGRES-SOURCES.json`에 있습니다. 패키지 생성은 공개 배포를 뜻하지 않습니다.
+제3자 실행 환경의 라이선스는 `licenses/`, 소스 정보는 `POSTGRES-SOURCES.json`에 있습니다. 내려받은 실행 환경은 배포 폴더 안에 유지됩니다. 패키지 생성은 공개 배포를 뜻하지 않으며 릴리스나 원격 저장소는 생성하지 않았습니다.

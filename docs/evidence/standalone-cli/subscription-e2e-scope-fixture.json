@@ -1,0 +1,102 @@
+{
+  "classification": "E2E fixture scope mismatch; no product gate change",
+  "observed_run": {
+    "test": "TestPortableCLICodexEndToEnd",
+    "elapsed_seconds": 463.79,
+    "result": "failed",
+    "request_time": "2026-10-17T13:46:47+09:00",
+    "task_id": "1",
+    "bound_asset_id": 1,
+    "bound_asset_type": "ip",
+    "bound_asset_ip": "127.0.0.1",
+    "bound_asset_urls": [],
+    "allow_kind": "exact_url",
+    "allow_pattern": "http://127.0.0.1:63134/synthetic-debug",
+    "returned_intent_ids": [
+      0
+    ],
+    "worker_gets": 0
+  },
+  "cause": "The only registered task target was the auto-seeded IP asset. Exact URL authorization does not match an IP-only asset; planner bound it after finding no endpoint row.",
+  "fixture_change": [
+    "Create disposable company with loopback IP scope",
+    "Register exact GET endpoint with IP metadata before task creation",
+    "Verify persisted endpoint URL/method/company attribution",
+    "Attach company_ids transactionally during task creation",
+    "Give planner verified endpoint asset ID and require that precise binding",
+    "Verify task endpoint attachment"
+  ],
+  "unchanged_requirements": [
+    "exact_url allow pattern",
+    "no seeded intent",
+    "real planner add_intent",
+    "real paired worker WebFetch result",
+    "real synthetic finding",
+    "positive usage",
+    "task terminal done",
+    "actual marker in report"
+  ],
+  "scope_counterexamples": [
+    {
+      "case": "IP-only asset",
+      "ips": [
+        "127.0.0.1"
+      ],
+      "urls": [],
+      "allowed": false
+    },
+    {
+      "case": "exact endpoint",
+      "ips": [
+        "127.0.0.1"
+      ],
+      "urls": [
+        "http://127.0.0.1:63134/synthetic-debug"
+      ],
+      "allowed": true
+    },
+    {
+      "case": "unrelated path",
+      "ips": [
+        "127.0.0.1"
+      ],
+      "urls": [
+        "http://127.0.0.1:63134/unrelated"
+      ],
+      "allowed": false
+    },
+    {
+      "case": "other loopback port",
+      "ips": [
+        "127.0.0.1"
+      ],
+      "urls": [
+        "http://127.0.0.1:63135/synthetic-debug"
+      ],
+      "allowed": false
+    }
+  ],
+  "counterexample_test": "TestCodexFixtureExactEndpointAllowRule; all four subtests passed without database/model/network calls",
+  "source_lines": {
+    "company := submit": 278,
+    "registered := submit": 283,
+    "listed := run": 289,
+    "description := fmt.Sprintf": 294,
+    "task := submit": 295,
+    "taskAssets := run": 300,
+    "func TestCodexFixtureExactEndpointAllowRule": 395
+  },
+  "live_rerun": "pending parent execution against final candidate; this slice made no additional model calls",
+  "test_source_sha256": "75041d6cf84cb93fa557ec96ae7b2357a73db96b9ea46dcc944ced3be695289b",
+  "provider_opt_ins": {
+    "ChatGPT OAuth": "SCOPEWEAVER_CLI_CODEX_E2E_BINARY",
+    "Z.AI GLM Coding Plan": "SCOPEWEAVER_CLI_GLM_E2E_BINARY"
+  },
+  "credential_isolation": "GLM key only in explicitly opted-in child environment; OAuth excludes upper/lowercase ZAI_API_KEY; no key in profile or argv",
+  "validation": [
+    "four pure exact-URL scope counterexamples passed",
+    "existing DB scope gate tests passed",
+    "default OAuth and GLM live tests skip without explicit opt-in",
+    "full CLI unit suite and vet passed"
+  ]
+}

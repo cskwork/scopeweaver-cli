@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
+	"github.com/cskwork/scopeweaver-cli/internal/runtimebundle"
 	"os"
 	"path/filepath"
 	"testing"
@@ -153,5 +154,15 @@ func TestPreservedLicenseHashes(t *testing.T) {
 		if fmt.Sprintf("%x", sha256.Sum256(data)) != source.SHA256 {
 			t.Errorf("license hash mismatch: %s", source.Path)
 		}
+	}
+}
+
+func TestPackagingPinsMatchEmbeddedRuntime(t *testing.T) {
+	raw, err := os.ReadFile("postgres-sources.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(raw, runtimebundle.SourceBytes()) {
+		t.Fatal("packaging and executable runtime pins differ")
 	}
 }
