@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="scopeweaver-cli reticle mark">
+  <defs>
+    <linearGradient id="gridFrame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#2563eb" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="#0b111e" stroke="#1e293b" stroke-width="2"/>
+  <!-- Scope grid lines -->
+  <path d="M18 2v60M32 2v60M46 2v60M2 18h60M2 32h60M2 46h60" stroke="#1e293b" stroke-width="1" stroke-dasharray="2 2"/>
+  <!-- Corner scope brackets -->
+  <path d="M10 20V10h10M44 10h10v10M54 44v10H44M20 54H10V44" fill="none" stroke="url(#gridFrame)" stroke-width="2.5" stroke-linecap="square"/>
+  <!-- CLI prompt chevron + cursor -->
+  <path d="M21 25l9 7-9 7" fill="none" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="34" y="36" width="10" height="3" rx="1" fill="#38bdf8"/>
+</svg>

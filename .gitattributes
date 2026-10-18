@@ -1,2 +1,5 @@
 *.bat text eol=crlf
 *.sh  text eol=lf
+
+# Preserve checksum-pinned third-party license bytes.
+packaging/licenses/** -text

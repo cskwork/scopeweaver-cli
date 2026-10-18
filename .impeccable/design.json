@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T04:40:49.395Z",
+  "title": "scopeweaver-cli landing",
+  "extensions": {
+    "breakpoints": {
+      "stacked": "980px",
+      "compact": "600px"
+    },
+    "motion": {
+      "transitionFast": "150ms ease",
+      "reducedMotion": "respects prefers-reduced-motion"
+    },
+    "narrative": {
+      "source": "landing/styles.css",
+      "intent": "Present executable commands, requirements and bounded verification honestly.",
+      "modeLocation": ".impeccable/surfaces/landing-index-html.md"
+    }
+  }
+}

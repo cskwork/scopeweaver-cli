@@ -1,0 +1,21 @@
+{
+  "source": "installed scopeweaver-cli.exe + bundled PostgreSQL 17.11",
+  "home": "dist/runtime-e2e-state-moved",
+  "checks": {
+    "start_status_persist_after_client_exit": true,
+    "inherited_source_dsn_config_skill_isolation": true,
+    "unauthenticated_health_http_status": 401,
+    "unauthenticated_password_init_http_status": 401,
+    "category_and_workspace_persist_across_restart": true,
+    "stopped_state_directory_move_preserves_data": true,
+    "concurrent_start_invocations": 4,
+    "concurrent_start_unique_runtime_pids": 1,
+    "owned_runtime_crash_orphan_postgres_recovery": true,
+    "graceful_stop_releases_owned_processes": true
+  },
+  "observations": [
+    "Initial Windows pg_ctl inherited output pipe hang reproduced and fixed by capturing launcher output in a private real file.",
+    "No model configured; no target scans or external messages performed.",
+    "Full release folder relocation belongs to coordinator verification; this run moved only stopped --home state."
+  ]
+}

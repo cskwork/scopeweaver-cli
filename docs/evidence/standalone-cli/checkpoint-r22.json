@@ -1,0 +1,24 @@
+{
+  "focused": {
+    "pass": 186,
+    "fail": 0,
+    "skip": 19
+  },
+  "focused_exit": 0,
+  "vet_exit": 0,
+  "live_matrix_rerun": false,
+  "accepted_r22_matrix": "4/5; release HOLD",
+  "legacy_landing_validator": "FAIL, inherited same script and missing path at prior HEAD; actual browser check separate",
+  "source_freeze_sha256": "e1d76986da63cd9b05beb8a88978d7875f0e529be685e817435e33b2b9c3ff48",
+  "source_files_exact": 36,
+  "independent_source_and_docs_review": "PASS; reviewer tests_rerun=false",
+  "landing_sha256": "4d5bb151107553af68593b1849e0bb2d6cf0e6b1e474fbfe50585a540a81118f",
+  "landing_browser_views_passed": 6,
+  "landing_browser_version": "156.0.8078.4",
+  "landing_language_elements_each": 107,
+  "landing_console_errors": 0,
+  "landing_page_errors": 0,
+  "landing_design_assets_unchanged": true,
+  "r23_unfinished_implementation_included": false,
+  "public_release": false
+}

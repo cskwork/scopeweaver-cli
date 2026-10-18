@@ -1,0 +1,90 @@
+{
+  "scope": "macOS CI temp-alias fixture failures; no production source changed by this slice",
+  "hosted_failure": {
+    "run": 39011629129,
+    "macos_job": 117335194866,
+    "source": "dist/hosted-cli-first-failures.log"
+  },
+  "diagnosis": "Confirmed: symlinked TMPDIR reproduces runtime parent rejections and GLM child-mock exit caused by comparing home/cwd path strings.",
+  "changed_files": [
+    "internal/runtimebundle/download_test.go",
+    "internal/portable/bootstrap_test.go",
+    "codexprovider/provider_test.go"
+  ],
+  "changes": [
+    "Canonicalize freshly created owned temp fixtures before deliberate symlinks are created.",
+    "Compare home and cwd directory identity with os.Stat/os.SameFile in the fake app-server.",
+    "Assert rejection names the deliberate symlink; assert install-lock cancellation is context.DeadlineExceeded."
+  ],
+  "windows": {
+    "runtimebundle": {
+      "pass": 19,
+      "fail": 0,
+      "skip": 3
+    },
+    "portable": {
+      "pass": 30,
+      "fail": 0,
+      "skip": 1
+    },
+    "codexprovider": {
+      "pass": 32,
+      "fail": 0,
+      "skip": 0
+    }
+  },
+  "wsl_native_tmp_alias": {
+    "runtimebundle": {
+      "before_exit_code": 1,
+      "after_exit_code": 0,
+      "pass": 23,
+      "fail": 0,
+      "skip": 0,
+      "before_log": "native-before-runtimebundle.log",
+      "after_log": "native-after-runtimebundle.log"
+    },
+    "portable": {
+      "before_exit_code": 1,
+      "after_exit_code": 0,
+      "pass": 28,
+      "fail": 0,
+      "skip": 0,
+      "before_log": "native-before-portable.log",
+      "after_log": "native-after-portable.log"
+    },
+    "codexprovider": {
+      "before_exit_code": 1,
+      "after_exit_code": 0,
+      "pass": 32,
+      "fail": 0,
+      "skip": 0,
+      "before_log": "native-before-codexprovider.log",
+      "after_log": "native-after-codexprovider.log"
+    }
+  },
+  "vet": {
+    "command": "go vet ./internal/runtimebundle ./internal/portable ./codexprovider",
+    "exit_code": 0,
+    "log": "windows-vet.log"
+  },
+  "darwin_crosscompile": {
+    "command": "GOOS=darwin GOARCH=<amd64|arm64> go test -c <package> -o dist/macos-ci-fix-20261017/darwin-<arch>-<package>.test",
+    "architectures": [
+      "amd64",
+      "arm64"
+    ],
+    "packages": [
+      "internal/runtimebundle",
+      "internal/portable",
+      "codexprovider"
+    ],
+    "exit_code": 0,
+    "native_execution": false
+  },
+  "diff_check_exit_code": 0,
+  "limits": [
+    "Native macOS execution awaits hosted CI.",
+    "Windows symlink privilege skips remain explicit.",
+    "Initial WSL fixture on /mnt/d hit expected atomic-publication filesystem guidance; final before/after comparison used native Linux /tmp."
+  ]
+}

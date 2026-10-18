@@ -1,0 +1,100 @@
+{
+  "verdict": "PASS for corrected-package regression scope",
+  "invocations": 43,
+  "all_expected_outcomes_passed": true,
+  "required_field_cases": 9,
+  "required_field_exit_code": 2,
+  "runtime_home_absent_after_each_required_field_case": true,
+  "changed_required_fields": [
+    {
+      "operation": "agents update",
+      "parameter": "name",
+      "type": "string",
+      "in": "body"
+    },
+    {
+      "operation": "archives delete batch",
+      "parameter": "archive_ids",
+      "type": "array",
+      "in": "body"
+    },
+    {
+      "operation": "archives restore batch",
+      "parameter": "archive_ids",
+      "type": "array",
+      "in": "body"
+    },
+    {
+      "operation": "chat upload",
+      "parameter": "scope",
+      "type": "string",
+      "in": "query"
+    },
+    {
+      "operation": "chat upload",
+      "parameter": "id",
+      "type": "string",
+      "in": "query"
+    },
+    {
+      "operation": "findings deepen",
+      "parameter": "description",
+      "type": "string",
+      "in": "body"
+    },
+    {
+      "operation": "llm records by-model",
+      "parameter": "task",
+      "type": "string",
+      "in": "query"
+    },
+    {
+      "operation": "llm records delete",
+      "parameter": "task",
+      "type": "string",
+      "in": "query"
+    },
+    {
+      "operation": "tasks asset-refs list",
+      "parameter": "asset_id",
+      "type": "integer",
+      "in": "query"
+    }
+  ],
+  "positive_evidence": {
+    "proxy_modes": [
+      {
+        "mode": "direct",
+        "passed": true
+      },
+      {
+        "mode": "explicit-proxy",
+        "passed": true
+      },
+      {
+        "mode": "automatic-recording-proxy",
+        "passed": true
+      }
+    ],
+    "captured_exchange_count": 2,
+    "artifact_sha256": "dec0b7b7e3dc9b39b8c9343f30d6551008cc5076d8cd0c8fdbc0db0522e0d240",
+    "binary": "D:\\Git\\scopeweaver-cli\\dist\\release-recheck-20261017\\scopeweaver-cli.exe",
+    "prior_baseline_invocations": 321
+  },
+  "cleanup": {
+    "checked_at": "2026-10-17T10:28:21.9510317+09:00",
+    "owned_process_count": 0,
+    "home": "D:\\Git\\scopeweaver-cli\\dist\\agent-e2e-20261017\\regression\\new-disposable-home",
+    "processes": []
+  },
+  "baseline_preserved": {
+    "invocations": 321,
+    "path": "../report.json",
+    "defects_and_initial_expectation_mismatches_unchanged": true
+  },
+  "limitations": [
+    "No provider inference, external targets, notification sends, installs or publication.",
+    "findings deepen description accepted CLI validation; missing-finding backend rejection verified. No finding produced, no AI deepen execution.",
+    "Regression confirms the changed CLI metadata and automatic recording-proxy behavior only; baseline 297-operation classification remains bounded."
+  ]
+}

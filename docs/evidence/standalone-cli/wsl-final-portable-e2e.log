@@ -1,0 +1,4 @@
+=== RUN   TestPortableCLIEndToEnd
+    portable_e2e_test.go:171: Verified 62 installed CLI invocations against bundled PostgreSQL; no model or target calls. Source cwd: /tmp/scopeweaver-linux-final-e2e-20261017.5zRU9g/TestPortableCLIEndToEnd4057534347/002
+--- PASS: TestPortableCLIEndToEnd (11.34s)
+PASS

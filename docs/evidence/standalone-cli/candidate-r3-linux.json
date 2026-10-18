@@ -1,0 +1,118 @@
+{
+  "verification_revision": "r3",
+  "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+  "source_dirty": true,
+  "source_hashes_sha256": "4f93f27e9d3dfd2e89d099877a939da5822d9e71fb7476bd2afa15232f0eb74d",
+  "candidate_sha256": "449fd80002bbbb08a2bc29ab417ad9ddd2a95366630886e6abc83d691a1a8963",
+  "package_manifest_sha256": "19a00dc5fc30bae556138388230eb917ae95001a23c02e6bcd8b5bc8001f191e",
+  "archive_sha256": "e71bbfe9335565a13eda1b531f4a9d262321d06306178e90678fabfbf378ba53",
+  "runtime_originally_absent": true,
+  "runtime_manifest_files": 0,
+  "runtime_mode": "download",
+  "target": "linux-amd64",
+  "source_package_path": "dist/candidate-20261017-r3-linux",
+  "postgres_archive_sha256": "0dd7b72b6f335b8ecfb355fa24c5781e8a93edd09880bb77eb52ebbf29b3e96d",
+  "postgres_source_url": "https://repo.maven.apache.org/maven2/io/zonky/test/postgres/embedded-postgres-binaries-linux-amd64/17.11.0/embedded-postgres-binaries-linux-amd64-17.11.0.jar",
+  "execution_package_path": "/tmp/scopeweaver-r3-linux-20261017-kcpt1red/scopeweaver-cli-linux-amd64",
+  "native_filesystem_execution": true,
+  "environment": "Existing Ubuntu WSL2, non-root uid 1000",
+  "windows_crosscompiled": true,
+  "cgo_enabled": false,
+  "no_native_linux_go": true,
+  "steps": [
+    {
+      "step": "native-portable-tests",
+      "exit_code": 0,
+      "duration_seconds": 0.478
+    },
+    {
+      "step": "native-runtimebundle-tests",
+      "exit_code": 0,
+      "duration_seconds": 0.09
+    },
+    {
+      "step": "cold-health",
+      "exit_code": 0,
+      "duration_seconds": 6.679,
+      "stdout": "{\"ok\":true,\"service\":\"artex\",\"version\":\"0.1.0\"}\n",
+      "stderr": ""
+    },
+    {
+      "step": "cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.681
+    },
+    {
+      "step": "portable-cli-e2e",
+      "exit_code": 0,
+      "duration_seconds": 10.579,
+      "installed_invocations": 62,
+      "passed": true
+    },
+    {
+      "step": "final-cold-stop",
+      "exit_code": 0,
+      "duration_seconds": 0.146
+    }
+  ],
+  "limitations": [
+    "Windows cross-build executed in existing WSL2, not a clean Linux VM",
+    "No native macOS execution or full Linux engine/database suite",
+    "No model inference, external test targets or notification sends",
+    "Only the archived cross-built CLI and three copied test binaries have executable modes restored; downloaded runtime permissions come from extraction",
+    "Native ext4 is required because WSL drvfs rejects atomic no-replace publication; unchanged filesystem limitation was verified in the preceding run"
+  ],
+  "downloaded_runtime_present": true,
+  "postgres_version": "postgres (PostgreSQL) 17.11",
+  "passed": true,
+  "owned_processes_after": 0,
+  "owned_process_details": [],
+  "runtime_staging_after": [],
+  "test_binaries_sha256": {
+    "cli-e2e.test": "2d2f777f8a66d375b15b2ded260edd1f1d115f20df3d037866afaa1fa0a06dff",
+    "portable.test": "c614177107eab9248aaa9091d2665cbf7158a9ae471c99b036b7f221c2b19434",
+    "runtimebundle.test": "425093e956019d97ee3a86c09f58bd7c7c02f2baa16dfec1d8e9a968bad2072c"
+  },
+  "manifest_files_still_match": true,
+  "owned_process_check": "All /proc/<pid>/exe paths beneath the extracted package, including PostgreSQL subprocesses.",
+  "test_counts": {
+    "native-portable-tests": {
+      "top_level_passed": 21,
+      "top_level_failed": 0,
+      "top_level_skipped": 0,
+      "passed_including_subtests": 27,
+      "failed_including_subtests": 0,
+      "skipped_including_subtests": 0
+    },
+    "native-runtimebundle-tests": {
+      "top_level_passed": 10,
+      "top_level_failed": 0,
+      "top_level_skipped": 0,
+      "passed_including_subtests": 23,
+      "failed_including_subtests": 0,
+      "skipped_including_subtests": 0
+    },
+    "portable-cli-e2e": {
+      "top_level_passed": 1,
+      "top_level_failed": 0,
+      "top_level_skipped": 0,
+      "passed_including_subtests": 1,
+      "failed_including_subtests": 0,
+      "skipped_including_subtests": 0
+    }
+  },
+  "public_candidate_runtime_still_absent": true,
+  "public_candidate_sha256_after": "449fd80002bbbb08a2bc29ab417ad9ddd2a95366630886e6abc83d691a1a8963",
+  "public_manifest_sha256_after": "19a00dc5fc30bae556138388230eb917ae95001a23c02e6bcd8b5bc8001f191e",
+  "public_candidate_unchanged": true,
+  "production_code_hashes_still_match": true,
+  "test_source_hash_changes": [
+    {
+      "path": "internal/cli/codex_e2e_test.go",
+      "before": "13c0a74a0b4792cbd653b24087553fec425c617d2ef65cf2884079d5dae6e6e8",
+      "after": "c6331d085f39b635c833bde408cc392d9d8fe437a15bdf6c193f3ed0578b4b22"
+    }
+  ],
+  "selected_test_sources_still_match": true,
+  "receipt_validation_note": "Initial broad Go source comparison included unrelated test files; only codex_e2e_test.go changed. Production and selected test source checks are recorded separately."
+}

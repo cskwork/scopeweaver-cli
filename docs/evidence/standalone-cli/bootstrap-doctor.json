@@ -1,0 +1,17 @@
+{
+  "checks": [
+    {
+      "exit": 3,
+      "runtime_setup": "download_required",
+      "running": false,
+      "home_created": false
+    },
+    {
+      "exit": 0,
+      "runtime_setup": "ready",
+      "running": false,
+      "home_created": false
+    }
+  ],
+  "source_runtime_still_absent": true
+}

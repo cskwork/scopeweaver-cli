@@ -1,0 +1,50 @@
+{
+  "recorded_date": "2026-10-17",
+  "scope": "Source verification after final snapshot/context flush error propagation and localized diagnostics; installed final candidate is separate.",
+  "focused_tests": {
+    "command": "go test -json ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider -count=1",
+    "tests_and_subtests": {
+      "pass": 132,
+      "fail": 0,
+      "skip": 18
+    },
+    "skipped": [
+      "TestVerifyStagedRejectsTamperedBinary",
+      "TestVerifyStagedRejectsUnrunnableBinary",
+      "TestApplyStagedHappyPath",
+      "TestApplyStagedKeepsCurrentWhenVerifyFails",
+      "TestSwapOverwritesPreviousBackup",
+      "TestConfirmCountsAttemptsThenRollsBack",
+      "TestManualRollbackIsReversible",
+      "TestExtractBinaryFindsNestedEntry",
+      "TestSettleClearsMarkerAndStopsRollback",
+      "TestSettleIsNoopWithoutMarker",
+      "TestValidateRejectsSymlinkParentsWithCompleteBinaries/runtime",
+      "TestValidateRejectsSymlinkParentsWithCompleteBinaries/postgres",
+      "TestValidateRejectsSymlinkParentsWithCompleteBinaries/bin",
+      "TestRuntimeInstallRejectsCompleteSymlinkBeforeFastPath",
+      "TestPortableCLICodexEndToEnd",
+      "TestPortableCLIGLMEndToEnd",
+      "TestPortableCLIGLMFlashEndToEnd",
+      "TestPortableCLIEndToEnd"
+    ],
+    "log_sha256": "cc0a915b432949949d6b217fa331a5f093354efa305359e1dd4c42b7b456bf65"
+  },
+  "vet": "go vet ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider passed",
+  "fresh_database_shared_regressions": {
+    "passed": true,
+    "log": "dist/final-shared-checks/cli-shared-final.jsonl",
+    "log_sha256": "c96a4fdbf92f82e4c64f1c49be214b7976aae9142ed95b55eae258b7f737cdd4",
+    "database_created_and_dropped": true
+  },
+  "catalog": "1982 production keys across EN/KO/zh-Hans passed completeness; exact count updated for two new diagnostic messages",
+  "secret_scan": {
+    "committable_files": 1118,
+    "supplied_credentials": 2,
+    "exact_matches": 0
+  },
+  "limits": [
+    "Windows Unix-updater and symlink privileges skipped existing tests; four live/installed tests require explicit opt-in and are verified separately.",
+    "Source results do not relabel prior candidate binaries."
+  ]
+}

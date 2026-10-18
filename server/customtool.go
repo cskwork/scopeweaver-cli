@@ -18,9 +18,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cskwork/scopeweaver-cli/db"
 	"github.com/Autumn-27/norma/permission"
 	actool "github.com/Autumn-27/norma/tool"
+	"github.com/cskwork/scopeweaver-cli/db"
 )
 
 // Custom tool executors. Rows with system=false are dispatched by kind:
@@ -484,7 +484,7 @@ func (s *Server) httpProxyTransport(spec httpExec) *http.Transport {
 	var caFile string
 	if spec.UseRecordingProxy {
 		if addr := s.m.ProxyAddr(); addr != "" {
-			proxyStr = "http://" + addr
+			proxyStr = addr
 			caFile = s.m.ProxyCACert()
 		}
 	}

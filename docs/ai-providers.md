@@ -1,0 +1,99 @@
+# AI provider setup and limits
+
+[한국어](ko/ai-providers.md) · [CLI architecture](cli.md) · [Verification](CLI-VERIFICATION.md)
+
+Windows verification dated **2026-10-18** passed all five packaged workflows: portable core, GLM-5.3/low, GLM-5.3-Flash/low and high, and ChatGPT OAuth/low. See the [dated verification record](CLI-VERIFICATION.md) for exact results, limits and publication checks.
+
+Built-in chat, planner and worker agents can use `codex-cli` as an LLM profile format. The adapter sends text and tool descriptions to the official Codex app-server over stdio. Norma, the engine's agent harness, executes the requested ScopeWeaver tools and returns their results to the next completion. It does not delegate tool execution to Codex.
+
+## ChatGPT login
+
+Use an official Codex CLI installation with a ChatGPT login. The adapter was verified with Codex 0.162.1; compatibility with other or future versions is not established. Codex is an additional dependency and is not downloaded by the portable PostgreSQL bootstrap.
+
+```sh
+codex --version
+codex login
+codex login status
+```
+
+The browser login is managed by official Codex. ScopeWeaver does not extract, copy or send OAuth tokens itself. An OpenAI API-key login is not accepted by this adapter's ChatGPT route. Model access and limits still depend on the signed-in account. See [official authentication guidance](https://learn.chatgpt.com/docs/auth).
+
+Resolve Codex from PATH, or set `SCOPEWEAVER_CODEX_PATH` to its native executable before starting the portable runtime. On Windows, the override must name a `.exe`, not a `.cmd` wrapper. If installed through the official npm package, the adapter can resolve its native Windows executable without invoking Node.js.
+
+Save the following as `chatgpt-profile.json`:
+
+```json
+{
+  "name": "ChatGPT via Codex",
+  "format": "codex-cli",
+  "model": "gpt-6.1-sol",
+  "base_url": "",
+  "api_key": "",
+  "reasoning_effort": "high",
+  "streaming": true
+}
+```
+
+```sh
+scopeweaver-cli schema llm profiles save --json
+scopeweaver-cli llm profiles save --data @chatgpt-profile.json --yes --json
+scopeweaver-cli llm profiles list --json
+scopeweaver-cli llm profiles activate --id 1 --yes --json
+scopeweaver-cli llm test --provider codex-cli --model gpt-6.1-sol --profile-id 1 --yes --json
+```
+
+Replace `1` with the `id` returned by save. Saving validates configuration without launching Codex or contacting the model; `llm test` makes a real model request. Leave `base_url`, `api_key` and `proxy` empty for this route. Activate the profile to use it as the default; explicit task/agent profile bindings retain their usual precedence.
+
+## Z.AI GLM Coding Plan
+
+The adapter supports the pinned Z.AI Responses endpoint with `glm-5.3` and `glm-5.3-flash`. It starts official Codex with a temporary clean Codex home, a provider-specific credential and the included metadata for these two GLM models. It does not alter the user's Codex configuration or use the ChatGPT login for Z.AI.
+
+Provide `ZAI_API_KEY` in the environment of the process that starts the portable runtime. If the runtime is already running, stop it with `runtime stop --yes`, set the environment securely, then run the next operational command. Alternatively, supply `api_key` in a private profile JSON file outside the browsable workspace. Never commit credentials or include them in evidence.
+
+Save this keyless configuration as `zai-profile.json` when using `ZAI_API_KEY`:
+
+```json
+{
+  "name": "Z.AI Coding Plan via Codex",
+  "format": "codex-cli",
+  "model": "glm-5.3",
+  "base_url": "https://api.z.ai/api/v1",
+  "reasoning_effort": "max",
+  "streaming": true,
+  "context_window_k": 1000
+}
+```
+
+```sh
+scopeweaver-cli llm profiles save --data @zai-profile.json --yes --json
+scopeweaver-cli llm profiles activate --id 2 --yes --json
+scopeweaver-cli llm test --provider codex-cli --model glm-5.3 --base-url https://api.z.ai/api/v1 --profile-id 2 --reasoning-effort max --yes --json
+```
+
+Replace `2` with the returned profile ID. A base URL ending in `/responses` is normalized to the same root. Use `"model": "glm-5.3-flash"` in the same profile to select Flash, and pass that same model to `llm test`. Other endpoints and Z.AI models are rejected. Both models accept `low`, `high` or `max`; disabled-thinking requests map to `low`.
+
+Follow [Z.AI's official Codex guide](https://docs.z.ai/devpack/tool/codex) and its [API key management guidance](https://docs.z.ai/devpack/notice/api-key-management). Standard, Coding Plan and Compatible keys have different usage rules; a Standard key does not use Coding Plan quota. In the 2026-10-18 Windows verification, GLM-5.3/low passed 106 installed CLI calls in 82.63 seconds, Flash/low 117 in 114.84, and Flash/high 182 in 317.83. All three Z.AI runs recorded zero argument-format corrections. The task budget remained 420 seconds and the shared completion budget 600 seconds. See the [R24 receipt](evidence/standalone-cli/candidate-r24-verification.json) and [dated verification record](CLI-VERIFICATION.md) for historical failures and remaining publication checks.
+
+## Behavior and compatibility limits
+
+- Z.AI requests nested JSON objects for tool arguments; OAuth retains its existing string schema. The decoder accepts valid object arguments and legacy object strings without coercion, while rejecting duplicate keys and malformed envelopes before execution. R24 accepted the request schema in real runs; provider-side strict schema enforcement and the exact raw wire representation are not established. [R24 receipt](evidence/standalone-cli/candidate-r24-verification.json).
+- Each completion launches an owned app-server process and a fresh ephemeral thread. The complete current Norma conversation, roles, tool IDs/results and available tool schemas are translated into JSON again. ScopeWeaver history, branches and restart persistence remain in the engine; this is not native Codex thread replay.
+- Streaming is buffered until the completed structured response is validated. Text and tool events then enter the usual agent stream. There are no live token deltas before completion, and incomplete or malformed tool requests never reach Norma.
+- Only Z.AI argument-object validation failures allow one additional fresh invocation with fixed format-correction feedback. The entire first response is rejected before tool execution; strict decoding is unchanged. Both attempts share one 10-minute deadline, cancellation and `local_llm_only` are rechecked, and input/output/cache-read/cache-write usage is summed once. OAuth, network, quota, protocol, unknown-tool and duplicate-key failures do not trigger this correction. [Source tests/vet](evidence/standalone-cli/glm-format-repair.json) and [independent review](evidence/standalone-cli/glm-format-repair-review.md) passed; R11 Flash/low recorded one correction attempt and R18 GLM-5.3/low recorded three across passing workflows; their inference phases were not identified. This does not certify every repair case.
+- Codex shell, web, image, MCP, plugins, apps, skills, hooks and subagents are disabled for these completions. MCP isolation is checked before inference; unsupported MCP names fail explicitly. Unexpected tool items or app-server requests reject the completion. ScopeWeaver's own configured tools/MCP integrations still execute through Norma with their existing controls.
+- Project instructions and environment access are disabled. ChatGPT OAuth retains the official Codex home for login and inherits its global instructions, including global `AGENTS.md`. Z.AI uses a disposable clean home. Account-global instructions can therefore affect the OAuth route.
+- Text, thinking and structured tool history are supported. Images and other non-text inputs are rejected. The adapter bounds translated context to 32 MiB, structured output to 2 MiB and tool calls to 128 per completion. Each invocation has a 10-minute timeout, subject to earlier caller cancellation.
+- `max_tokens`, temperature, stop sequences and disabled-thinking requests are advisory prompt hints, not API-enforced controls. OAuth compaction preserves the configured model effort instead of forcing unsupported `none`; GLM maps disabled thinking to `low`. Profile context-window values guide engine compaction and do not change the provider's actual capacity. OAuth reasoning accepts empty, `none`, `minimal`, `low`, `medium`, `high` or `xhigh`; the selected model may impose additional restrictions.
+- Profile proxy settings are rejected. Custom session headers, HTTP-provider retry options and raw HTTP request/response capture are unsupported by this transport. Normal engine retry/failover and rate/concurrency controls still apply where configured. Usage comes from app-server token-usage notifications; raw Codex diagnostics are withheld.
+- Both routes are cloud providers. `local_llm_only` is checked on every invocation and blocks them before Codex starts; an allowed CIDR cannot convert this route into local inference. Saving a profile or seeing it as configuration-ready does not prove executable, login, entitlement or network readiness.
+- Model discovery through `llm models list` is unsupported for `codex-cli`; configure the exact model explicitly. Package preparation and core offline reuse do not make cloud inference offline.
+
+## Verification scope
+
+On Windows R24, dated 2026-10-18, ChatGPT OAuth/low passed 115 installed CLI calls in 108.12 seconds. Core passed 62 in 19.14 seconds; all three Z.AI configurations passed as recorded above. The real AI workflows cover chat/tools, queue/resume, planner/worker, exactly one intent, owned loopback GET and finding, actual usage, report and cleanup. OAuth retains its existing strict format and does not use the Z.AI correction path. These are candidate-specific functional results, not benchmarks or every-model, every-platform or final-artifact acceptance. [Dated results and publication checks](CLI-VERIFICATION.md).
+
+Before the first real planner request, bounded current-task finding/done trigger evidence is read through the final resolved `node_detail` capability. It uses one existing overview snapshot, at most four read attempts, and honors read permissions, wrappers, defaults, metering and result limits. The whole attachment is bounded to 32,768 UTF-8 bytes; nodes that do not fit are omitted whole. It does not expand into related tasks or automatically prove a goal. Real `prove_goal`, authentic receipts, usage and terminal proof remain required. Actual `Planner.Plan` regressions cover streaming/non-streaming, permissions, bounds, isolation, deletion, first-request context, explicit reads and multiple goals. Controlled regression-provider usage is synthetic; actual subscription usage comes from installed CLI workflows.
+
+Historical R4 OAuth compaction passed 33 calls and two new completions; per-call paid records and summaries survived restart, while existing conversation/dashboard aggregates did not increase. Compaction costs are not established as included in those aggregates. Historical lifecycle, integration and updater results and their limits remain in the [verification record](CLI-VERIFICATION.md).
+
+Implementation references in the source checkout: `codexprovider/provider.go`, `codexprovider/protocol.go`, `codexprovider/isolation.go`, `agent/provider.go` and `internal/cli/operations.json`. The official [app-server documentation](https://learn.chatgpt.com/docs/app-server) describes the versioned protocol; this adapter's verified baseline remains 0.162.1.

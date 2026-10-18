@@ -1,0 +1,127 @@
+{
+  "seconds": 34.09,
+  "calls": 29,
+  "positive_contracts": {
+    "notify channels test": {
+      "lines": [
+        10
+      ],
+      "detail": "Explicit local-relay optin1 reached real child runtime; synchronous test performed exactly one owned POST/notify with count1/finding_id0/custom header. Unset and false rejected before requests; no external notification."
+    },
+    "notify deliveries retry": {
+      "lines": [
+        22
+      ],
+      "detail": "Actual report_finding engine tool created synthetic finding/event; own sinkHTTP400 produced failed delivery attempts1. Only sink repaired; retry same delivery ID accepted then sent/attempts1/cleared error/sent_at, exact same finding/body delivered once via HTTP200. No injected DB rows or n0 proof."
+    }
+  },
+  "gaps": {},
+  "assertions": [
+    {
+      "assertion": "compiled test clone hash pinned",
+      "passed": true
+    },
+    {
+      "assertion": "portable and notify source snapshots stable through build",
+      "passed": true
+    },
+    {
+      "assertion": "loopback rejected when optin None",
+      "passed": true
+    },
+    {
+      "assertion": "rejected configurations never reach HTTP sink",
+      "passed": true
+    },
+    {
+      "assertion": "loopback rejected when optin false",
+      "passed": true
+    },
+    {
+      "assertion": "rejected configurations never reach HTTP sink",
+      "passed": true
+    },
+    {
+      "assertion": "test delivered exactly one own HTTP message",
+      "passed": true
+    },
+    {
+      "assertion": "test actual exact request body and header",
+      "passed": true
+    },
+    {
+      "assertion": "synchronous test intentionally creates no delivery row",
+      "passed": true
+    },
+    {
+      "assertion": "genuine failed delivery exists",
+      "passed": true
+    },
+    {
+      "assertion": "permanent own sink failure persisted with attempted send",
+      "passed": true
+    },
+    {
+      "assertion": "legitimate synthetic finding persisted by actual worker",
+      "passed": true
+    },
+    {
+      "assertion": "actual worker finding node present",
+      "passed": true
+    },
+    {
+      "assertion": "actual failed delivery retry accepted",
+      "passed": true
+    },
+    {
+      "assertion": "same persisted delivery ID sent after retry",
+      "passed": true
+    },
+    {
+      "assertion": "retry performs exactly one new successful delivery",
+      "passed": true
+    },
+    {
+      "assertion": "failed then retry HTTP payload exact same content",
+      "passed": true
+    },
+    {
+      "assertion": "restart false rejects existing local channel test",
+      "passed": true
+    },
+    {
+      "assertion": "false restart generates no new sink requests",
+      "passed": true
+    }
+  ],
+  "binary_sha256": "bc36fa7b7f1e378b6d159b0b38d67cb59625e262207cf219f8cbb39aec4bc461",
+  "fixture_closed": true,
+  "live_inference_calls": 0,
+  "synthetic_provider": true,
+  "manual_db_state_injection": false,
+  "external_notifications": 0,
+  "notification_http_requests": 3,
+  "owned_processes_remaining": 0,
+  "binary_hash_unchanged": true,
+  "r5_original_sha256": "4a1704cdd12c908afe2d2390c88a8041c49b1cc816a9a1d60f3f82346215a0a5",
+  "r5_original_unchanged": true,
+  "evidence_lines": {
+    "default_unset_rejection": 2,
+    "explicit_false_rejection": 5,
+    "successful_test_delivery": 10,
+    "failed_delivery_readback": 19,
+    "actual_finding_readback": 20,
+    "actual_worker_finding_graph": 21,
+    "retry_same_delivery": 22,
+    "pending_attempts_reset": 23,
+    "sent_same_delivery_readback": 25,
+    "restart_false_existing_channel_rejection": 28,
+    "runtime_stop": 29
+  },
+  "limitations": [
+    "Disposable test clone compiled from dirty current working tree, not public release candidate; cloned manifest was not regenerated for replacement test executable.",
+    "Synthetic OpenAI-compatible provider generated explicitly synthetic finding through actual worker report_finding; no live inference or real vulnerability claimed.",
+    "Loopback local-relay opt-in and default rejection tested; link-local destinations were not contacted.",
+    "Stopped home and build evidence retained; no source, docs, global configuration or original package edits by this delegate."
+  ]
+}

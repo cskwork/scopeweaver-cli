@@ -1,0 +1,82 @@
+{
+  "recorded": "2026-10-17",
+  "credential": "replacement supplied by owner; value not recorded",
+  "built_in_glm_53": {
+    "model": "glm-5.3",
+    "passed": true,
+    "provider": "codex-cli",
+    "stop": "end_turn",
+    "text": "BUILTIN_PROVIDER_READY",
+    "usage": {
+      "input_tokens": 9734,
+      "output_tokens": 43,
+      "cache_read_tokens": 1024,
+      "cache_write_tokens": 0
+    }
+  },
+  "official_codex_glm_53_flash": {
+    "exit": 0,
+    "responses": [
+      {
+        "authorization_matches_supplied_key": true,
+        "request_path": "/api/v1/responses",
+        "model": "glm-5.3-flash",
+        "reasoning": {
+          "effort": "low"
+        },
+        "request_body_bytes": 51497,
+        "event_types": [
+          "response.created",
+          "response.in_progress",
+          "response.output_item.added",
+          "response.content_part.added",
+          "response.output_text.delta",
+          "response.output_text.delta",
+          "response.output_text.delta",
+          "response.output_text.delta",
+          "response.output_text.delta",
+          "response.output_text.delta",
+          "response.output_text.done",
+          "response.content_part.done",
+          "response.output_item.done",
+          "response.completed"
+        ],
+        "http_status": 200,
+        "content_type": "text/event-stream"
+      }
+    ],
+    "events": [
+      {
+        "type": "thread.started",
+        "thread_id": "01a14838-6277-7d20-9ebd-bbc72f4a336e"
+      },
+      {
+        "type": "turn.started"
+      },
+      {
+        "type": "item.completed",
+        "item": {
+          "id": "item_0",
+          "type": "agent_message",
+          "text": "GLM_CODING_PLAN_OK"
+        }
+      },
+      {
+        "type": "turn.completed",
+        "usage": {
+          "input_tokens": 11887,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 8,
+          "reasoning_output_tokens": 0
+        }
+      }
+    ]
+  },
+  "credentials_recorded": false,
+  "global_config_changed": false,
+  "limits": [
+    "These are successful inference probes, not full workflow E2E.",
+    "GLM-5.3-Flash was tested directly through official Codex; the built-in provider currently exposes GLM-5.3."
+  ]
+}

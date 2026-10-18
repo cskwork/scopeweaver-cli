@@ -1,0 +1,67 @@
+{
+  "candidate": "R16",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "windows_sha256": "752f432eb9755b2ceee839348397619f89c4a333357e7c6da0ca38ed826e64a4",
+  "runtime_mode": "download",
+  "manifest_payload_files": 175,
+  "test_setup": "Separate clone with verified runtime files; public candidate remains runtime-free. Root fixture-only correction does not change executable bytes.",
+  "implementation_agent": {
+    "model": "glm-5.3",
+    "tool": "Pi",
+    "thinking": "max",
+    "session": "01a148f4-2bf7-75da-b95b-2121f7168b27",
+    "provider": "zai"
+  },
+  "live": {
+    "task_budget_seconds": 420,
+    "log_sha256": "ecd1dbfc0ab24dcf99b8b3bf8d034534d82ef4258e51a022e0f6c6534d05e923",
+    "reasoning_effort": "high",
+    "findings": 1,
+    "model": "glm-5.3-flash",
+    "cli_invocations": 171,
+    "elapsed_seconds": 285.09,
+    "owned_gets": 1,
+    "passed": true,
+    "correction_attempts": 0,
+    "cleanup_passed": true,
+    "intent_count": 1
+  },
+  "local_checks": {
+    "packaging_exit": 0,
+    "fresh_database_agent": {
+      "pass": 575,
+      "log_sha256": "788260babfc023474ba34e0c8b52018663930af9568ea49f2c59e677818f78b1",
+      "skip": 0,
+      "fail": 0
+    },
+    "focused": {
+      "pass": 180,
+      "log_sha256": "c0503f999040f924e4bbc11bd86ad37b09c51eb8d0ec3413d451253c757223a7",
+      "skip": 18,
+      "fail": 0
+    },
+    "actual_engine_and_stock_runtime": {
+      "pass": 28,
+      "log_sha256": "98384b78f48dcc7639a38fa8e1968ec5dbe11670363db5e2827e3135575a6cdb",
+      "skip": 0,
+      "fail": 0
+    },
+    "native_linux_race": {
+      "skipped": "TestRealProveGoalSessionGatesAfterFinalProof requires a test DB; its Windows fresh-DB run passed separately",
+      "pass": 16,
+      "log_sha256": "1d1f0e5da7fa0bce10d8569f3e812f729c696333eab4d698d1d6814d7d29bd31",
+      "skip": 1,
+      "fail": 0
+    },
+    "vet_exit": 0
+  },
+  "release_gate": "HELD: original backport review reproduced a separate delayed old-handler ordering defect (3 provider calls instead of 2). R17 correction and final acceptance pending; no publication.",
+  "limitations": [
+    "This is a candidate-specific Windows Flash/high pass, not final all-model/platform acceptance.",
+    "The race fixture requiring PostgreSQL skipped in WSL; the full Windows DB suite ran it.",
+    "Known inherited full-Windows-server symlink privilege failure remains documented; checks were not weakened.",
+    "No model, effort or deadline relaxation, semantic deduplication, or failure waiver.",
+    "Earlier source reviews passed their exercised paths; the later converse-order regression supersedes blanket source acceptance."
+  ]
+}

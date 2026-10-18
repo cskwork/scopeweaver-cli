@@ -1,0 +1,1824 @@
+{
+  "recorded_utc": "2026-10-17T07:21:13.786692+00:00",
+  "scope": "Historical exact-name catalog union; not all-options/all-states or final-candidate certification.",
+  "catalog_operations": 297,
+  "catalog_names_sha256": "965af49ecba7b6d91a5713539fa9d0a3dba7c8ae2bd59c452d50b305248b22ec",
+  "counts": {
+    "positive": 297,
+    "error_only": 0,
+    "indirect_only": 0,
+    "untested": 0
+  },
+  "invoked_unique": 297,
+  "counting_rules": [
+    "Exact-name union against297 current catalog operations; runtime/discovery commands excluded.",
+    "Invocation totals are never added as unique coverage; classification is recomputed from the297 exact-name ledger.",
+    "Positive means at least one actual asserted behavior, not every option/state/error case or final-candidate certification.",
+    "Asynchronous admissions require terminal/read-back assertions; advanced retest/deepen/side questions have those, with freshHTTPdeepening caveat.",
+    "Failed final provider run contributes preceding fail-fast assertions only; never a full run pass.",
+    "Read/WebFetch/add_intent/report_finding are engine behavior evidence, not extra CLI operation names."
+  ],
+  "r2_oauth_full": {
+    "path": "dist/candidate-r2-oauth-e2e.jsonl",
+    "passed": true,
+    "installed_cli_invocations": 132,
+    "test_elapsed_seconds": 163.34,
+    "artifact_sha256": "246bf17e9aa783b6f91367b0b3e2374156e71c1ea619a7e2ff908aeef26fe835",
+    "source_revision": "c86c7e4a78d52cd3831de41494792fa16f6f145a",
+    "source_dirty": true,
+    "sidecar_positive_operations": [
+      "conversations controls attempts list",
+      "conversations controls attempts activities",
+      "conversations controls turns prompt",
+      "conversations controls inputs update",
+      "conversations controls queue order",
+      "conversations controls inputs cancel",
+      "findings lineage",
+      "findings retests list",
+      "findings update",
+      "llm records get",
+      "intercept task list",
+      "findings traffic bind",
+      "findings traffic body",
+      "findings traffic delete",
+      "findings traffic download",
+      "findings traffic get",
+      "findings traffic list",
+      "findings traffic order",
+      "findings traffic update"
+    ],
+    "new_positive_operations_in_union": [
+      "findings traffic bind",
+      "findings traffic body",
+      "findings traffic delete",
+      "findings traffic download",
+      "findings traffic get",
+      "findings traffic list",
+      "findings traffic order",
+      "findings traffic update"
+    ],
+    "unsupported_operation": "llm models list",
+    "sidecar_source_sha256": "5447b8f555fca707620e9042e24a234324fbd84485d8a840526da74fbbd6a1dd",
+    "sidecar_frozen_preflight": "dist/bootstrap-agent-e2e-20261017/subscription-extra-preflight.json",
+    "main_test_source_provenance": {
+      "sha256": "13c0a74a0b4792cbd653b24087553fec425c617d2ef65cf2884079d5dae6e6e8",
+      "method": "Reconstructed in memory from post-run current c6331d085f39b635c833bde408cc392d9d8fe437a15bdf6c193f3ed0578b4b22 by removing only the later waitChat failure-detail collection and restoring its earlier fatal message. Result matches the independently observed prediagnostic readback hash. Root confirms no other main test edits in between. No source file modified.",
+      "limit": "Reconstruction plus readback provenance, not a retained compiled-test manifest."
+    },
+    "observed_behavior": "Real OAuth chat and planner/worker, one seed loopback GET, real finding/report, plus two sidecar HTTP exchanges; queue/evidence sidecar preserves task aggregate usage, record total and own conversation run.",
+    "reporter_qualification": "One pre-existing reporter conversation was running; its independent conversation activity is excluded from task exploration total. Zero active planner/worker calls required before sidecar baseline.",
+    "limits": "Historical intermediate dirty r2 candidate; not r3 verification or GLM workflow certification."
+  },
+  "r2_log_sha256": "4b66b2149dce5003f667a994b39bf6db79f82a9d831107becddc167da3fe8f2e",
+  "classification": {
+    "positive": [
+      "agents config set",
+      "agents create",
+      "agents delete",
+      "agents get",
+      "agents list",
+      "agents prompt preview",
+      "agents prompt reset",
+      "agents prompt set",
+      "agents prompts list",
+      "agents triggers create",
+      "agents triggers list",
+      "agents update",
+      "agents variables list",
+      "agents visibility get",
+      "agents visibility set",
+      "agents wrapup reset",
+      "agents wrapup set",
+      "agents wrapup task-timeout reset",
+      "agents wrapup task-timeout set",
+      "archives delete",
+      "archives delete batch",
+      "archives get",
+      "archives list",
+      "archives restore",
+      "archives restore batch",
+      "asset-intercept rules create",
+      "asset-intercept rules delete",
+      "asset-intercept rules list",
+      "asset-intercept rules set",
+      "asset-intercept rules toggle",
+      "assets counts",
+      "assets delete",
+      "assets export",
+      "assets insert",
+      "assets list",
+      "audit list",
+      "auth change-password",
+      "auth init",
+      "auth login",
+      "auth status",
+      "categories create",
+      "categories delete",
+      "categories list",
+      "categories update",
+      "chat mentions search",
+      "chat send",
+      "chat upload",
+      "commands list",
+      "commands stats",
+      "companies create",
+      "companies delete",
+      "companies get",
+      "companies list",
+      "companies reattribute",
+      "companies scope set",
+      "conversations controls attempts activities",
+      "conversations controls attempts list",
+      "conversations controls branch",
+      "conversations controls compact",
+      "conversations controls context",
+      "conversations controls edit",
+      "conversations controls inputs cancel",
+      "conversations controls inputs discard",
+      "conversations controls inputs followup",
+      "conversations controls inputs send",
+      "conversations controls inputs update",
+      "conversations controls pause",
+      "conversations controls queue order",
+      "conversations controls resume",
+      "conversations controls retry",
+      "conversations controls state",
+      "conversations controls turns prompt",
+      "conversations create",
+      "conversations delete",
+      "conversations delete batch",
+      "conversations list",
+      "conversations messages get",
+      "conversations messages list",
+      "conversations messages send",
+      "conversations profile set",
+      "conversations side-questions ask",
+      "conversations side-questions clear",
+      "conversations side-questions list",
+      "conversations stop",
+      "conversations update",
+      "exploration activity get",
+      "exploration activity history",
+      "exploration activity list",
+      "exploration activity watch",
+      "exploration frontier list",
+      "exploration graph get",
+      "exploration intents list",
+      "exploration main-sessions create",
+      "exploration main-sessions list",
+      "exploration nodes list",
+      "exploration tokens get",
+      "findings asset-tree get",
+      "findings deepen",
+      "findings delete",
+      "findings export",
+      "findings get",
+      "findings groups list",
+      "findings lineage",
+      "findings list",
+      "findings retests active",
+      "findings retests list",
+      "findings retests start",
+      "findings stats",
+      "findings traffic bind",
+      "findings traffic body",
+      "findings traffic delete",
+      "findings traffic download",
+      "findings traffic get",
+      "findings traffic list",
+      "findings traffic order",
+      "findings traffic update",
+      "findings update",
+      "health",
+      "intercept history execution",
+      "intercept history get",
+      "intercept history list",
+      "intercept judge get",
+      "intercept judge set",
+      "intercept judge usage",
+      "intercept pending decide",
+      "intercept pending get",
+      "intercept pending list",
+      "intercept rules create",
+      "intercept rules delete",
+      "intercept rules list",
+      "intercept rules set",
+      "intercept rules toggle",
+      "intercept task list",
+      "intercept tool-config get",
+      "intercept tool-config set",
+      "llm get",
+      "llm models list",
+      "llm pool reset",
+      "llm pool status",
+      "llm profiles activate",
+      "llm profiles delete",
+      "llm profiles list",
+      "llm profiles save",
+      "llm records by-model",
+      "llm records delete",
+      "llm records get",
+      "llm records list",
+      "llm records tasks",
+      "llm retry-policy get",
+      "llm retry-policy set",
+      "llm set",
+      "llm test",
+      "logs history",
+      "logs list",
+      "logs watch",
+      "maintenance gc",
+      "mcp delete",
+      "mcp list",
+      "mcp refresh",
+      "mcp save",
+      "mcp tools list",
+      "notify channels create",
+      "notify channels delete",
+      "notify channels list",
+      "notify channels test",
+      "notify channels update",
+      "notify deliveries list",
+      "notify deliveries retry",
+      "notify meta",
+      "report get",
+      "settings get",
+      "settings python detect",
+      "settings set",
+      "settings web-search test",
+      "side-questions cancel",
+      "side-questions watch",
+      "skills create",
+      "skills delete",
+      "skills dirs create",
+      "skills files delete",
+      "skills files list",
+      "skills files read",
+      "skills files write",
+      "skills list",
+      "skills meta set",
+      "skills missing",
+      "skills upload",
+      "skills usage",
+      "stats",
+      "sync scopesentry datasource set",
+      "sync scopesentry projects list",
+      "sync scopesentry run",
+      "sync scopesentry status",
+      "sync scopesentry tasks list",
+      "tasks active set",
+      "tasks archive",
+      "tasks archive batch",
+      "tasks asset-refs list",
+      "tasks assets attach",
+      "tasks assets detach",
+      "tasks category batch-set",
+      "tasks category set",
+      "tasks chat controls attempts activities",
+      "tasks chat controls attempts list",
+      "tasks chat controls branch",
+      "tasks chat controls compact",
+      "tasks chat controls context",
+      "tasks chat controls edit",
+      "tasks chat controls inputs cancel",
+      "tasks chat controls inputs discard",
+      "tasks chat controls inputs followup",
+      "tasks chat controls inputs send",
+      "tasks chat controls inputs update",
+      "tasks chat controls pause",
+      "tasks chat controls queue order",
+      "tasks chat controls resume",
+      "tasks chat controls retry",
+      "tasks chat controls state",
+      "tasks chat controls turns prompt",
+      "tasks chat side-questions ask",
+      "tasks chat side-questions clear",
+      "tasks chat side-questions list",
+      "tasks chat status",
+      "tasks chat stop",
+      "tasks constraints create",
+      "tasks constraints delete",
+      "tasks constraints list",
+      "tasks constraints update",
+      "tasks control",
+      "tasks control batch",
+      "tasks coverage get",
+      "tasks coverage-graph get",
+      "tasks create",
+      "tasks delete",
+      "tasks get",
+      "tasks goals create",
+      "tasks goals delete",
+      "tasks goals list",
+      "tasks goals update",
+      "tasks intent-assets list",
+      "tasks intents control",
+      "tasks intents message",
+      "tasks intents rerun",
+      "tasks intents rerun-blocked",
+      "tasks intents side-questions ask",
+      "tasks intents side-questions clear",
+      "tasks intents side-questions list",
+      "tasks intercept-rules create",
+      "tasks intercept-rules delete",
+      "tasks intercept-rules list",
+      "tasks intercept-rules set",
+      "tasks intercept-rules toggle",
+      "tasks list",
+      "tasks llm resolution",
+      "tasks llm set",
+      "tasks scope add",
+      "tasks scope delete",
+      "tasks scope list",
+      "tasks update",
+      "templates create",
+      "templates delete",
+      "templates list",
+      "templates update",
+      "tokens conversations",
+      "tokens daily",
+      "tokens usage",
+      "tools custom create",
+      "tools custom delete",
+      "tools custom set",
+      "tools custom test",
+      "tools list",
+      "tools reset",
+      "tools set",
+      "traffic blob download",
+      "traffic delete",
+      "traffic exchange get",
+      "traffic hosts delete",
+      "traffic hosts list",
+      "traffic list",
+      "traffic purge",
+      "triggers delete",
+      "triggers update",
+      "update apply",
+      "update check",
+      "update rollback",
+      "update watch",
+      "visibility get",
+      "visibility set",
+      "visibility skill get",
+      "visibility skill set",
+      "workspace delete",
+      "workspace download",
+      "workspace list",
+      "workspace mkdir",
+      "workspace read",
+      "workspace upload",
+      "workspace write"
+    ],
+    "error_only": [],
+    "indirect_only": [],
+    "untested": []
+  },
+  "pending_groups": {},
+  "qualifications": [
+    "Historical union across c86c7e4 and intermediate dirty candidates, not all-options/all-states or final-candidate certification.",
+    "Earlier failed provider/compaction receipts remain failed history. R3 OAuth and R4 GLM Flash full workflows passed; GLM5.3 diagnostic planner finalization remained incomplete.",
+    "Compaction numeric paid usage persisted in LLM records52/53, not proven added to conversation/exploration aggregate ledgers.",
+    "Fresh HTTP finding deepening not proven; linked worker execution proven.",
+    "Disabled notification CRUD/local fixtures do not prove live vendor delivery. Genuine R4 allowed/denied own-loopback approvals, history details and paired execution navigation are now proven.",
+    "R3 active shutdown and R4 reopen checks pass without DB-closed errors; final flush-error propagation changes require their own verification.",
+    "No runtime or model invocation performed during receipt reconciliation.",
+    "Eight integration positives use real owned HTTP protocol fixtures: MCP/ScopeSentry import, OpenAI-compatible model discovery and DeepSeek search SSE. No live vendor integration, search service or model inference is implied.",
+    "llm models list is positive for the tested OpenAI-compatible transport; Codex-cli discovery remains explicitly unsupported, with original responses preserved.",
+    "Historical R4 notification local-relay environment drop remains preserved; R6 actual explicit opt-in test and genuine failed-delivery retry now pass while unset/false stay blocked.",
+    "Actual blocked-intent bulk recovery now passes with owned synthetic provider HTTP400→repair, same intent ID and actual engine fact output; no DB state injection or live model intelligence claim.",
+    "All297 names have at least one positive contract; pending operation groups empty. Separate release/coverage limitations remain, including live vendors, published GitHub release and final native artifact/CI/human review."
+  ],
+  "supporting_tracked_receipts": [
+    "agent-e2e-baseline.md",
+    "agent-e2e-regression.json",
+    "bootstrap-agent-e2e.json",
+    "codex-oauth-e2e-initial.json",
+    "local-feature-e2e.json",
+    "advanced-oauth-e2e.json",
+    "stream-cancellation-regression.json",
+    "remaining-local-r4.json",
+    "integrations-r4.json",
+    "blocked-intent-r5.json",
+    "notification-r6.json",
+    "updater-r5.json"
+  ],
+  "full_private_working_ledger": {
+    "path": "dist/bootstrap-agent-e2e-20261017/coverage-union-20261017.json",
+    "sha256": "d29c2fc5a109462c3038437c3afd5a6fad631cd5bf263d21f8999ea3cd744264"
+  },
+  "working_evidence_hashes": {
+    "dist/agent-e2e-20261017/report.json": {
+      "sha256": "7bdd8dfcb1e1279de873ca78df127ff2b9f37fd33ff7e9fbea8196993d6549a8",
+      "bytes": 136545
+    },
+    "dist/agent-e2e-20261017/calls.jsonl": {
+      "sha256": "7cc5f10d51250f496eee863b4456c0668a5d0bfe4d582450d4a8cecee1a3b201",
+      "bytes": 519734
+    },
+    "dist/agent-e2e-20261017/regression/calls.jsonl": {
+      "sha256": "63c49f2a4bb449ea7d789485dccf005a0cae9c54bfa6c3dc1a3f3960cb51bd3d",
+      "bytes": 201141
+    },
+    "dist/bootstrap-agent-e2e-20261017/calls.jsonl": {
+      "sha256": "9b28bd329c739fcd7ba33ab87ae659290ca0b268869155733d361d6101417366",
+      "bytes": 13716
+    },
+    "dist/bootstrap-agent-e2e-20261017/portable-e2e.log": {
+      "sha256": "c0984da5f3ed3a054dbf8129d309bef7a4480c558d2743a4b77029768ed6b755",
+      "bytes": 385
+    },
+    "dist/codex-agent-e2e-20261017/installed-oauth-test.jsonl": {
+      "sha256": "b6195fcdd732972f7b2b27bdf370e53164e0310b263f6c04cee22f5dd08b7820",
+      "bytes": 2166
+    },
+    "dist/codex-agent-e2e-20261017/summary.json": {
+      "sha256": "08bea07d2d9fd6f05180102c60f0c617e2849bb62752f87456c5bceb07210246",
+      "bytes": 2684
+    },
+    "dist/local-feature-e2e-20261017/summary.json": {
+      "sha256": "9d375eb526b80ac8fe12a379b95c1da969bf6d79c2a138d6a5ef1df43d293b60",
+      "bytes": 8555
+    },
+    "dist/local-feature-e2e-20261017/assertions.json": {
+      "sha256": "1b0c58e927e8a9ac137d306d413b5b119b84d0ea3dd3c8ab1bad8fc39f83694c",
+      "bytes": 3994
+    },
+    "dist/local-feature-e2e-20261017/calls.jsonl": {
+      "sha256": "28333e4effaf986a8d5d257650c811d15501644a0d65da9637205cc8da12c160",
+      "bytes": 309112
+    },
+    "dist/advanced-ai-e2e-20261017/calls.jsonl": {
+      "sha256": "eb63728ef743c7ed7552b21f14dbb84f90906efae4068129c6e8fdd67e9caaa7",
+      "bytes": 180135
+    },
+    "dist/advanced-ai-e2e-20261017/readback-calls.jsonl": {
+      "sha256": "c6004a23227c28b26d0fec85600a10203dd6fed5c7b5c640f24f48edf9a2d5e9",
+      "bytes": 39197
+    },
+    "dist/advanced-ai-e2e-20261017/intent-calls.jsonl": {
+      "sha256": "4d4724491ba7b380bd71fb8d0559557c4c538307653d13b0b625386b48e66c6e",
+      "bytes": 45541
+    },
+    "dist/advanced-ai-e2e-20261017/derived-calls.jsonl": {
+      "sha256": "5d6ebbac67e1129436b094f1fcc8e65586e6cfc79f64bd2c533461d349853b98",
+      "bytes": 91352
+    },
+    "dist/advanced-ai-e2e-20261017/summary.json": {
+      "sha256": "dd1bf999921ed9dc0cab026709e5193777603aef30cfa8b3bc61116c582ff01d",
+      "bytes": 18997
+    },
+    "dist/advanced-ai-e2e-20261017/derived-assertions.json": {
+      "sha256": "44d0706c165442f7721e87217843c84f97cbc0cb5f99efef54d717b72a04b51f",
+      "bytes": 538
+    },
+    "dist/advanced-ai-e2e-20261017/intent-assertions.json": {
+      "sha256": "6c7bbdc18aa1270ae2780bfd77800ab0bf9381f1d97bbc624c0c5178254de25d",
+      "bytes": 263
+    },
+    "dist/advanced-ai-e2e-20261017/readback-assertions.json": {
+      "sha256": "35ecf9d3bbd6389b26d4f40d939c8420370837749ed9007be3e7ed8b7c0ef90d",
+      "bytes": 201
+    },
+    "dist/advanced-ai-e2e-20261017/shutdown-recovery.json": {
+      "sha256": "24d195ae2f2c2b63356949b4a36a7dd4531fe03f064e0ea78cfd7c4e1698e6ef",
+      "bytes": 10160
+    },
+    "dist/subscription-final-e2e-test.jsonl": {
+      "sha256": "0a5658e5ce486d2dc86503613a53bd0cf1d70f60f262a8b0be0c310e35c24caf",
+      "bytes": 8549
+    },
+    "dist/no-model-gaps-20261017/summary.json": {
+      "sha256": "137c5a174a70fd16848dddcbb452a298bc50359686fc7caf7a9c3b255b57cf73",
+      "bytes": 3374
+    },
+    "dist/no-model-gaps-20261017/calls.jsonl": {
+      "sha256": "c1c2be989fbfd1a0d145ccb83a3eeeaef9fc8adad174e330b2777e86017bd3f0",
+      "bytes": 16322
+    },
+    "dist/stream-final-recheck-20261017/calls.jsonl": {
+      "sha256": "fca31a6a830436b57fd8cac0e68852051898de3aeab3a6dfbeb073bd92042d1f",
+      "bytes": 7573
+    },
+    "dist/stream-final-recheck-20261017/identity.json": {
+      "sha256": "ed8c58afbae8f2eb7261f4cc2120b72c8287ab037998e37a553760f5da64a5fc",
+      "bytes": 767
+    },
+    "dist/stream-final-recheck-20261017/assertions.json": {
+      "sha256": "f0b4dc37f64905f100140521e5a681a9dc04c895ae3f78b21278d7af717a2dd3",
+      "bytes": 475
+    },
+    "dist/stream-final-recheck-20261017/cleanup.json": {
+      "sha256": "b68776c5c02cd11d83af17888dae6b10d0d54889f77cf2dc7f2b7c7dc5cd3160",
+      "bytes": 110
+    },
+    "dist/candidate-r2-oauth-e2e.jsonl": {
+      "sha256": "4b66b2149dce5003f667a994b39bf6db79f82a9d831107becddc167da3fe8f2e",
+      "bytes": 3332
+    },
+    "internal/cli/subscription_e2e_extra_test.go": {
+      "sha256": "5447b8f555fca707620e9042e24a234324fbd84485d8a840526da74fbbd6a1dd",
+      "bytes": 14769
+    },
+    "internal/cli/operations.json": {
+      "sha256": "9e9e423c9d850a14cd7bb24115c884ef5fd36018cc9ed176d6a6672e03c22db7",
+      "bytes": 234715
+    },
+    "dist/bootstrap-agent-e2e-20261017/subscription-extra-preflight.json": {
+      "sha256": "a442a047bad2afef08fe5dc035d99372a11767bff1148c0da0d467b3c8decc44",
+      "bytes": 757
+    },
+    "dist/candidate-20261017-r2-test/MANIFEST.json": {
+      "sha256": "da648dccb9d2f8939577f104138ae633e247943c4f884371fc9f1f896aff9d59",
+      "bytes": 18089
+    },
+    "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json": {
+      "sha256": "62c3a575c83c89ae3f8ef3fda871f15373c8d6c30a0ece9eacd7ed009d33e653",
+      "bytes": 2903
+    },
+    "dist/r3-lifecycle-e2e-20261017/REPORT.md": {
+      "sha256": "943efb41657ad882537d4a295b90e296372a7cefe913949430f02311cc83fc5d",
+      "bytes": 5063
+    },
+    "dist/r3-lifecycle-e2e-20261017/calls.jsonl": {
+      "sha256": "626a5d0c01ebc3dfdf5290658c4fc376957999f5394555a20c4e5b08d2b8f637",
+      "bytes": 66420
+    },
+    "dist/r3-lifecycle-e2e-20261017/history-calls.jsonl": {
+      "sha256": "9c3c0c833931f25e328d990bef267c1f738e725eb389794dfaed351d6bd7fbed",
+      "bytes": 24660
+    },
+    "dist/r3-lifecycle-e2e-20261017/continuation-calls.jsonl": {
+      "sha256": "efa5f6ff94ed944c03f078337a5961b8ef501ce1957dfabd63e87d4fbb53fee6",
+      "bytes": 48672
+    },
+    "dist/r3-lifecycle-e2e-20261017/compaction-calls.jsonl": {
+      "sha256": "cc8bd8493c390da488bbafee75e70b586faa7656a48b5faca1ca78a19678cdc5",
+      "bytes": 167867
+    },
+    "dist/r3-lifecycle-e2e-20261017/preflight-calls.jsonl": {
+      "sha256": "cd45347ac1e3c9ff6dac7cf1b8a84fb9aca22af8e224b03c4933aa1ec55be0bd",
+      "bytes": 1086
+    },
+    "dist/r3-lifecycle-e2e-20261017/assertions.json": {
+      "sha256": "1d6a78fc7c3c1247804cbe9d1c3fa6cd94a186bdafca558ca0366aaf15d35028",
+      "bytes": 1811
+    },
+    "dist/r3-lifecycle-e2e-20261017/history-assertions.json": {
+      "sha256": "6c8c31638325b82c974f46753a23ca2f7e997b54f7a3701ab73f9f9bfd8536be",
+      "bytes": 594
+    },
+    "dist/r3-lifecycle-e2e-20261017/continuation-assertions.json": {
+      "sha256": "25b4f239e8f96fb2f93bf72073339df3694d1150ae5e29e14523b94185ca3efd",
+      "bytes": 856
+    },
+    "dist/r3-lifecycle-e2e-20261017/compaction-assertions.json": {
+      "sha256": "782d5902f4afdc725e285e684dea5c8154cf42ce086b60f089ce393d4412ff11",
+      "bytes": 585
+    },
+    "dist/r3-lifecycle-e2e-20261017/run.py": {
+      "sha256": "021985d426be90772a57cb268be627d6c251bd381db4a7b29368d43f01ecfd94",
+      "bytes": 10748
+    },
+    "dist/r3-lifecycle-e2e-20261017/history.py": {
+      "sha256": "356067a5cac4e67bfbf82d7e7540fe9fd1f5c57b7b9b30b0f90e98f677895297",
+      "bytes": 4686
+    },
+    "dist/r3-lifecycle-e2e-20261017/continuation.py": {
+      "sha256": "46a312af39fcb02418b9550f344facedc4a6ef32f33c4d891f5377cbe1dd3a00",
+      "bytes": 4012
+    },
+    "dist/r3-lifecycle-e2e-20261017/compaction.py": {
+      "sha256": "3a1d35cad1f9037373a97899a85faf20df0f9b10738d80eda5c1afac63e52b7a",
+      "bytes": 3607
+    },
+    "dist/r3-lifecycle-e2e-20261017/recovery.json": {
+      "sha256": "69f1e4cde314e6d705a6ffddb52ed9327dfe33de5ac7a0224540a47d2bab38f9",
+      "bytes": 6448
+    },
+    "dist/r3-lifecycle-e2e-20261017/cleanup.json": {
+      "sha256": "c6e5bc7993e80de5e08b4d3da94c675693fc62b4cdc9929d92a9ab2f78b6e825",
+      "bytes": 266
+    },
+    "dist/r4-compaction-e2e-20261017/consolidated-summary.json": {
+      "sha256": "e47846d3b3c035c0d65ea260865c479642f03a3fd3635685d51e8c9f0c8e956e",
+      "bytes": 5184
+    },
+    "dist/r4-compaction-e2e-20261017/REPORT.md": {
+      "sha256": "439fad22f36b65b5f375cd93ba511ebc5afb9357a356ea81b49449267de319ad",
+      "bytes": 2891
+    },
+    "dist/r4-compaction-e2e-20261017/calls.jsonl": {
+      "sha256": "f3c5a297ccea40e751ce455dec149623b0cdf0b560d899b7d648325b7df39cfd",
+      "bytes": 63314
+    },
+    "dist/r4-compaction-e2e-20261017/readback-calls.jsonl": {
+      "sha256": "01d5f3b04409173c64a5992d8928cc82ab752cfa9b0a8297f4cfded990ce89fc",
+      "bytes": 16725
+    },
+    "dist/r4-compaction-e2e-20261017/cleanup.json": {
+      "sha256": "b5738e13d6f69a7e9446b3250028289e526acd6c763c6b22c71d51b0e2ea5cf4",
+      "bytes": 324
+    },
+    "dist/candidate-r3-oauth-e2e.jsonl": {
+      "sha256": "bdf57d42fc1f7d4415432ce918dcfd53900b7a90a9b12edae9007ff034bf320f",
+      "bytes": 3326
+    },
+    "dist/candidate-r4-glm-flash-e2e.jsonl": {
+      "sha256": "2752df891c5caccbcfa08a6010156e9c29f8d1de5b064c48dded8fe7077e0bab",
+      "bytes": 3396
+    },
+    "dist/candidate-r3-glm-diagnostic-e2e.jsonl": {
+      "sha256": "568c2dd93f1dc004de8f3354634f7b7b4be9d57c61471dc02caf9ad260e58807",
+      "bytes": 13568
+    },
+    "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json": {
+      "sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "bytes": 13381
+    },
+    "dist/r4-remaining-local-e2e-20261017/REPORT.md": {
+      "sha256": "ac773f8640e8cd1b5ffa319ec3683a3b9a245e7f66828c8deb73c37e563fa45f",
+      "bytes": 4197
+    },
+    "docs/evidence/standalone-cli/remaining-local-r4.json": {
+      "sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "bytes": 13381
+    },
+    "dist/r4-remaining-local-e2e-20261017/calls.jsonl": {
+      "sha256": "3a39400bbed62e4e3e287528de1401179018d67fcd22dc3f3d3e4f74eb0ee7aa",
+      "bytes": 553048
+    },
+    "dist/r4-remaining-local-e2e-20261017/diagnostic-calls.jsonl": {
+      "sha256": "4365196f3a9fc3807346a25625ec605a737ccf213181f081abc04bd7e2765b1e",
+      "bytes": 12108
+    },
+    "dist/r4-remaining-local-e2e-20261017/assertions.json": {
+      "sha256": "a9513bfe0dfe057fe57012d1b03c23a7eb28da7a1ab267e21906332be9eb11db",
+      "bytes": 3753
+    },
+    "dist/r4-remaining-local-e2e-20261017/positive-contracts.json": {
+      "sha256": "08ac56eb79bdbb2afa6e510fc1ded88e44e8b2283f76306cafb62ac6a06a3207",
+      "bytes": 2640
+    },
+    "dist/r4-remaining-local-e2e-20261017/identity.json": {
+      "sha256": "5b713611117a9f06b0ae27be58b59f484d294fa1a264d2c6f180830aaab897b9",
+      "bytes": 421
+    },
+    "dist/r4-remaining-local-e2e-20261017/cleanup.json": {
+      "sha256": "6b620399e22cf061bd8f501aa874b74dd2ba088eb8766d0162dea783d2847a02",
+      "bytes": 356
+    },
+    "dist/r4-remaining-local-e2e-20261017/fixture.json": {
+      "sha256": "f416c1051ff17247a0ef16431e67289c1e4ba52517a7deca1cc3bb294082bece",
+      "bytes": 106
+    },
+    "dist/r4-remaining-local-e2e-20261017/llm-test.json": {
+      "sha256": "c9fe02f3f3fc9d0898fc88024f25a29c00c89711ecd3eb2c317cfd4f646aac7e",
+      "bytes": 86
+    },
+    "dist/r4-remaining-local-e2e-20261017/denied-history.json": {
+      "sha256": "64a633f711518f9d14508f1a789aaeb7687600c41d22361fbd76ac0a56f114a2",
+      "bytes": 2010
+    },
+    "dist/r4-remaining-local-e2e-20261017/denied-execution.json": {
+      "sha256": "a488bce17507a23c91024bbd8494b46b90c8f53658ea72834525a80949bda677",
+      "bytes": 885
+    },
+    "dist/r4-remaining-local-e2e-20261017/allowed-history.json": {
+      "sha256": "483d10b01a59c207c38d9f33b1f6a6e6ce455a4ab5e107393e3af9f948ed277e",
+      "bytes": 1951
+    },
+    "dist/r4-remaining-local-e2e-20261017/allowed-execution.json": {
+      "sha256": "8f05da0cd5ea8173c1c890d9222d740c7e777e5b73d082fb7b0f3e6f5a490d4c",
+      "bytes": 728
+    },
+    "dist/r4-remaining-local-e2e-20261017/intent-after-message.json": {
+      "sha256": "a355aa03b7523a6bffbf3fe4c3ff76ce78007f3b434b389033b428e91cfae105",
+      "bytes": 11071
+    },
+    "dist/r4-remaining-local-e2e-20261017/intent-after-rerun.json": {
+      "sha256": "701c877c26d5129af045fd219fb6f57b7d6697fe491ad22679554dd425501fd0",
+      "bytes": 14219
+    },
+    "dist/r4-remaining-local-e2e-20261017/run.py": {
+      "sha256": "40d7eab43a111603438f6275bccc344c82da4347b24ac921a7d26e32eb47da6c",
+      "bytes": 12552
+    },
+    "dist/r4-remaining-local-e2e-20261017/approvals.py": {
+      "sha256": "cfd026fc9968234ae363367b6ad672609fa5b389f37faaa78d8a0960aef5399f",
+      "bytes": 9645
+    },
+    "dist/r4-remaining-local-e2e-20261017/allow-independent.py": {
+      "sha256": "48076f3f818d7d0c936f1db817d4417d3667ccd36d1ec2172e28a091e9e34654",
+      "bytes": 9812
+    },
+    "dist/r4-remaining-local-e2e-20261017/intents.py": {
+      "sha256": "d77f9b42e7005f395185d0f8cc6e536998aa64cba5403a11cc1037d6f153bda4",
+      "bytes": 12756
+    },
+    "dist/r4-remaining-local-e2e-20261017/intents-corrected.py": {
+      "sha256": "af33f4a985440448f12537420a21987453d098d92fd2703266f77bcd41dcb2ee",
+      "bytes": 11531
+    },
+    "dist/r4-remaining-local-e2e-20261017/intents-running.py": {
+      "sha256": "4c651b2836f65d4f966f2d69b0045ea1fee10e007bdc6da8449b467c11f8d30b",
+      "bytes": 11580
+    },
+    "dist/r4-remaining-local-e2e-20261017/read-only-diagnostic.py": {
+      "sha256": "a46f5b083106f79d803ee5199321680a18ca5b3e1ab2a876eaa192c61a66e234",
+      "bytes": 4215
+    },
+    "dist/r4-remaining-local-e2e-20261017/verify-cleanup.ps1": {
+      "sha256": "0bb50b6396d5bb3f0ddc41cf6ee2fed5fe9e10f23408390f9094c233590e70e3",
+      "bytes": 1846
+    },
+    "dist/r4-integrations-e2e-20261017/summary.json": {
+      "sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "bytes": 7593
+    },
+    "dist/r4-integrations-e2e-20261017/REPORT.md": {
+      "sha256": "f6ffacec47fcf4c6c237ed2937ddfe00799fe86db0652210178ec6ca7604e288",
+      "bytes": 2888
+    },
+    "dist/r4-integrations-e2e-20261017/calls.jsonl": {
+      "sha256": "e3b7f93bca8943bdbe48aa44702b107ca71fbafa7b836dc3916a82dd655c1aa1",
+      "bytes": 19671
+    },
+    "dist/r4-integrations-e2e-20261017/positive-contracts.json": {
+      "sha256": "18878a2524bb4dc096e61471cd66bdd83e4ec5585288ad958fbc3fe2fbc74b52",
+      "bytes": 1798
+    },
+    "dist/r4-integrations-e2e-20261017/http-hits.json": {
+      "sha256": "a75e89db800e5f5df7216e19ef2c0c8e730b0bb35690d770b882a64e5a5a2a5c",
+      "bytes": 15119
+    },
+    "dist/r4-integrations-e2e-20261017/cleanup.json": {
+      "sha256": "13dc69d51c007a1c5eb885caf016b9a83a3357d19c1ba9ce42073132a2ad8286",
+      "bytes": 166
+    },
+    "docs/evidence/standalone-cli/integrations-r4.json": {
+      "sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "bytes": 7593
+    },
+    "dist/r5-blocked-intent-e2e-20261017/summary.json": {
+      "sha256": "9b2bfb9871b98f4d75c85df88173bdb63c6aeef07dea82b0cfda3a9f4b365c9c",
+      "bytes": 2574
+    },
+    "dist/r5-blocked-intent-e2e-20261017/REPORT.md": {
+      "sha256": "776ec09881da7e9df641837ddd8eeca2fc9592eab03e286487efb0c3abf9505d",
+      "bytes": 1443
+    },
+    "dist/r5-blocked-intent-e2e-20261017/calls.jsonl": {
+      "sha256": "0a94d55f69fae27762628d18bd3da1d8f4a5eb1a42110af0bcfc75441241ccad",
+      "bytes": 99299
+    },
+    "dist/r5-blocked-intent-e2e-20261017/assertions.json": {
+      "sha256": "cb726df21750943d49b8448dd0df19660b0541f1f59b8a83150664a741b12c9e",
+      "bytes": 838
+    },
+    "dist/r5-blocked-intent-e2e-20261017/cleanup.json": {
+      "sha256": "d7d56a630c595f8a0f1c7531a4e55c3e8eabef9c50cd7adab840048bcb48c8ce",
+      "bytes": 168
+    },
+    "dist/r5-blocked-intent-e2e-20261017/positive-contracts.json": {
+      "sha256": "36c55572f22cfd0ca2976209889e001b53091b34f3953b19c91b8d5ce7329b10",
+      "bytes": 354
+    },
+    "dist/r5-blocked-intent-e2e-20261017/blocked-state.json": {
+      "sha256": "b36b6d2099d0e677a673a75d92f69f4bb94affa958cd0e4c3e5f12b986f89925",
+      "bytes": 2376
+    },
+    "dist/r5-blocked-intent-e2e-20261017/blocked-activity.json": {
+      "sha256": "126898ffced49ca45a4d71ec06fb618e6db48d797d51605e6b754aee7bc502f3",
+      "bytes": 504
+    },
+    "dist/r5-blocked-intent-e2e-20261017/recovered-state.json": {
+      "sha256": "0c3a4a1d5d003273aa5036dc925607b2b044de75b3503b027188a06744a07e48",
+      "bytes": 6229
+    },
+    "dist/r5-blocked-intent-e2e-20261017/provider-requests.json": {
+      "sha256": "1cbdb314ec92b8d1d6dc9104c06c00701d0f10fb0b1e0534a12c85e3086920be",
+      "bytes": 301727
+    },
+    "dist/r5-blocked-intent-e2e-20261017/phase1-summary.json": {
+      "sha256": "302b778ebca994ba7d678af766a1c6d1bcd3764e968dd4b76f58a5aede1ffa29",
+      "bytes": 600
+    },
+    "dist/r5-blocked-intent-e2e-20261017/exception.json": {
+      "sha256": "a60a8c9c1106d1fa82eb071b117ace10f019ebf95c836fee0fb2783bc70acc0d",
+      "bytes": 929
+    },
+    "dist/r5-blocked-intent-e2e-20261017/run.py": {
+      "sha256": "e9f50492436e000caff9c9b1581e8cb779f9209e6ea3ad6b22df17dcbe310401",
+      "bytes": 9001
+    },
+    "dist/r5-blocked-intent-e2e-20261017/recover.py": {
+      "sha256": "8f8e727c22dc719578bd925aa80040122bb0abb6264c545c09ae87974cae2455",
+      "bytes": 7912
+    },
+    "docs/evidence/standalone-cli/blocked-intent-r5.json": {
+      "sha256": "9b2bfb9871b98f4d75c85df88173bdb63c6aeef07dea82b0cfda3a9f4b365c9c",
+      "bytes": 2574
+    },
+    "dist/r6-notification-e2e-20261017/summary.json": {
+      "sha256": "e96ef44b198796296b259568b9299978aa1cb6e723d0464f638de0642b6221e6",
+      "bytes": 4340
+    },
+    "dist/r6-notification-e2e-20261017/REPORT.md": {
+      "sha256": "7ec90801b50604d0bb38c9359e2332a671104d39cf3abedb6d0394e3735c98cd",
+      "bytes": 2241
+    },
+    "dist/r6-notification-e2e-20261017/calls.jsonl": {
+      "sha256": "3252e94f8298974766cfc94ef75d42d9e8620c7b675b94680fb6a12dba6df6e1",
+      "bytes": 19757
+    },
+    "dist/r6-notification-e2e-20261017/assertions.json": {
+      "sha256": "614981405e5117f62fb518fcb5a5a3b203cd029840176d56acbbb5b424f39d14",
+      "bytes": 1840
+    },
+    "dist/r6-notification-e2e-20261017/cleanup.json": {
+      "sha256": "ce266252f88760cef74572122158127519b29779e5e586d1b347a5704d4f5a9f",
+      "bytes": 166
+    },
+    "dist/r6-notification-e2e-20261017/positive-contracts.json": {
+      "sha256": "62609bacf1efe83b7b4f2142b5ee69fb686ff8a2240386d96d5864df17187164",
+      "bytes": 697
+    },
+    "dist/r6-notification-e2e-20261017/http-hits.json": {
+      "sha256": "3f660ee612f55143cb23a7a7e4f7e0d76570cc42b927c91a01d5539e1a156f67",
+      "bytes": 188227
+    },
+    "dist/r6-notification-e2e-20261017/failed-delivery.json": {
+      "sha256": "8ed0d831c1a071e28483f5be71f8ca72ca6f4583123205e7b0db2c00d6e2d84f",
+      "bytes": 603
+    },
+    "dist/r6-notification-e2e-20261017/sent-delivery.json": {
+      "sha256": "e0ed26b00c48b44b27bd1820882d1b2889f3da8f5501800f4a72476bef7f31c0",
+      "bytes": 516
+    },
+    "dist/r6-notification-e2e-20261017/build-source-hashes-before.json": {
+      "sha256": "a82ad946d32ca972f253aeb8749fe930b0ab7fefb67247b1a7033144f6b5afe6",
+      "bytes": 751
+    },
+    "dist/r6-notification-e2e-20261017/build-source-hashes-after.json": {
+      "sha256": "a82ad946d32ca972f253aeb8749fe930b0ab7fefb67247b1a7033144f6b5afe6",
+      "bytes": 751
+    },
+    "dist/r6-notification-e2e-20261017/build-portable-diff.txt": {
+      "sha256": "1de97b9373e041caf7ce87aa68fa9a29d7bcbfb3abad620961271f8726a920fb",
+      "bytes": 2045
+    },
+    "dist/r6-notification-e2e-20261017/run.py": {
+      "sha256": "73df523343c5022bac5c2342f884da8a9b5cf7ddef7733cd8e86c52c0fd8a8b0",
+      "bytes": 11468
+    },
+    "docs/evidence/standalone-cli/notification-r6.json": {
+      "sha256": "e96ef44b198796296b259568b9299978aa1cb6e723d0464f638de0642b6221e6",
+      "bytes": 4340
+    },
+    "dist/r5-updater-e2e-20261017/summary.json": {
+      "sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "bytes": 6571
+    },
+    "dist/r5-updater-e2e-20261017/REPORT.md": {
+      "sha256": "ff7c43e7acc44e420abb066688c407e6ab231bb5fdc9ca1b89fa8baeb0c44c3d",
+      "bytes": 2646
+    },
+    "dist/r5-updater-e2e-20261017/calls.jsonl": {
+      "sha256": "e2f6b12e5df0756135b9e5a8644ce17e88f175de5f942d012a7552502e3802d8",
+      "bytes": 8901
+    },
+    "dist/r5-updater-e2e-20261017/assertions.json": {
+      "sha256": "e5c54c9151b098cb1a209da36e50f57291b0d85613826112fc6a2b617c0481e7",
+      "bytes": 2131
+    },
+    "dist/r5-updater-e2e-20261017/cleanup.json": {
+      "sha256": "8ce9493dcae93afd4fd72952c91e0bf12f361dfd4263a013a209039917fc85f6",
+      "bytes": 140
+    },
+    "dist/r5-updater-e2e-20261017/positive-contracts.json": {
+      "sha256": "37d411468d32576c8d2c492d8ba568a9aa5b80e0fc732bbe4f06693262d00242",
+      "bytes": 874
+    },
+    "dist/r5-updater-e2e-20261017/automatic-update-restart.json": {
+      "sha256": "feb1797064cef0c19b72e98c3f92d1127cde88a5f052380ee3e05dd19027cd5b",
+      "bytes": 564
+    },
+    "dist/r5-updater-e2e-20261017/automatic-rollback-restart.json": {
+      "sha256": "8292a8cd242a80e125ae93d2c689267776932dfdf6f573a21d51d5e4982cae11",
+      "bytes": 564
+    },
+    "dist/r5-updater-e2e-20261017/build-provenance.json": {
+      "sha256": "e9711bd3a74ed9b55f1a598a5320c0d4038f70b8fff9b0c6d92659c219c385ca",
+      "bytes": 993
+    },
+    "dist/r5-updater-e2e-20261017/build-provenance-raw-blob-check.json": {
+      "sha256": "1df62c0f7ba935317a65432403024924d8dcc13a0629a6962cfaba0569f2a368",
+      "bytes": 193162
+    },
+    "dist/r5-updater-e2e-20261017/certificate-validation.json": {
+      "sha256": "42a76affbc81fd562e448e21c8a46262fd1c70578d9bb9d2b83d030d63a08191",
+      "bytes": 184
+    },
+    "dist/r5-updater-e2e-20261017/https-requests.json": {
+      "sha256": "668c8d833ec9323f684a818523dd25df484796a92d3554e54cb48d3654b78c36",
+      "bytes": 1384
+    },
+    "dist/r5-updater-e2e-20261017/proxy-connects.json": {
+      "sha256": "24a78e9e1a815c2bbae1aae139db417248b5e1dbcb645bc23060e95fffe33051",
+      "bytes": 732
+    },
+    "dist/r5-updater-e2e-20261017/identity.json": {
+      "sha256": "769a535a50582e05be3323ad50ffc989cd92f0599ea8916c9790d5f7522d4a8c",
+      "bytes": 866
+    },
+    "dist/r5-updater-e2e-20261017/negative-no-ca.json": {
+      "sha256": "043829b679801adbbba7b871a2737997bcdd9910d945fbdd6e2af63034975cd9",
+      "bytes": 432
+    },
+    "dist/r5-updater-e2e-20261017/run-updater.py": {
+      "sha256": "d28947f4cc1bb5b46c0cc2511cbb65e5909a3a657a6ad0965a675fdcce182ba2",
+      "bytes": 14242
+    },
+    "docs/evidence/standalone-cli/updater-r5.json": {
+      "sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "bytes": 6571
+    }
+  },
+  "additional_completed_campaigns": {
+    "r3_lifecycle": {
+      "path": "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "cli_calls": 130,
+      "preflight_calls_separate": 3,
+      "phase_union_names": 31,
+      "status": "PRIORITY_LIFECYCLE_PASS_WITH_COMPACTION_GAP",
+      "positive_new_or_upgraded": [
+        "conversations controls inputs discard",
+        "conversations controls inputs followup",
+        "tasks chat controls inputs discard",
+        "tasks chat controls inputs followup",
+        "tasks chat controls resume",
+        "conversations controls edit",
+        "conversations controls retry",
+        "tasks chat controls edit",
+        "tasks chat controls retry",
+        "tasks chat controls branch"
+      ],
+      "shutdown": "Simultaneous actual tool-active conversation/task and running sidequestion: stop0.824s, nonce receipt without error, actual interrupted states recovered after restart, no campaign DB-closed log, zero owned cleanup.",
+      "limits": [
+        "Side question was observed running and persisted cancelled; paid side inference completion was intentionally not required.",
+        "Input-NNN JSON paths were reused across separate harness phases; exact dynamic bodies should be reconstructed from phase scripts and preserved server readbacks, not assumed from the final contents of those reused files. CLI argv and outputs remain verbatim.",
+        "No production source/global configuration edits; no real external targets or notifications.",
+        "No release-wide all-functions pass claim."
+      ],
+      "failures_preserved": "Both compact calls failed; earlier wrong tool_call oracle recorded false and later corrected tool_use readback proves actual WebFetch. Not all-feature pass."
+    },
+    "r4_compaction": {
+      "path": "dist/r4-compaction-e2e-20261017/consolidated-summary.json",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "passed": true,
+      "calls": 33,
+      "inference_calls": 2,
+      "seed_inference_calls": 0,
+      "positive_new": [
+        "conversations controls compact",
+        "tasks chat controls compact"
+      ],
+      "reduction": {
+        "conversation": {
+          "before_tokens": 11552,
+          "after_tokens": 9742,
+          "reduction": 1810,
+          "percent": 15.67,
+          "same_basis_reduction_pass": true
+        },
+        "task": {
+          "before_tokens": 12265,
+          "after_tokens": 10433,
+          "reduction": 1832,
+          "percent": 14.94,
+          "same_basis_reduction_pass": true
+        }
+      },
+      "usage_scope": "Compaction numeric usage is persisted in llm records52/53. Existing conversation billed_usage and exploration aggregate ledgers remain unchanged across compaction and survive restart; do not claim compaction cost was added to those aggregates.",
+      "cleanup_remaining": 0,
+      "prior_failure": "R3 compaction failures preserved separately; R4 compatibility fix proved by actual retry."
+    },
+    "r3_oauth_full": {
+      "path": "dist/candidate-r3-oauth-e2e.jsonl",
+      "passed": true,
+      "installed_cli_invocations": 125,
+      "test_elapsed_seconds": 161.24,
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "source_dirty": true,
+      "behavior": "Actual paired Read and exact chat reply; branch/paused queue/resume; real planner-worker synthetic loopback finding with persisted usage/report; all19 inference-free sidecar positives.",
+      "new_unique_names": 0,
+      "source_provenance": "Source filenames and completed fail-fast markers in run log; no retained compiled-test source manifest for this run.",
+      "qualification": "GLM Flash pass is not GLM5.3 pass; main workflow separate from later final flush-error propagation."
+    },
+    "r4_glm_flash_full": {
+      "path": "dist/candidate-r4-glm-flash-e2e.jsonl",
+      "passed": true,
+      "installed_cli_invocations": 127,
+      "test_elapsed_seconds": 153.87,
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "source_dirty": true,
+      "behavior": "Actual paired Read and exact chat reply; branch/paused queue/resume; real planner-worker synthetic loopback finding with persisted usage/report; all19 inference-free sidecar positives.",
+      "new_unique_names": 0,
+      "source_provenance": "Source filenames and completed fail-fast markers in run log; no retained compiled-test source manifest for this run.",
+      "qualification": "GLM Flash pass is not GLM5.3 pass; main workflow separate from later final flush-error propagation."
+    },
+    "r3_glm53_diagnostic_failed": {
+      "path": "dist/candidate-r3-glm-diagnostic-e2e.jsonl",
+      "overall": "FAILED, partial evidence only",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "test_elapsed_seconds": 571.17,
+      "behavior": "Chat/paired Read and actual worker GET/finding completed, but planner final turn stalled6m13s and task did not complete within budget.",
+      "not_claimed": "No completed GLM5.3 planner-worker workflow or report assertion pass; later GLM Flash PASS is separate."
+    },
+    "remaining_local_r4": {
+      "path": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "status": "TEN_POSITIVE_CONTRACTS_WITH_PRESERVED_EXPLORATORY_HARNESS_FAILURES",
+      "installed_cli_invocations": 346,
+      "main_calls": 338,
+      "read_only_diagnostic_calls": 8,
+      "unique_catalog_names": 35,
+      "positive_new_or_upgraded": [
+        "llm test",
+        "conversations messages send",
+        "chat send",
+        "intercept pending get",
+        "intercept pending decide",
+        "intercept history get",
+        "intercept history execution",
+        "tasks intents control",
+        "tasks intents message",
+        "tasks intents rerun"
+      ],
+      "model_campaign_elapsed_seconds": 568.3,
+      "model_budget_seconds": 840,
+      "actual_owned_http_gets": 1,
+      "worker_rerun": {
+        "eligible_before_state": "exhausted",
+        "same_intent_id": "4",
+        "observed_running": true,
+        "terminal_state": "done",
+        "intent_session_usage_delta": {
+          "input_tokens": 27681,
+          "output_tokens": 71,
+          "cache_read_tokens": 0,
+          "cache_write_tokens": 0
+        },
+        "qualification": "Planner usage also increased; intent:4 session delta independently proves actual worker model continuation. No fresh HTTP fetch claimed."
+      },
+      "cleanup_remaining": 0,
+      "preserved_harness_failures": [
+        {
+          "receipt": "first-phase-exception.json",
+          "reason": "Wrong interception command spelling intercept tools set; CLI correctly returned unknown-command exit2. Correct tool-config set used later."
+        },
+        {
+          "receipt": "approvals-phase-exception.json",
+          "reason": "After genuine denied call, the same conversation respected platform denial and replied DENIED without another tool. The expected new pending oracle failed; an independent fresh conversation then proved allow."
+        },
+        {
+          "receipt": "intent-phase-exception.json",
+          "reason": "Harness checked graph kind instead of actual type field; failed to recognize authentic running worker/pending. No production defect inferred."
+        },
+        {
+          "receipt": "intent-resume-phase-exception.json",
+          "reason": "After shutdown cancelled earlier pending request, resumed worker was genuinely running without a new pending request. Correct control precondition is running, not approval-pending. Later direct running-state pause and human continuation passed."
+        },
+        {
+          "receipt": "intents-running-syntax-error.log",
+          "reason": "Disposable script splice left duplicate else; syntax failure before any CLI/model call. Corrected script compiled before final run."
+        }
+      ],
+      "limits": [
+        "No genuine blocked intent; rerun-blocked was not invoked or counted from an empty set.",
+        "Ten named positive contracts do not certify every flag/control action; intent control proved pause, not hard deletion.",
+        "No external target, notification, ScopeSentry/MCP/search service, self-update or release publication was exercised.",
+        "No source or user/global configuration change; only this owned fresh fixture was mutated.",
+        "Stored runtime private/auth files and official credential contents were never inspected.",
+        "Coverage union intentionally not edited in this task.",
+        "No model-capacity failure occurred; preserved failures above are explicitly attributed to fixture/harness expectations."
+      ],
+      "qualification": "Ten asserted contracts, not a blanket pass for every invocation. Invalid/duplicate approval rejections and exploratory harness failures remain preserved. Genuine blocked bulk-recovery state unavailable."
+    },
+    "integrations_r4": {
+      "path": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "installed_cli_invocations": 35,
+      "positive_new_or_upgraded": [
+        "sync scopesentry datasource set",
+        "mcp refresh",
+        "sync scopesentry status",
+        "sync scopesentry projects list",
+        "sync scopesentry tasks list",
+        "sync scopesentry run",
+        "llm models list",
+        "settings web-search test"
+      ],
+      "http_requests": 23,
+      "campaign_wall_seconds_from_identity_write": 144.95,
+      "last_phase_seconds": 7.65,
+      "live_provider_calls": 0,
+      "external_notifications": 0,
+      "manual_db_row_injection": false,
+      "cleanup_remaining": 0,
+      "status": "Eight asserted local protocol integration contracts; preserved harness assumption failures and expected CLI failures, not blanket all-call pass.",
+      "limits": [
+        "Owned protocol-compatible synthetic MCP, OpenAI model-list and DeepSeek search-SSE fixtures validate installed command integration; no live third-party integration or actual inference tested.",
+        "Notification send/retry blocked by installed portable env isolation removing documented local-relay opt-in.",
+        "Disposable runtime home retained as evidence, stopped; no DB-row injection or package mutation."
+      ],
+      "notification_gap": {
+        "notify channels test": "Blocked before channel creation: portable isolatedEnv strips documented ARTEX_NOTIFY_ALLOW_LOCAL=1 opt-in, so owned loopback URL remains rejected. No source/package/guard mutation.",
+        "notify deliveries retry": "Cannot create a real loopback notification delivery because portable env strips local-relay opt-in; no DB rows injected and no n=0 retry claimed."
+      },
+      "assertion_failures_retained": [
+        {
+          "assertion": "ingested asset values persisted",
+          "passed": false
+        },
+        {
+          "assertion": "ingested asset values persisted with explicit type filters",
+          "passed": false
+        },
+        {
+          "assertion": "search exact local provider body",
+          "passed": false
+        }
+      ],
+      "expected_cli_failures": [
+        {
+          "line": 28,
+          "operation": "notify channels create",
+          "exit": 1,
+          "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: Invalid destination URL: Delivery to local/link-local address 127.0.0.1 is blocked (set ARTEX_NOTIFY_ALLOW_LOCAL=1 only if local delivery is required)\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+        },
+        {
+          "line": 31,
+          "operation": "notify channels create",
+          "exit": 1,
+          "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: Invalid destination URL: Delivery to local/link-local address 127.0.0.1 is blocked (set ARTEX_NOTIFY_ALLOW_LOCAL=1 only if local delivery is required)\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+        },
+        {
+          "line": 32,
+          "operation": "mcp refresh",
+          "exit": 1,
+          "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 404: MCP server not found\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+        },
+        {
+          "line": 33,
+          "operation": "sync scopesentry run",
+          "exit": 1,
+          "stderr": "{\"error\":{\"code\":\"backend_error\",\"detail\":\"HTTP 400: dimension must be project or task\",\"message\":\"The engine rejected the operation. See the diagnostic detail.\"}}\n"
+        }
+      ]
+    },
+    "blocked_intent_r5": {
+      "path": "dist/r5-blocked-intent-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/blocked-intent-r5.json",
+      "receipt_sha256": "9b2bfb9871b98f4d75c85df88173bdb63c6aeef07dea82b0cfda3a9f4b365c9c",
+      "artifact_sha256": "4a1704cdd12c908afe2d2390c88a8041c49b1cc816a9a1d60f3f82346215a0a5",
+      "installed_cli_invocations": 64,
+      "positive_new": [
+        "tasks intents rerun-blocked"
+      ],
+      "elapsed_seconds": 127.82,
+      "cleanup_remaining": 0,
+      "limitations": [
+        "Owned OpenAI-compatible synthetic provider controls expected error/success responses; no actual model intelligence or live OAuth inference tested.",
+        "Initial harness used kind instead of actual graph type; timed-out oracle failure retained in exception.json and phase1-summary.json. Corrected oracle passed against the same actual blocked intent.",
+        "Existing retry policy command disabled retry amplification only inside disposable home before task creation; unchanged through failure/recovery.",
+        "Runtime restarted once to correct harness; same task/intent/profile/endpoint preserved. Only fixture HTTP response mode changed before rerun."
+      ],
+      "live_inference_calls": 0,
+      "status": "Genuine provider HTTP400→intent2 blocked→reopened1→same intent2 done/fact4. Initial graph-field oracle failure preserved.",
+      "evidence_lines": {
+        "blocked_graph": 58,
+        "blocked_error_activity": 59,
+        "nonzero_bulk_rerun": 60,
+        "recovered_graph_with_fact": 62,
+        "terminal_result_activity": 63,
+        "runtime_stop": 64
+      },
+      "synthetic_provider": true,
+      "manual_db_state_injection": false,
+      "assertion_failures_retained": [
+        {
+          "assertion": "genuine engine worker error persisted blocked",
+          "passed": false
+        }
+      ]
+    },
+    "notification_r6": {
+      "path": "dist/r6-notification-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/notification-r6.json",
+      "receipt_sha256": "e96ef44b198796296b259568b9299978aa1cb6e723d0464f638de0642b6221e6",
+      "artifact_sha256": "bc36fa7b7f1e378b6d159b0b38d67cb59625e262207cf219f8cbb39aec4bc461",
+      "installed_cli_invocations": 29,
+      "positive_new": [
+        "notify channels test",
+        "notify deliveries retry"
+      ],
+      "elapsed_seconds": 34.09,
+      "cleanup_remaining": 0,
+      "limitations": [
+        "Disposable test clone compiled from dirty current working tree, not public release candidate; cloned manifest was not regenerated for replacement test executable.",
+        "Synthetic OpenAI-compatible provider generated explicitly synthetic finding through actual worker report_finding; no live inference or real vulnerability claimed.",
+        "Loopback local-relay opt-in and default rejection tested; link-local destinations were not contacted.",
+        "Stopped home and build evidence retained; no source, docs, global configuration or original package edits by this delegate."
+      ],
+      "live_inference_calls": 0,
+      "status": "Explicit opt-in actual test; genuine finding-created failed delivery1→same delivery sent after retry; default/false remain rejected.",
+      "notification_http_requests": 3,
+      "external_notifications": 0,
+      "synthetic_provider": true,
+      "manual_db_state_injection": false,
+      "evidence_lines": {
+        "default_unset_rejection": 2,
+        "explicit_false_rejection": 5,
+        "successful_test_delivery": 10,
+        "failed_delivery_readback": 19,
+        "actual_finding_readback": 20,
+        "actual_worker_finding_graph": 21,
+        "retry_same_delivery": 22,
+        "pending_attempts_reset": 23,
+        "sent_same_delivery_readback": 25,
+        "restart_false_existing_channel_rejection": 28,
+        "runtime_stop": 29
+      },
+      "release_clone_limit": "Dirty current-tree test executable installed into owned R5 copy; cloned manifest not regenerated, not final public artifact."
+    },
+    "updater_r5": {
+      "path": "dist/r5-updater-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/updater-r5.json",
+      "receipt_sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "artifact_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+      "installed_cli_invocations": 20,
+      "positive_new": [
+        "update check",
+        "update apply",
+        "update rollback"
+      ],
+      "elapsed_seconds": 18.25,
+      "cleanup_remaining": 0,
+      "limitations": [
+        "Owned GitHub-shaped HTTPS protocol fixture, not an actual GitHub release or published update cycle.",
+        "Existing Ubuntu WSL2 nonroot ext4; Windows-cross-compiled Linux binary, not a clean Linux host or Windows/macOS updater test.",
+        "New source from pinned ad814451 git archive matches all1120 blobs after Windows archive CRLF normalization;87 byte-exact,1033 CRLF-only,0 other differences. Go embedded enclosing dirty parent VCS metadata; source provenance separately verified.",
+        "Native scratch was absent during a later optional runtime-log/public-CA copy attempt; cause unknown. Durable acceptance receipts, request logs and /proc restart observations were already saved to Windows evidence.",
+        "No update watch stream/checksum-corruption test added; existing integrity gates remained unchanged and positive SHA/smoke/replacement gates executed."
+      ],
+      "live_inference_calls": 0,
+      "status": "Real installed check/apply/rollback against owned TLS GitHub-shaped fixture; automatic restart observed before CLI startup.",
+      "versions_and_hashes": {
+        "old_version": "0.1.0",
+        "new_version": "0.1.1",
+        "rollback_version": "0.1.0",
+        "old_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+        "new_sha256": "7e02d901769f31ac1a4a4d86e577b4e981445d6fc6234cf28489e226f47e7591",
+        "rollback_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+        "old_pid": 901,
+        "new_pid": 1054,
+        "rollback_pid": 1165,
+        "company_marker": "OWNED_UPDATER_1792221253",
+        "company_id": 1
+      },
+      "source_provenance": {
+        "source_revision": "ad814451c9a69aa9ffd9c61c84b484a9f7165475",
+        "source_tree": "f97e0c0cb60057694c3bf263613f26ec37da604a",
+        "archive_sha256": "5d53fdfbf8e520ee17f8c83fd66e89cf282ca988c932c469dd227653dcbe4e7e",
+        "tracked_blobs_checked": 1120,
+        "all_archive_blobs_match_pinned_commit": false,
+        "build_command": "go build -ldflags \"-X main.version=0.1.1\" -o ../scopeweaver-cli-0.1.1 ./cmd/scopeweaver-cli",
+        "goos": "linux",
+        "goarch": "amd64",
+        "cgo_enabled": false,
+        "metadata_note": "Git archive on this Windows host converted tracked text to CRLF; source content matches pinned commit after LF normalization. Go auto-discovered enclosing parent .git and embedded vcs.modified=true; no current working-tree sources were compiled.",
+        "raw_blob_mismatch_count": 1033,
+        "exact_byte_match_count": 87,
+        "git_archive_windows_crlf_conversion_count": 1033,
+        "non_eol_differences": [],
+        "all_source_matches_pinned_commit_after_windows_archive_eol_conversion": true
+      },
+      "negative_checks": {
+        "untrusted_tls_ca_rejected": true,
+        "negative_check_call_line": 3
+      },
+      "https_requests": 4,
+      "connect_requests": 5,
+      "public_release_created": false,
+      "global_trust_changed": false,
+      "proxy_closed": true
+    }
+  },
+  "new_positive_operation_provenance": {
+    "conversations controls inputs discard": {
+      "path": "dist/r3-lifecycle-e2e-20261017/calls.jsonl",
+      "line": 28,
+      "detail": "Authentic unknown attempt after active runtime stop/restart; discard cleared recovery input using gate revision. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "conversations controls inputs followup": {
+      "path": "dist/r3-lifecycle-e2e-20261017/calls.jsonl",
+      "line": 31,
+      "detail": "Authentic undelivered steer became queued followup; repeated request same admission ID; resume completed exact assistant reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls inputs discard": {
+      "path": "dist/r3-lifecycle-e2e-20261017/calls.jsonl",
+      "line": 39,
+      "detail": "Authentic task unknown attempt after active runtime stop/restart; discard cleared recovery input using gate revision. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls inputs followup": {
+      "path": "dist/r3-lifecycle-e2e-20261017/calls.jsonl",
+      "line": 42,
+      "detail": "Authentic task undelivered steer became queued followup; repeated request same admission ID; resume completed exact assistant reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls resume": {
+      "path": "dist/r3-lifecycle-e2e-20261017/calls.jsonl",
+      "line": 44,
+      "detail": "Unknown recovery and followup resumed to actual completed turn with exact assistant result. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "conversations controls edit": {
+      "path": "dist/r3-lifecycle-e2e-20261017/history-calls.jsonl",
+      "line": 4,
+      "detail": "Edited completed turn then actual exact assistant reply persisted. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/history-assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "conversations controls retry": {
+      "path": "dist/r3-lifecycle-e2e-20261017/history-calls.jsonl",
+      "line": 10,
+      "detail": "New actual completed attempt with exact assistant reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/history-assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls edit": {
+      "path": "dist/r3-lifecycle-e2e-20261017/continuation-calls.jsonl",
+      "line": 14,
+      "detail": "Edited task-chat turn produced actual exact assistant reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/continuation-assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls retry": {
+      "path": "dist/r3-lifecycle-e2e-20261017/continuation-calls.jsonl",
+      "line": 20,
+      "detail": "New task-chat attempt completed with exact assistant reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/continuation-assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "tasks chat controls branch": {
+      "path": "dist/r3-lifecycle-e2e-20261017/continuation-calls.jsonl",
+      "line": 26,
+      "detail": "Distinct task segment inherited completed history then actual continuation exact reply. Dynamic request files were reused between phases; scripts plus server readbacks, not final input-NNN file contents, preserve earlier bodies.",
+      "artifact_sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+      "assertions": [
+        "dist/r3-lifecycle-e2e-20261017/continuation-assertions.json",
+        "dist/r3-lifecycle-e2e-20261017/consolidated-summary.json"
+      ]
+    },
+    "conversations controls compact": {
+      "path": "dist/r4-compaction-e2e-20261017/calls.jsonl",
+      "line": 6,
+      "detail": "Genuine retained history compacted; same-basis reduction 15.67%, count1/manual source, marker retained; turn/attempt history preserved, repeat idempotent, summary/size/history/record usage survived DB reopen. Compaction numeric paid usage retained in LLM records52/53, not proven added to aggregate usage.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": [
+        "dist/r4-compaction-e2e-20261017/consolidated-summary.json",
+        "dist/r4-compaction-e2e-20261017/readback-calls.jsonl"
+      ]
+    },
+    "tasks chat controls compact": {
+      "path": "dist/r4-compaction-e2e-20261017/calls.jsonl",
+      "line": 14,
+      "detail": "Genuine retained history compacted; same-basis reduction 14.94%, count1/manual source, marker retained; turn/attempt history preserved, repeat idempotent, summary/size/history/record usage survived DB reopen. Compaction numeric paid usage retained in LLM records52/53, not proven added to aggregate usage.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": [
+        "dist/r4-compaction-e2e-20261017/consolidated-summary.json",
+        "dist/r4-compaction-e2e-20261017/readback-calls.jsonl"
+      ]
+    },
+    "llm test": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        16
+      ],
+      "detail": "Actual OAuth completion reply plus positive latency returned by server/server.go:testLLM; no empty success inferred.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "testLLM",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "conversations messages send": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        18
+      ],
+      "detail": "Legacy compatibility admission produced completed real turn with exact assistant result; server/conversations.go:393 delegates to durable chat gate.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/conversations.go",
+        "function": "pgSendConversationMessage",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "chat send": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        25
+      ],
+      "detail": "Legacy task main-chat admission produced completed real turn with exact assistant result; server/server.go:3829 uses specified task/segment durable gate.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "chat",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept pending get": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        42,
+        44,
+        107
+      ],
+      "detail": "Read authentic model-selected WebFetch pending approval; exact owned URL and conversation ID asserted; server/intercept.go:254.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptGetOne",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept pending decide": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        45,
+        110
+      ],
+      "detail": "Both allowed and denied authentic own-loopback requests persisted decisions; actual denied0/allowed1 HTTP hits and exact completed replies asserted. Invalid decision rejected without mutation; server/intercept.go:381.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptDecide",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept history get": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        51,
+        54,
+        116
+      ],
+      "detail": "Authentic rule-sourced approval audit details read after allowed/denied decisions, source URL/status persisted; server/intercept.go:detail.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptDetail",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept history execution": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        52,
+        117
+      ],
+      "detail": "Navigation returned genuine original WebFetch call plus paired result for allowed and denied approvals; server/intercept.go:interceptExecution.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptExecution",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents control": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        310
+      ],
+      "detail": "Authentic running/resumed worker was paused; earlier own WebFetch approval and current result/independent graph state preserved; server/task_control.go:167 stops worker before changing state.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/task_control.go",
+        "function": "applyIntentControl",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents message": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        312
+      ],
+      "detail": "Paused genuine worker continued via accepted request ID, persisted human input and actual record_fact output; server/intent_intervention.go:33 uses detached ExecuteWithMessage. Terminal graph/fact independently read.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/intent_intervention.go",
+        "function": "sendWorkerMessage",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents rerun": {
+      "path": "dist/r4-remaining-local-e2e-20261017/calls.jsonl",
+      "lines": [
+        323
+      ],
+      "detail": "Genuine exhausted/stopped/blocked intent reopened same ID, observed running and actual terminal continuation with increased task model usage; saved transcript reused as implemented in agent/worker.go:497. No fresh HTTP fetch requirement inferred.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-remaining-local-e2e-20261017/consolidated-summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/remaining-local-r4.json",
+      "tracked_receipt_sha256": "a0e0865281a75e3214d07188ed918c6f112bbc05848f1ab7f0798ef86ef9e812",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "rerunIntent",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "sync scopesentry datasource set": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        3
+      ],
+      "detail": "Owned HTTP MCP handshake and tools/list observed; exact datasource URL/name/enabled persisted via mcp list.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "mcp refresh": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        5
+      ],
+      "detail": "Real own HTTP MCP initialize/tools/list changed generation1 descriptions to generation2, cache readback exact.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "sync scopesentry status": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        7
+      ],
+      "detail": "Configured datasource performed real MCP reachability probe and returned reachable=true.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "sync scopesentry projects list": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        8
+      ],
+      "detail": "Nonempty owned MCP project result returned; exact pageIndex2/pageSize7/search arguments observed.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "sync scopesentry tasks list": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        9
+      ],
+      "detail": "Nonempty owned MCP task result returned; exact pageIndex3/pageSize9/search arguments observed.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "sync scopesentry run": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        10
+      ],
+      "detail": "Real MCP list_assets imported one subdomain/app/service/IP and company; explicit per-type CLI asset and company readbacks exact. Initial harness assumed all types default; default actually root_domain, failure retained.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "llm models list": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        23
+      ],
+      "detail": "Owned OpenAI-compatible GET/v1/models with exact synthetic bearer and two model IDs; no inference/provider calls.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "settings web-search test": {
+      "path": "dist/r4-integrations-e2e-20261017/calls.jsonl",
+      "lines": [
+        26
+      ],
+      "detail": "Existing DeepSeek base_url accepted owned HTTP endpoint; actual messages SSE web_search_tool_result parsed count1; exact request tools/model/key observed. Synthetic provider/search fixture, no live inference; initial header-case harness failure preserved.",
+      "artifact_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+      "assertions": "dist/r4-integrations-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/integrations-r4.json",
+      "tracked_receipt_sha256": "e002df8cdf8ad2eb36babb03a9339761b5f341b340ced31695ace408627675f5",
+      "qualification": "Actual owned HTTP protocol fixture integration, no live third-party provider/service or inference proof."
+    },
+    "tasks intents rerun-blocked": {
+      "path": "dist/r5-blocked-intent-e2e-20261017/calls.jsonl",
+      "lines": [
+        60
+      ],
+      "detail": "Actual owned HTTP400 provider failure produced blocked intent; only fixture repaired; rerun-blocked reopened1; same intent ID persisted done plus exact record_fact marker and worker terminal result. Synthetic OpenAI-compatible provider, zero live inference.",
+      "artifact_sha256": "4a1704cdd12c908afe2d2390c88a8041c49b1cc816a9a1d60f3f82346215a0a5",
+      "assertions": "dist/r5-blocked-intent-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/blocked-intent-r5.json",
+      "tracked_receipt_sha256": "9b2bfb9871b98f4d75c85df88173bdb63c6aeef07dea82b0cfda3a9f4b365c9c",
+      "qualification": [
+        "Owned OpenAI-compatible synthetic provider controls expected error/success responses; no actual model intelligence or live OAuth inference tested.",
+        "Initial harness used kind instead of actual graph type; timed-out oracle failure retained in exception.json and phase1-summary.json. Corrected oracle passed against the same actual blocked intent.",
+        "Existing retry policy command disabled retry amplification only inside disposable home before task creation; unchanged through failure/recovery.",
+        "Runtime restarted once to correct harness; same task/intent/profile/endpoint preserved. Only fixture HTTP response mode changed before rerun."
+      ]
+    },
+    "notify channels test": {
+      "path": "dist/r6-notification-e2e-20261017/calls.jsonl",
+      "lines": [
+        10
+      ],
+      "detail": "Explicit local-relay optin1 reached real child runtime; synchronous test performed exactly one owned POST/notify with count1/finding_id0/custom header. Unset and false rejected before requests; no external notification.",
+      "artifact_sha256": "bc36fa7b7f1e378b6d159b0b38d67cb59625e262207cf219f8cbb39aec4bc461",
+      "assertions": "dist/r6-notification-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/notification-r6.json",
+      "tracked_receipt_sha256": "e96ef44b198796296b259568b9299978aa1cb6e723d0464f638de0642b6221e6",
+      "qualification": [
+        "Disposable test clone compiled from dirty current working tree, not public release candidate; cloned manifest was not regenerated for replacement test executable.",
+        "Synthetic OpenAI-compatible provider generated explicitly synthetic finding through actual worker report_finding; no live inference or real vulnerability claimed.",
+        "Loopback local-relay opt-in and default rejection tested; link-local destinations were not contacted.",
+        "Stopped home and build evidence retained; no source, docs, global configuration or original package edits by this delegate."
+      ]
+    },
+    "notify deliveries retry": {
+      "path": "dist/r6-notification-e2e-20261017/calls.jsonl",
+      "lines": [
+        22
+      ],
+      "detail": "Actual report_finding engine tool created synthetic finding/event; own sinkHTTP400 produced failed delivery attempts1. Only sink repaired; retry same delivery ID accepted then sent/attempts1/cleared error/sent_at, exact same finding/body delivered once via HTTP200. No injected DB rows or n0 proof.",
+      "artifact_sha256": "bc36fa7b7f1e378b6d159b0b38d67cb59625e262207cf219f8cbb39aec4bc461",
+      "assertions": "dist/r6-notification-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/notification-r6.json",
+      "tracked_receipt_sha256": "e96ef44b198796296b259568b9299978aa1cb6e723d0464f638de0642b6221e6",
+      "qualification": [
+        "Disposable test clone compiled from dirty current working tree, not public release candidate; cloned manifest was not regenerated for replacement test executable.",
+        "Synthetic OpenAI-compatible provider generated explicitly synthetic finding through actual worker report_finding; no live inference or real vulnerability claimed.",
+        "Loopback local-relay opt-in and default rejection tested; link-local destinations were not contacted.",
+        "Stopped home and build evidence retained; no source, docs, global configuration or original package edits by this delegate."
+      ]
+    },
+    "update check": {
+      "path": "dist/r5-updater-e2e-20261017/calls.jsonl",
+      "lines": [
+        10,
+        15
+      ],
+      "detail": "Actual authenticated runtime used existing global_proxy; pinned api.github.com/repos/cskwork/scopeweaver-cli/releases/latest returned HTTPS fixture through CA-verified TLS. No-CA request rejected unknown authority.",
+      "artifact_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+      "assertions": "dist/r5-updater-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/updater-r5.json",
+      "tracked_receipt_sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "qualification": [
+        "Owned GitHub-shaped HTTPS protocol fixture, not an actual GitHub release or published update cycle.",
+        "Existing Ubuntu WSL2 nonroot ext4; Windows-cross-compiled Linux binary, not a clean Linux host or Windows/macOS updater test.",
+        "New source from pinned ad814451 git archive matches all1120 blobs after Windows archive CRLF normalization;87 byte-exact,1033 CRLF-only,0 other differences. Go embedded enclosing dirty parent VCS metadata; source provenance separately verified.",
+        "Native scratch was absent during a later optional runtime-log/public-CA copy attempt; cause unknown. Durable acceptance receipts, request logs and /proc restart observations were already saved to Windows evidence.",
+        "No update watch stream/checksum-corruption test added; existing integrity gates remained unchanged and positive SHA/smoke/replacement gates executed."
+      ]
+    },
+    "update apply": {
+      "path": "dist/r5-updater-e2e-20261017/calls.jsonl",
+      "lines": [
+        11
+      ],
+      "detail": "Actual installed Stage fetched exact pinned-repo HTTPS SHA256SUMS and ZIP, verified ZIP and staged binary hashes/smoke test, automatically replaced and restarted0.1.0->0.1.1 with different PID; exact marker/company persisted.",
+      "artifact_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+      "assertions": "dist/r5-updater-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/updater-r5.json",
+      "tracked_receipt_sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "qualification": [
+        "Owned GitHub-shaped HTTPS protocol fixture, not an actual GitHub release or published update cycle.",
+        "Existing Ubuntu WSL2 nonroot ext4; Windows-cross-compiled Linux binary, not a clean Linux host or Windows/macOS updater test.",
+        "New source from pinned ad814451 git archive matches all1120 blobs after Windows archive CRLF normalization;87 byte-exact,1033 CRLF-only,0 other differences. Go embedded enclosing dirty parent VCS metadata; source provenance separately verified.",
+        "Native scratch was absent during a later optional runtime-log/public-CA copy attempt; cause unknown. Durable acceptance receipts, request logs and /proc restart observations were already saved to Windows evidence.",
+        "No update watch stream/checksum-corruption test added; existing integrity gates remained unchanged and positive SHA/smoke/replacement gates executed."
+      ]
+    },
+    "update rollback": {
+      "path": "dist/r5-updater-e2e-20261017/calls.jsonl",
+      "lines": [
+        16
+      ],
+      "detail": "Actual installed rollback smoke-tested prior executable and swapped files; automatic restart new PID restored exact0.1.0 SHA and kept0.1.1 backup; same home company marker survived.",
+      "artifact_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+      "assertions": "dist/r5-updater-e2e-20261017/summary.json",
+      "tracked_receipt": "docs/evidence/standalone-cli/updater-r5.json",
+      "tracked_receipt_sha256": "2a37420f42a0c708d93b6beb6063293070de246d7da71b08705d8d2a34120d2f",
+      "qualification": [
+        "Owned GitHub-shaped HTTPS protocol fixture, not an actual GitHub release or published update cycle.",
+        "Existing Ubuntu WSL2 nonroot ext4; Windows-cross-compiled Linux binary, not a clean Linux host or Windows/macOS updater test.",
+        "New source from pinned ad814451 git archive matches all1120 blobs after Windows archive CRLF normalization;87 byte-exact,1033 CRLF-only,0 other differences. Go embedded enclosing dirty parent VCS metadata; source provenance separately verified.",
+        "Native scratch was absent during a later optional runtime-log/public-CA copy attempt; cause unknown. Durable acceptance receipts, request logs and /proc restart observations were already saved to Windows evidence.",
+        "No update watch stream/checksum-corruption test added; existing integrity gates remained unchanged and positive SHA/smoke/replacement gates executed."
+      ]
+    }
+  },
+  "residual_release_limits": [
+    "At least one positive contract for each exact operation across historical R2/R3/R4/R5/R6 candidates and earlier baseline; not every flag/state/error path or final native artifact.",
+    "Live third-party MCP/ScopeSentry/search/vendor delivery was not verified; integrations use actual owned protocol fixtures.",
+    "Updater proves an owned nonforwarding GitHub-shaped TLS fixture, not a published GitHub release. WSL Linux updater only; no native Windows/macOS updater cycle.",
+    "R6 notification proof uses dirty-tree test clone with no regenerated release manifest. Default rejection retained and explicit opt-in tested; no automatic opt-in.",
+    "Final artifact/native CI results and required human review must be assessed separately; operation coverage does not clear publication.",
+    "Compaction paid usage records persist but aggregate inclusion is not proven; linked finding deepening is proven but fresh HTTP deepening was declined under prior exactly-once constraint."
+  ],
+  "reconciliation_source_head": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "reconciliation_source_head_qualification": "Read-only HEAD at reconciliation, not claimed as every campaign binary build revision."
+}

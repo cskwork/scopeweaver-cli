@@ -1,0 +1,181 @@
+{
+  "seconds": 18.25,
+  "calls": 20,
+  "positive_contracts": {
+    "update check": {
+      "lines": [
+        10,
+        15
+      ],
+      "detail": "Actual authenticated runtime used existing global_proxy; pinned api.github.com/repos/cskwork/scopeweaver-cli/releases/latest returned HTTPS fixture through CA-verified TLS. No-CA request rejected unknown authority."
+    },
+    "update apply": {
+      "lines": [
+        11
+      ],
+      "detail": "Actual installed Stage fetched exact pinned-repo HTTPS SHA256SUMS and ZIP, verified ZIP and staged binary hashes/smoke test, automatically replaced and restarted0.1.0->0.1.1 with different PID; exact marker/company persisted."
+    },
+    "update rollback": {
+      "lines": [
+        16
+      ],
+      "detail": "Actual installed rollback smoke-tested prior executable and swapped files; automatic restart new PID restored exact0.1.0 SHA and kept0.1.1 backup; same home company marker survived."
+    }
+  },
+  "gaps": {},
+  "assertions": [
+    {
+      "assertion": "nonroot WSL user",
+      "passed": true
+    },
+    {
+      "assertion": "original R5 archive hash pinned",
+      "passed": true
+    },
+    {
+      "assertion": "installed R5 binary matches receipt",
+      "passed": true
+    },
+    {
+      "assertion": "original installed runtime starts0.1.0",
+      "passed": true
+    },
+    {
+      "assertion": "TLS unknown CA rejected without perprocess trust",
+      "passed": true
+    },
+    {
+      "assertion": "TLS rejection exposes no release HTTPS request",
+      "passed": true
+    },
+    {
+      "assertion": "original running process found",
+      "passed": true
+    },
+    {
+      "assertion": "marker persisted before update",
+      "passed": true
+    },
+    {
+      "assertion": "original CLI version0.1.0",
+      "passed": true
+    },
+    {
+      "assertion": "actual pinned GitHub-shaped check accepted",
+      "passed": true
+    },
+    {
+      "assertion": "actual apply accepted staging target",
+      "passed": true
+    },
+    {
+      "assertion": "actual automatic new process without CLI start",
+      "passed": true
+    },
+    {
+      "assertion": "new runtime health version0.1.1",
+      "passed": true
+    },
+    {
+      "assertion": "new installed CLI version0.1.1",
+      "passed": true
+    },
+    {
+      "assertion": "same marker survives update home",
+      "passed": true
+    },
+    {
+      "assertion": "old backup exact original hash",
+      "passed": true
+    },
+    {
+      "assertion": "new runtime update check current and backup",
+      "passed": true
+    },
+    {
+      "assertion": "actual HTTPS checksum and ZIP paths requested",
+      "passed": true
+    },
+    {
+      "assertion": "actual rollback accepted",
+      "passed": true
+    },
+    {
+      "assertion": "rollback runtime health0.1.0",
+      "passed": true
+    },
+    {
+      "assertion": "rollback installed CLI version0.1.0",
+      "passed": true
+    },
+    {
+      "assertion": "same persisted marker survives rollback",
+      "passed": true
+    },
+    {
+      "assertion": "rollback exact original executable restored",
+      "passed": true
+    },
+    {
+      "assertion": "owned proxy never accepted outside pinned hosts",
+      "passed": true
+    },
+    {
+      "assertion": "all decrypted fixture requests exact pinned hosts/path",
+      "passed": true
+    }
+  ],
+  "owned_processes_remaining": 0,
+  "proxy_closed": true,
+  "https_requests": 4,
+  "connect_requests": 5,
+  "live_provider_calls": 0,
+  "public_release_created": false,
+  "global_trust_changed": false,
+  "source_revision": "ad814451c9a69aa9ffd9c61c84b484a9f7165475",
+  "native_scratch": "/tmp/scopeweaver-r5-update-20261017-n837au25",
+  "versions_and_hashes": {
+    "old_version": "0.1.0",
+    "new_version": "0.1.1",
+    "rollback_version": "0.1.0",
+    "old_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+    "new_sha256": "7e02d901769f31ac1a4a4d86e577b4e981445d6fc6234cf28489e226f47e7591",
+    "rollback_sha256": "43ad8cd490d96e80cd902ca7bb65f5d4efb102a686b635085b9e16ad16a0e7e2",
+    "old_pid": 901,
+    "new_pid": 1054,
+    "rollback_pid": 1165,
+    "company_marker": "OWNED_UPDATER_1792221253",
+    "company_id": 1
+  },
+  "source_provenance": {
+    "source_revision": "ad814451c9a69aa9ffd9c61c84b484a9f7165475",
+    "source_tree": "f97e0c0cb60057694c3bf263613f26ec37da604a",
+    "archive_sha256": "5d53fdfbf8e520ee17f8c83fd66e89cf282ca988c932c469dd227653dcbe4e7e",
+    "tracked_blobs_checked": 1120,
+    "all_archive_blobs_match_pinned_commit": false,
+    "build_command": "go build -ldflags \"-X main.version=0.1.1\" -o ../scopeweaver-cli-0.1.1 ./cmd/scopeweaver-cli",
+    "goos": "linux",
+    "goarch": "amd64",
+    "cgo_enabled": false,
+    "metadata_note": "Git archive on this Windows host converted tracked text to CRLF; source content matches pinned commit after LF normalization. Go auto-discovered enclosing parent .git and embedded vcs.modified=true; no current working-tree sources were compiled.",
+    "raw_blob_mismatch_count": 1033,
+    "exact_byte_match_count": 87,
+    "git_archive_windows_crlf_conversion_count": 1033,
+    "non_eol_differences": [],
+    "all_source_matches_pinned_commit_after_windows_archive_eol_conversion": true
+  },
+  "negative_checks": {
+    "untrusted_tls_ca_rejected": true,
+    "negative_check_call_line": 3
+  },
+  "fixture_zip_sha256": "d39a6271f138338702037d5569823b953732836ab9a72376d35fce66517823ad",
+  "new_fixture_binary_still_unchanged": true,
+  "original_r5_archive_still_unchanged": true,
+  "limitations": [
+    "Owned GitHub-shaped HTTPS protocol fixture, not an actual GitHub release or published update cycle.",
+    "Existing Ubuntu WSL2 nonroot ext4; Windows-cross-compiled Linux binary, not a clean Linux host or Windows/macOS updater test.",
+    "New source from pinned ad814451 git archive matches all1120 blobs after Windows archive CRLF normalization;87 byte-exact,1033 CRLF-only,0 other differences. Go embedded enclosing dirty parent VCS metadata; source provenance separately verified.",
+    "Native scratch was absent during a later optional runtime-log/public-CA copy attempt; cause unknown. Durable acceptance receipts, request logs and /proc restart observations were already saved to Windows evidence.",
+    "No update watch stream/checksum-corruption test added; existing integrity gates remained unchanged and positive SHA/smoke/replacement gates executed."
+  ]
+}

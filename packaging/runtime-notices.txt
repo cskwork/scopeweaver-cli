@@ -1,0 +1,21 @@
+
+Portable runtime additions
+==========================
+
+PostgreSQL 17.11, distributed by Zonky Embedded Postgres Binaries 17.11.0.
+PostgreSQL license: licenses/edb-windows-17.11/server_license.txt
+Binary runtime notices: licenses/edb-windows-17.11/commandlinetools_3rd_party_licenses.txt
+Publisher license: licenses/zonky-Apache-2.0.txt
+
+Windows packages include app-local Microsoft Visual C++ runtime DLLs from
+Microsoft.VCLibs.140.00.UWPDesktop 14.0.33321.0, without running an installer.
+Microsoft terms: licenses/Microsoft-VC-Runtime-license.txt (original DOCX included).
+Microsoft redistribution rights and LGPL source obligations must be satisfied
+before external publication. The inclusion of notices does not grant rights.
+
+Exact binary source URLs and SHA-256: POSTGRES-SOURCES.json and MANIFEST.json
+Notice source URLs and SHA-256: licenses/SOURCES.json
+Linked Go module licenses: licenses/go/
+
+EDB's original notice files are preserved in full, including notices for
+components outside this reduced runtime. pgAdmin and StackBuilder are not bundled.

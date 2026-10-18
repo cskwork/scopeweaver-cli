@@ -1,0 +1,65 @@
+{
+  "status": "PRIORITY_LIFECYCLE_PASS_WITH_COMPACTION_GAP",
+  "candidate": {
+    "binary": "D:\\Git\\scopeweaver-cli\\dist\\candidate-20261017-r3-test\\scopeweaver-cli.exe",
+    "sha256": "4efa7d565fa14c46275da49caf680c03387abe15582926bb0df19e9b1322fddd",
+    "home": "D:\\Git\\scopeweaver-cli\\dist\\r3-lifecycle-e2e-20261017\\home",
+    "source_stopped_copy": "D:\\Git\\scopeweaver-cli\\dist\\advanced-ai-e2e-20261017\\home",
+    "started_unix": 1792216712.1972196
+  },
+  "cli_calls": 130,
+  "unique_operation_names": 31,
+  "preflight_calls_separate": 3,
+  "active_shutdown_seconds": 0.824,
+  "active_shutdown_receipt": {
+    "shutdown-result.json": {
+      "instance": "42192868fa5c84f5da679f0a5e8fe1d6"
+    }
+  },
+  "exact_followup_result_kind": {
+    "conversation": true,
+    "task": true
+  },
+  "whole_campaign_database_closed_log_present": false,
+  "log_scope_found": true,
+  "cleanup": {
+    "checked_at": "2026-10-17T15:03:51.6483857+09:00",
+    "owned_remaining_count": 0,
+    "remaining": [],
+    "postmaster_pid_file_present": false,
+    "fixture_closed": true,
+    "binary_sha256": "4EFA7D565FA14C46275DA49CAF680C03387ABE15582926BB0DF19E9B1322FDDD"
+  },
+  "unresolved_compaction": {
+    "conversation_id": "5",
+    "task_id": "1",
+    "main_seg": 2,
+    "native_error": "HTTP400 context summary failed or did not reduce context",
+    "context_unchanged": true,
+    "cause": "unknown; Thinking disabled -> OAuth effort none is a source-derived hypothesis, not a proven cause",
+    "cause_support": "Parent verified current official models_cache metadata: gpt-6.1-sol supports low/medium/high/xhigh/max/ultra, default low; none/minimal unsupported. Source maps summarizer Thinking=disabled to effort none. Fixed-binary retry pending."
+  },
+  "preserved_false_assertions": [
+    {
+      "source": "history-assertions.json",
+      "assertion": "conversation actual model selected WebFetch independently",
+      "passed": false
+    },
+    {
+      "source": "compaction-assertions.json",
+      "assertion": "conversation compaction successful count advance and reduction",
+      "passed": false
+    },
+    {
+      "source": "compaction-assertions.json",
+      "assertion": "task compaction successful count advance and reduction",
+      "passed": false
+    }
+  ],
+  "limitations": [
+    "Side question was observed running and persisted cancelled; paid side inference completion was intentionally not required.",
+    "Input-NNN JSON paths were reused across separate harness phases; exact dynamic bodies should be reconstructed from phase scripts and preserved server readbacks, not assumed from the final contents of those reused files. CLI argv and outputs remain verbatim.",
+    "No production source/global configuration edits; no real external targets or notifications.",
+    "No release-wide all-functions pass claim."
+  ]
+}

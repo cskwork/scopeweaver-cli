@@ -1,0 +1,86 @@
+{
+  "candidate": "R20 Windows amd64",
+  "date": "2026-10-17",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "binary_sha256": "0f2d163fb014795f9f24f9c3a85332af8ee47c025c57a84afb46cdfeaceb11c7",
+  "runtime_mode": "download",
+  "manifest_payload_files": 178,
+  "source_freeze_sha256": "5f1ab8a2496e1a5f6b379be6cedddde66a07ed04cdefe0a07a1e0f4dd4062eba",
+  "r19_source_files_unchanged": 28,
+  "task_budget_seconds": 420,
+  "acceptance": "FAIL: first GLM-low workflow failed; fail-fast prevented remaining four cases; no release",
+  "workflows": [
+    {
+      "case": "glm-low",
+      "go_exit": 1,
+      "passed": false,
+      "failed_test_seconds": 30.12,
+      "log_sha256": "da96e7a1f7225798347045b9fa891dc99928394e589b0529946ca06df8d927be",
+      "correction_attempts": 1
+    },
+    {
+      "case": "core",
+      "status": "NOT RUN: matrix stopped after GLM-low failure"
+    },
+    {
+      "case": "flash-low",
+      "status": "NOT RUN: matrix stopped after GLM-low failure"
+    },
+    {
+      "case": "oauth",
+      "status": "NOT RUN: matrix stopped after GLM-low failure"
+    },
+    {
+      "case": "flash-high",
+      "status": "NOT RUN: matrix stopped after GLM-low failure"
+    }
+  ],
+  "failure": {
+    "phase": "First chat, before any tool, planner or worker executed",
+    "terminal_state": "model_error",
+    "error": "codex: GLM argument-format correction failed: codex: tool arguments must be a JSON object string; rejected call 1 tool \"Read\": invalid-json, 1 bytes",
+    "usage": {
+      "input_tokens": 35976,
+      "output_tokens": 128,
+      "cache_read_tokens": 2112,
+      "cache_write_tokens": 0
+    },
+    "argument_shape": "Invalid JSON after trimming; exactly 1 byte; raw byte not captured",
+    "cause": "Under investigation; R20 metadata-informed correction did not fix the full-engine failure"
+  },
+  "checks": {
+    "focused_six_packages": {
+      "pass": 170,
+      "fail": 0,
+      "skip": 19
+    },
+    "final_provider_package": {
+      "pass": 66,
+      "fail": 0,
+      "skip": 1
+    },
+    "full_clean_source_vet_exit": 0,
+    "packaging_exit": 0
+  },
+  "diagnostic_probe": {
+    "passed": true,
+    "elapsed_seconds": 3.164,
+    "scope": "Reduced one-tool request; does not reproduce full engine context and does not establish the failure cause or release acceptance",
+    "usage": {
+      "input_tokens": 10166,
+      "output_tokens": 66,
+      "cache_read_tokens": 1408,
+      "cache_write_tokens": 0
+    },
+    "tool_execution": false,
+    "marker_present": false,
+    "limitation": "Probe assertions were strengthened afterward to require exactly one Read of the owned path; this isolated live probe was not rerun"
+  },
+  "limitations": [
+    "R20 final source review passed but actual full-engine GLM workflow failed.",
+    "R19 passes and R18 five-workflow acceptance remain historical candidate-specific evidence.",
+    "Public package contains no runtime binaries; live test used a separate clone with verified runtime files.",
+    "Final clean-head native artifacts, full acceptance, maintainer human review, merge and publication remain open."
+  ]
+}

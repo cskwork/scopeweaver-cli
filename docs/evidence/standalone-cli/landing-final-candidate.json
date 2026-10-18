@@ -1,0 +1,51 @@
+{
+  "result": "PASS for bounded current facts, links, assets and wrapping",
+  "source_files_frozen": true,
+  "browser_checks_passed": 147,
+  "static_checks_passed": 10,
+  "layouts": [
+    "1440-en",
+    "1440-ko",
+    "390-en",
+    "390-ko",
+    "320-en",
+    "320-ko"
+  ],
+  "local_markdown_links": 84,
+  "paired_language_spans": 107,
+  "browser_errors": 0,
+  "external_resource_requests": 0,
+  "failed_http_responses": [],
+  "css_js_unchanged": true,
+  "browser_closed": true,
+  "server_stopped": true,
+  "coverage": {
+    "invoked": 297,
+    "positive": 297,
+    "error_only": 0,
+    "untested": 0,
+    "total": 297,
+    "recorded_utc": "2026-10-17T07:21:13.786692+00:00"
+  },
+  "dated_native_ci": {
+    "source": "80f9016",
+    "run": 39012848998,
+    "passed": [
+      "Windows",
+      "Ubuntu",
+      "macOS26arm64"
+    ],
+    "later_heads": "Latest private PR1 checks authoritative"
+  },
+  "release": "unpublished; final-head CI, human review and publication tracked separately",
+  "detector": "Not rerun; existing pinned design advisories/exit1 retained, not a detector pass",
+  "hashes": {
+    "docs/CLI-VERIFICATION.md": "647688f4fbe76b2d8614679e6d176220fbaaa02c5c893a56a3cda359b61cdc1c",
+    "docs/ko/CLI-VERIFICATION.md": "296553220c75202896eb38d19199f481661ff0178accca782ba9ad56f4a07916",
+    "docs/ai-providers.md": "39de29f307d6505e27045c8de6f9b041e94afd33ec1865d723b83cf7512cd2b7",
+    "docs/ko/ai-providers.md": "318abce8ff12bc1712e0839e951d1e99d6069060736c5e51ae4bbb108cc90e1a",
+    "PRODUCT.md": "e7d9779be5ffb21d6e799fbe942668e83e421d54582b8a0075881ec11e358219",
+    "landing/index.html": "5a0b88e490932c9bb80da1efa0b005ea9b17da89be06e95f3dc18e3429d89979",
+    ".omc/RELEASE_RULE.md": "45d49a89a4b79f8f3b65f164ee471d19127eb5b167c63ffeb9d748c1082fa431"
+  }
+}

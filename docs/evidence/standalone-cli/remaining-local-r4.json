@@ -1,0 +1,292 @@
+{
+  "recorded_utc": "2026-10-17T06:41:14.902043+00:00",
+  "status": "TEN_POSITIVE_CONTRACTS_WITH_PRESERVED_EXPLORATORY_HARNESS_FAILURES",
+  "candidate_sha256": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+  "candidate_path": "dist/candidate-20261017-r4-test/scopeweaver-cli.exe",
+  "source_dirty": true,
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "low",
+  "fresh_home": true,
+  "zai_and_api_model_environment_stripped": true,
+  "cli_invocations": 346,
+  "main_calls": 338,
+  "separate_read_only_diagnostic_calls": 8,
+  "unique_catalog_names_invoked": 35,
+  "positive_remaining_contract_names": [
+    "llm test",
+    "conversations messages send",
+    "chat send",
+    "intercept pending get",
+    "intercept pending decide",
+    "intercept history get",
+    "intercept history execution",
+    "tasks intents control",
+    "tasks intents message",
+    "tasks intents rerun"
+  ],
+  "positive_contracts": {
+    "llm test": {
+      "detail": "Actual OAuth completion reply plus positive latency returned by server/server.go:testLLM; no empty success inferred.",
+      "lines": [
+        16
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "testLLM",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "conversations messages send": {
+      "detail": "Legacy compatibility admission produced completed real turn with exact assistant result; server/conversations.go:393 delegates to durable chat gate.",
+      "lines": [
+        18
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/conversations.go",
+        "function": "pgSendConversationMessage",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "chat send": {
+      "detail": "Legacy task main-chat admission produced completed real turn with exact assistant result; server/server.go:3829 uses specified task/segment durable gate.",
+      "lines": [
+        25
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "chat",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept pending get": {
+      "detail": "Read authentic model-selected WebFetch pending approval; exact owned URL and conversation ID asserted; server/intercept.go:254.",
+      "lines": [
+        42,
+        44,
+        107
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptGetOne",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept pending decide": {
+      "detail": "Both allowed and denied authentic own-loopback requests persisted decisions; actual denied0/allowed1 HTTP hits and exact completed replies asserted. Invalid decision rejected without mutation; server/intercept.go:381.",
+      "lines": [
+        45,
+        110
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptDecide",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept history get": {
+      "detail": "Authentic rule-sourced approval audit details read after allowed/denied decisions, source URL/status persisted; server/intercept.go:detail.",
+      "lines": [
+        51,
+        54,
+        116
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptDetail",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "intercept history execution": {
+      "detail": "Navigation returned genuine original WebFetch call plus paired result for allowed and denied approvals; server/intercept.go:interceptExecution.",
+      "lines": [
+        52,
+        117
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/intercept.go",
+        "function": "interceptExecution",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents control": {
+      "detail": "Authentic running/resumed worker was paused; earlier own WebFetch approval and current result/independent graph state preserved; server/task_control.go:167 stops worker before changing state.",
+      "lines": [
+        310
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/task_control.go",
+        "function": "applyIntentControl",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents message": {
+      "detail": "Paused genuine worker continued via accepted request ID, persisted human input and actual record_fact output; server/intent_intervention.go:33 uses detached ExecuteWithMessage. Terminal graph/fact independently read.",
+      "lines": [
+        312
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/intent_intervention.go",
+        "function": "sendWorkerMessage",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    },
+    "tasks intents rerun": {
+      "detail": "Genuine exhausted/stopped/blocked intent reopened same ID, observed running and actual terminal continuation with increased task model usage; saved transcript reused as implemented in agent/worker.go:497. No fresh HTTP fetch requirement inferred.",
+      "lines": [
+        323
+      ],
+      "calls_file": "calls.jsonl",
+      "handler_source": {
+        "path": "server/server.go",
+        "function": "rerunIntent",
+        "qualification": "Current source function explains contract; immutable R4 executable is identified separately by SHA256."
+      }
+    }
+  },
+  "model_campaign_elapsed_seconds": 568.31,
+  "model_budget_seconds": 840,
+  "model_work_ended_before_cleanup_verification": true,
+  "actual_allowed_http_hits": [
+    {
+      "method": "GET",
+      "path": "/owned",
+      "allowed": true,
+      "unix": 1792218778.7924173
+    }
+  ],
+  "rerun_proof": {
+    "eligible_before_state": "exhausted",
+    "same_intent_id": "4",
+    "observed_running": true,
+    "terminal_state": "done",
+    "intent_session_usage_delta": {
+      "input_tokens": 27681,
+      "output_tokens": 71,
+      "cache_read_tokens": 0,
+      "cache_write_tokens": 0
+    },
+    "qualification": "Planner usage also increased; intent:4 session delta independently proves actual worker model continuation. No fresh HTTP fetch claimed."
+  },
+  "remaining_gap": {
+    "tasks intents rerun-blocked": "No genuine blocked intent: max-turns creates exhausted; empty n=0 not invoked or counted as recovery pass."
+  },
+  "nonzero_cli_calls": [
+    {
+      "line": 32,
+      "operation": "intercept tools set",
+      "exit": 2,
+      "classification": "Harness command-name error"
+    },
+    {
+      "line": 43,
+      "operation": "intercept pending decide",
+      "exit": 1,
+      "classification": "Expected invalid/duplicate decision rejection"
+    },
+    {
+      "line": 53,
+      "operation": "intercept pending decide",
+      "exit": 1,
+      "classification": "Expected invalid/duplicate decision rejection"
+    },
+    {
+      "line": 108,
+      "operation": "intercept pending decide",
+      "exit": 1,
+      "classification": "Expected invalid/duplicate decision rejection"
+    },
+    {
+      "line": 118,
+      "operation": "intercept pending decide",
+      "exit": 1,
+      "classification": "Expected invalid/duplicate decision rejection"
+    }
+  ],
+  "preserved_harness_failures": [
+    {
+      "receipt": "first-phase-exception.json",
+      "reason": "Wrong interception command spelling intercept tools set; CLI correctly returned unknown-command exit2. Correct tool-config set used later."
+    },
+    {
+      "receipt": "approvals-phase-exception.json",
+      "reason": "After genuine denied call, the same conversation respected platform denial and replied DENIED without another tool. The expected new pending oracle failed; an independent fresh conversation then proved allow."
+    },
+    {
+      "receipt": "intent-phase-exception.json",
+      "reason": "Harness checked graph kind instead of actual type field; failed to recognize authentic running worker/pending. No production defect inferred."
+    },
+    {
+      "receipt": "intent-resume-phase-exception.json",
+      "reason": "After shutdown cancelled earlier pending request, resumed worker was genuinely running without a new pending request. Correct control precondition is running, not approval-pending. Later direct running-state pause and human continuation passed."
+    },
+    {
+      "receipt": "intents-running-syntax-error.log",
+      "reason": "Disposable script splice left duplicate else; syntax failure before any CLI/model call. Corrected script compiled before final run."
+    }
+  ],
+  "historical_failed_assertions_preserved": [
+    {
+      "assertion": "allowed authentic WebFetch pending record exists",
+      "passed": false
+    },
+    {
+      "assertion": "genuine worker actual own WebFetch pending while running",
+      "passed": false
+    },
+    {
+      "assertion": "genuine worker actual own WebFetch pending while running",
+      "passed": false
+    }
+  ],
+  "cleanup": {
+    "checked_at": "2026-10-17T06:39:42.5425808Z",
+    "owned_root": "D:\\Git\\scopeweaver-cli\\dist\\r4-remaining-local-e2e-20261017",
+    "owned_remaining_count": 0,
+    "remaining": [],
+    "postmaster_pid_file_present": false,
+    "binary_sha256_after": "4e0c9d74b903f67248ed8c870b8d42ed39e465cb7db9eac5d2e57dc8303c91d2",
+    "forced_termination": false
+  },
+  "limitations": [
+    "No genuine blocked intent; rerun-blocked was not invoked or counted from an empty set.",
+    "Ten named positive contracts do not certify every flag/control action; intent control proved pause, not hard deletion.",
+    "No external target, notification, ScopeSentry/MCP/search service, self-update or release publication was exercised.",
+    "No source or user/global configuration change; only this owned fresh fixture was mutated.",
+    "Stored runtime private/auth files and official credential contents were never inspected.",
+    "Coverage union intentionally not edited in this task.",
+    "No model-capacity failure occurred; preserved failures above are explicitly attributed to fixture/harness expectations."
+  ],
+  "evidence_sha256": {
+    "calls.jsonl": "3a39400bbed62e4e3e287528de1401179018d67fcd22dc3f3d3e4f74eb0ee7aa",
+    "diagnostic-calls.jsonl": "4365196f3a9fc3807346a25625ec605a737ccf213181f081abc04bd7e2765b1e",
+    "assertions.json": "a9513bfe0dfe057fe57012d1b03c23a7eb28da7a1ab267e21906332be9eb11db",
+    "positive-contracts.json": "08ac56eb79bdbb2afa6e510fc1ded88e44e8b2283f76306cafb62ac6a06a3207",
+    "identity.json": "5b713611117a9f06b0ae27be58b59f484d294fa1a264d2c6f180830aaab897b9",
+    "cleanup.json": "6b620399e22cf061bd8f501aa874b74dd2ba088eb8766d0162dea783d2847a02",
+    "fixture.json": "f416c1051ff17247a0ef16431e67289c1e4ba52517a7deca1cc3bb294082bece",
+    "llm-test.json": "c9fe02f3f3fc9d0898fc88024f25a29c00c89711ecd3eb2c317cfd4f646aac7e",
+    "denied-history.json": "64a633f711518f9d14508f1a789aaeb7687600c41d22361fbd76ac0a56f114a2",
+    "denied-execution.json": "a488bce17507a23c91024bbd8494b46b90c8f53658ea72834525a80949bda677",
+    "allowed-history.json": "483d10b01a59c207c38d9f33b1f6a6e6ce455a4ab5e107393e3af9f948ed277e",
+    "allowed-execution.json": "8f05da0cd5ea8173c1c890d9222d740c7e777e5b73d082fb7b0f3e6f5a490d4c",
+    "intent-after-message.json": "a355aa03b7523a6bffbf3fe4c3ff76ce78007f3b434b389033b428e91cfae105",
+    "intent-after-rerun.json": "701c877c26d5129af045fd219fb6f57b7d6697fe491ad22679554dd425501fd0",
+    "run.py": "40d7eab43a111603438f6275bccc344c82da4347b24ac921a7d26e32eb47da6c",
+    "approvals.py": "cfd026fc9968234ae363367b6ad672609fa5b389f37faaa78d8a0960aef5399f",
+    "allow-independent.py": "48076f3f818d7d0c936f1db817d4417d3667ccd36d1ec2172e28a091e9e34654",
+    "intents.py": "d77f9b42e7005f395185d0f8cc6e536998aa64cba5403a11cc1037d6f153bda4",
+    "intents-corrected.py": "af33f4a985440448f12537420a21987453d098d92fd2703266f77bcd41dcb2ee",
+    "intents-running.py": "4c651b2836f65d4f966f2d69b0045ea1fee10e007bdc6da8449b467c11f8d30b",
+    "read-only-diagnostic.py": "a46f5b083106f79d803ee5199321680a18ca5b3e1ab2a876eaa192c61a66e234",
+    "verify-cleanup.ps1": "0bb50b6396d5bb3f0ddc41cf6ee2fed5fe9e10f23408390f9094c233590e70e3"
+  }
+}

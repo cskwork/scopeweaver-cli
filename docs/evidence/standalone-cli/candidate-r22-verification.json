@@ -1,0 +1,115 @@
+{
+  "candidate": "R22 Windows amd64",
+  "date": "2026-10-17",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "binary_sha256": "970d7037b4567912fb09254821d110ce16c08a39b4772dec6e531eda1235d4c9",
+  "runtime_mode": "download",
+  "manifest_payload_files": 179,
+  "source_freeze_sha256": "e1d76986da63cd9b05beb8a88978d7875f0e529be685e817435e33b2b9c3ff48",
+  "r19_source_files_unchanged": 28,
+  "task_budget_seconds": 420,
+  "workflows": [
+    {
+      "case": "glm-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 165.04,
+      "log_sha256": "d150bfd2365084537fea841ae01bd0216ffc287d7425ce3c459c7a76f0ffb778",
+      "installed_cli_calls": 128,
+      "correction_attempts": 0,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "core",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 31.28,
+      "log_sha256": "d5efe348696291785f59984594122f7872579ad1b1ef37fe331050c54875761b",
+      "installed_cli_calls": 62,
+      "correction_attempts": null,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "flash-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 157.8,
+      "log_sha256": "cd4a9bccfbd8656eb7c51cf1d77038120a08f2f410644132d0f396a16fe0bb69",
+      "installed_cli_calls": 126,
+      "correction_attempts": 0,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "oauth",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 153.42,
+      "log_sha256": "24923c0c999f8d2446fcdde8394cb4fba16bb210867d4d67e9aa8194543cd8cb",
+      "installed_cli_calls": 126,
+      "correction_attempts": null,
+      "failed_test_seconds": null
+    },
+    {
+      "case": "flash-high",
+      "go_exit": 1,
+      "passed": false,
+      "elapsed_seconds": null,
+      "log_sha256": "08eb78422eca4085fffd28e46cf57ddc3251e6a7b31c317534d6faef1cfe3709",
+      "installed_cli_calls": null,
+      "correction_attempts": 0,
+      "failed_test_seconds": 470.5
+    }
+  ],
+  "acceptance": "FAIL: four of five workflows passed; Flash/high missed the unchanged task deadline; no release",
+  "failure": {
+    "case": "flash-high",
+    "model": "glm-5.3-flash",
+    "reasoning_effort": "high",
+    "phase": "Planner round2 before prove_goal; goal remained open",
+    "argument_format_corrections": 0,
+    "intent_count": 1,
+    "owned_get_count": 1,
+    "finding_count": 1,
+    "goal_node_id": 2,
+    "intent_node_id": 3,
+    "fact_node_id": 4,
+    "finding_node_id": 5,
+    "finding_saved_at": "2026-10-17T22:41:27+09:00",
+    "node_detail_reads_at": "2026-10-17T22:42:31+09:00",
+    "test_harness_paused_at": "2026-10-17T22:42:54+09:00",
+    "pause_attribution": "The test harness paused the overdue task for diagnosis/cleanup; no human pause action is implied.",
+    "cause": "The trace confirms that the planner requested full recorded evidence before proving; the deadline expired before a proof call. Compact initial context omits full finding/fact fields. Provider latency cause is unknown; a bounded context-prefetch fix is under investigation.",
+    "terminal_gate": "Existing post-proof gate never armed because prove_goal was not called; no post-proof regression established."
+  },
+  "provider_fix": {
+    "scope": "ZAI-only nested-object argument request format; prior OAuth strict string request preserved",
+    "result": "All four AI configurations executed actual tools with the R22 bridge; flagship GLM/low, Flash/low and OAuth completed their full workflows. Flash/high failed only later task completion.",
+    "schema_limit": "Successful requests establish service acceptance, not a guarantee of provider-side schema enforcement; raw provider argument values were not recorded."
+  },
+  "checks": {
+    "focused_six_packages": {
+      "pass": 186,
+      "fail": 0,
+      "skip": 19
+    },
+    "focused_go_exit": 0,
+    "full_clean_source_vet_exit": 0,
+    "packaging_exit": 0
+  },
+  "original_pr": {
+    "url": "https://github.com/cskwork/scopeweaver/pull/40",
+    "head": "ffe260435fed6576394d613991aaf6e8010d3f48",
+    "required_checks_passed": 7,
+    "checks_run": 39036051785,
+    "smoke_run": 39036051720,
+    "merged": false
+  },
+  "limitations": [
+    "Candidate-specific live Windows evidence; no all-workflow acceptance for R22.",
+    "Passing timings are functional evidence, not benchmarks.",
+    "Public folder is runtime-free; tests used a separate clone with1482 runtime files copied and hash-verified.",
+    "Historical297-operation coverage is one positive contract per name, not every option/state or final artifact.",
+    "Final clean-head native archives, maintainer review, integration/promotion and public release remain open."
+  ]
+}

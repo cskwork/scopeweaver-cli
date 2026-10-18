@@ -1,0 +1,34 @@
+{
+  "source_base": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "scope": "Integrated portable, runtime download, provider, CLI, packaging, updater and notification suites after host-path/relay fixes; later attachment regression/full DB proof is separate.",
+  "command": "go test -json ./internal/cli ./internal/portable ./internal/runtimebundle ./packaging ./selfupdate ./codexprovider ./notify -count=1",
+  "counts": {
+    "pass": 313,
+    "fail": 0,
+    "skip": 18
+  },
+  "skips": [
+    "TestVerifyStagedRejectsTamperedBinary",
+    "TestVerifyStagedRejectsUnrunnableBinary",
+    "TestApplyStagedHappyPath",
+    "TestApplyStagedKeepsCurrentWhenVerifyFails",
+    "TestSwapOverwritesPreviousBackup",
+    "TestConfirmCountsAttemptsThenRollsBack",
+    "TestManualRollbackIsReversible",
+    "TestExtractBinaryFindsNestedEntry",
+    "TestSettleClearsMarkerAndStopsRollback",
+    "TestSettleIsNoopWithoutMarker",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/runtime",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/postgres",
+    "TestValidateRejectsSymlinkParentsWithCompleteBinaries/bin",
+    "TestRuntimeInstallRejectsCompleteSymlinkBeforeFastPath",
+    "TestPortableCLICodexEndToEnd",
+    "TestPortableCLIGLMEndToEnd",
+    "TestPortableCLIGLMFlashEndToEnd",
+    "TestPortableCLIEndToEnd"
+  ],
+  "log_sha256": "f3fb95fcaa42dec4c55e031e111113f9f761177be2510e39be80016fa47953e3",
+  "vet": "go vet on the same seven packages completed exit0",
+  "native_ci": "hosted-native-80f9016.json",
+  "limits": "Windows skips are explicit existing Unix updater/symlink or live/installed opt-ins. Native CI separately ran platform tests, real first-use download and installed core workflow."
+}

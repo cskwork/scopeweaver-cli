@@ -1,0 +1,130 @@
+{
+  "candidate": "R18",
+  "source_revision": "27456b7ce7211cbbd4692cf291928865eafb01ae",
+  "source_dirty": true,
+  "windows_sha256": "8bf5f1064d4fc35f8a5892e3c66b0e6389e0c3b358d39d624bdc9a54fedd7fd3",
+  "runtime_mode": "download",
+  "manifest_payload_files": 176,
+  "implementation_agent": {
+    "tool": "Pi",
+    "provider": "zai",
+    "model": "glm-5.3",
+    "thinking": "max",
+    "session": "01a148f4-2bf7-75da-b95b-2121f7168b27"
+  },
+  "runs": [
+    {
+      "case": "core",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 46.15,
+      "log_sha256": "a0fdf2496df19397ee866ffb66125c524e1cbcb2dd83f08ce4d82c5e92d99d1a",
+      "label": "Portable core",
+      "cli_invocations": 62,
+      "correction_attempts": null
+    },
+    {
+      "case": "flash-high",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 319.35,
+      "log_sha256": "543905f283f3edb05b37207cba7bc61cf43aa0aebf46ed08e506d00ce5061d2a",
+      "label": "GLM-5.3-Flash / high",
+      "cli_invocations": 183,
+      "correction_attempts": 0
+    },
+    {
+      "case": "flash-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 87.12,
+      "log_sha256": "5b69a2ae66342df622e4afd30b02d702288913e41fdf1a4ec2fb5f9e65a34814",
+      "label": "GLM-5.3-Flash / low",
+      "cli_invocations": 107,
+      "correction_attempts": 0
+    },
+    {
+      "case": "oauth",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 122.46,
+      "log_sha256": "b94069e26446274868dccffd4aa2c8a1799fa6765f9c04c61fe698e774eb4c7e",
+      "label": "ChatGPT OAuth / low",
+      "cli_invocations": 119,
+      "correction_attempts": null
+    },
+    {
+      "case": "glm-low",
+      "go_exit": 0,
+      "passed": true,
+      "elapsed_seconds": 105.82,
+      "log_sha256": "c979a238b08256f2d492991cd1e4f63fa7dbe41ad5ba2f9136a48034aaea3cf0",
+      "label": "GLM-5.3 / low",
+      "cli_invocations": 113,
+      "correction_attempts": 3
+    }
+  ],
+  "ai_task_oracles": {
+    "task_budget_seconds": 420,
+    "intent_count": 1,
+    "owned_loopback_gets": 1,
+    "finding_count": 1,
+    "unexpected_target_requests": 0,
+    "cleanup_passed": true
+  },
+  "local_checks": {
+    "fresh_database_agent": {
+      "pass": 576,
+      "fail": 0,
+      "skip": 0,
+      "log_sha256": "896a820f204e57c6d6fcedf81b771627092afc08368f1ba35d74c86960314b1b"
+    },
+    "actual_engine_and_stock_runtime": {
+      "pass": 28,
+      "fail": 0,
+      "skip": 0,
+      "log_sha256": "3f86652ca4906eec08393310865b3e63f918bdd27edb00b342f48536b0f518be"
+    },
+    "focused": {
+      "pass": 180,
+      "fail": 0,
+      "skip": 18,
+      "log_sha256": "03568eaee5460eca04b6dd167c0e986726480773bebb87fd6c026223de18aaf3"
+    },
+    "linux_race": {
+      "pass": 17,
+      "fail": 0,
+      "skip": 1,
+      "log_sha256": "72a7bb38ac5995222f4962f5131bc6b13c8fcdf2017686f4f5f09d3d4b772972"
+    },
+    "full_clean_source_vet_exit": 0,
+    "packaging_exit": 0
+  },
+  "original_fix": {
+    "pr": "https://github.com/cskwork/scopeweaver/pull/40",
+    "head": "14b5403aa7dff805973e7e3432bc0c11319b0c6c",
+    "required_checks_passed": 7,
+    "merged": false,
+    "first_ci_runs": [
+      39027442826,
+      39027442825
+    ],
+    "subsequent_ci": {
+      "run": 39028154916,
+      "backend": "FAIL",
+      "other_required_checks_passed": 6,
+      "failure": "TestMainServeFailureRunsShutdown: logsink database write raced closure",
+      "status": "Under investigation; earlier passing run retained"
+    }
+  },
+  "release_status": "Local acceptance PASS. Native release-package checks and maintainer human review are separate gates tracked in CLI PR1. No public CLI release or merge.",
+  "limitations": [
+    "Each AI workflow is a candidate-specific Windows run, not every model/option/platform.",
+    "The public package is runtime-free; local E2E used a separate clone with verified runtime files. Native CI tests extracted ZIP first-use downloads.",
+    "The WSL race suite skips the DB-only proof test; the full Windows fresh-DB suite runs it.",
+    "Initial broad local vet included mixed-package archived debug files in ignored dist and failed; recursive vet of a clean candidate-source snapshot passed. No product check was removed.",
+    "The inherited full native Windows server symlink privilege failure remains; original Linux backend and dedicated Windows CI passed.",
+    "Correction counts cover the whole workflow; their individual inference phases were not identified. Each eligible completion permits at most one extra attempt.",
+    "Historical R2-R6 operation-name coverage is retained separately and does not prove every option/state or the final artifact."
+  ]
+}

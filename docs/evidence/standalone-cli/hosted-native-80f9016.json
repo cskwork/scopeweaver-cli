@@ -1,0 +1,37 @@
+{
+  "baseRefName": "dev",
+  "headRefOid": "80f9016eea8dd4c75c77dd7824a66ae9c7f60b0f",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-17T07:20:58Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/cskwork/scopeweaver-cli/actions/runs/39012848998/job/117338849173",
+      "name": "portable (windows-latest)",
+      "startedAt": "2026-10-17T07:13:46Z",
+      "status": "COMPLETED",
+      "workflowName": "CLI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-17T07:14:40Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/cskwork/scopeweaver-cli/actions/runs/39012848998/job/117338849082",
+      "name": "portable (ubuntu-latest)",
+      "startedAt": "2026-10-17T07:13:46Z",
+      "status": "COMPLETED",
+      "workflowName": "CLI"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-17T07:16:51Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/cskwork/scopeweaver-cli/actions/runs/39012848998/job/117338849187",
+      "name": "portable (macos-latest)",
+      "startedAt": "2026-10-17T07:13:51Z",
+      "status": "COMPLETED",
+      "workflowName": "CLI"
+    }
+  ],
+  "url": "https://github.com/cskwork/scopeweaver-cli/pull/1"
+}

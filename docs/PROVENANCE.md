@@ -2,6 +2,16 @@
 
 [한국어](ko/PROVENANCE.md)
 
+## Standalone CLI derivative (2026-10-17)
+
+This repository is `cskwork/scopeweaver-cli`, derived from ScopeWeaver engine commit `2df0b307dcb817a459abebd3a4c240a2019598db`. Its Go module is `github.com/cskwork/scopeweaver-cli`; `cmd/scopeweaver-cli` builds the agent-native executable and private engine. The source application's historical provenance follows below; its module and distribution names describe that original application.
+
+CLI changes include the command catalog, portable per-home database/runtime, first-use verified downloads, official Codex subscription-provider bridge and CLI-specific packaging. The original AGPL license and third-party attribution are retained. Shared runtime repairs are also proposed to the original application in [ScopeWeaver PR #38](https://github.com/cskwork/scopeweaver/pull/38); no original-repository merge is claimed.
+
+The queued-edit empty-attachment fix and its database/HTTP regressions are selectively backported from [ScopeWeaver commit 58a79fe](https://github.com/cskwork/scopeweaver/commit/58a79fef2e84046243403659227e0735c6978e6a), authored by cskwork. This normalizes missing/null manifests to arrays without a schema migration or existing-data rewrite. [Before/after evidence](evidence/standalone-cli/attachment-followup.json).
+
+## Historical ScopeWeaver provenance
+
 ScopeWeaver is a standalone derivative of [Autumn-27/ARTEX](https://github.com/Autumn-27/ARTEX), based on commit `160fe13`. It is maintained separately at [cskwork/scopeweaver](https://github.com/cskwork/scopeweaver), without a GitHub fork-network relationship.
 
 The ScopeWeaver modifications dated **2026-10-02** cover the product name, English-default/Korean-selectable interface and messages, documentation and bundled agent guidance, setup/build/start/update/password-reset prompts, report and agent language handling, and distribution naming. The executable is `scopeweaver` (`scopeweaver.exe` on Windows); archive names follow `scopeweaver-<version>-<os>-<arch>.zip`. Docker Compose builds the checked-out source locally. The configured release workflow targets this repository and GHCR.
